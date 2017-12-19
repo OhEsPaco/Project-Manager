@@ -22,6 +22,10 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Login extends JFrame {
 
@@ -40,7 +44,7 @@ public class Login extends JFrame {
 	public static void main(String[] args) {
 		 try {
 	            for (javax.swing.UIManager.LookAndFeelInfo info : getInstalledLookAndFeels()) {
-	               if ("Windows".equals(info.getName())) {
+	               if ("Nimbus".equals(info.getName())) {
 	                    setLookAndFeel(info.getClassName());
 	                    break;
 	                }
@@ -71,41 +75,60 @@ public class Login extends JFrame {
 		setTitle("Project Manager");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 249, 340);
+		setBounds(100, 100, 309, 389);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		btnNewButton = new JButton("Entrar");
-		btnNewButton.setBounds(129, 268, 89, 23);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainWindow m=new MainWindow();
+				m.setVisible(true);
+				dispose();
+			}
+		});
+		btnNewButton.setBounds(158, 314, 123, 23);
 		contentPane.add(btnNewButton);
 		
 		btnNewButton_1 = new JButton("Registro");
-		btnNewButton_1.setBounds(23, 268, 89, 23);
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Registro r=new Registro();
+				r.setVisible(true);
+				dispose();
+			}
+		});
+		btnNewButton_1.setBounds(23, 314, 123, 23);
 		contentPane.add(btnNewButton_1);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(23, 227, 195, 20);
+		passwordField.setBounds(23, 282, 258, 20);
 		contentPane.add(passwordField);
 		
 		textField = new JTextField();
-		textField.setBounds(23, 173, 195, 20);
+		textField.setBounds(23, 220, 258, 20);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		lblUsuario = new JLabel("Usuario");
-		lblUsuario.setBounds(100, 148, 46, 14);
+		lblUsuario.setBounds(126, 203, 67, 14);
 		contentPane.add(lblUsuario);
 		
 		lblContrasea = new JLabel("Contraseña");
-		lblContrasea.setBounds(91, 204, 67, 14);
+		lblContrasea.setBounds(115, 263, 83, 14);
 		contentPane.add(lblContrasea);
 		lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(56, 7, 130, 130);
+		lblNewLabel.setBounds(71, 29, 164, 167);
 		lblNewLabel.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/project-manager.png")).getImage().getScaledInstance(lblNewLabel.getWidth(),  lblNewLabel.getHeight(), Image.SCALE_SMOOTH)));
 
 		
 		contentPane.add(lblNewLabel);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Castellano", "Inglés"}));
+		comboBox.setBounds(23, 0, 139, 24);
+		contentPane.add(comboBox);
 	}
 }
