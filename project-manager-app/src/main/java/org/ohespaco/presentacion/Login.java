@@ -33,7 +33,7 @@ public class Login extends JFrame {
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	private JPasswordField passwordField;
-	private JTextField textField;
+	private JTextField emailField;
 	private JLabel lblUsuario;
 	private JLabel lblContrasea;
 	private JLabel lblNewLabel;
@@ -107,10 +107,10 @@ public class Login extends JFrame {
 		passwordField.setBounds(23, 282, 258, 20);
 		contentPane.add(passwordField);
 		
-		textField = new JTextField();
-		textField.setBounds(23, 220, 258, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		emailField = new JTextField();
+		emailField.setBounds(23, 220, 258, 20);
+		contentPane.add(emailField);
+		emailField.setColumns(10);
 		
 		lblUsuario = new JLabel("Usuario");
 		lblUsuario.setBounds(126, 203, 67, 14);
