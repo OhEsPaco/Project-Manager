@@ -36,18 +36,10 @@ import org.ohespaco.exceptions.ErrorWritingCSV;
 
 public class CSVAgent {
 
-	private final String PATH;
-	private final CSVFormat CSV_FILE_FORMAT_READ = CSVFormat.EXCEL.withHeader();
-	private final CSVFormat CSV_FILE_FORMAT_WRITE = CSVFormat.EXCEL;
+	
+	private static final CSVFormat CSV_FILE_FORMAT_READ = CSVFormat.EXCEL.withHeader();
+	private static final CSVFormat CSV_FILE_FORMAT_WRITE = CSVFormat.EXCEL;
 
-	/**
-	 * CSVAgent permite leer y escribir documentos en formato CSV.
-	 * 
-	 * @param PATH
-	 */
-	public CSVAgent(String PATH) {
-		this.PATH = PATH;
-	}
 
 	/**
 	 * Lee un archivo CSV y devuelve una estructura iterable.
@@ -55,8 +47,8 @@ public class CSVAgent {
 	 * @return Iterable<CSVRecord>
 	 * @throws IOException
 	 */
-	public Iterable<CSVRecord> readCSV() throws IOException {
-		Reader in = new FileReader(this.PATH);
+	public Iterable<CSVRecord> readCSV(String path) throws IOException {
+		Reader in = new FileReader(path);
 		return CSV_FILE_FORMAT_READ.parse(in);
 	}
 
@@ -66,13 +58,13 @@ public class CSVAgent {
 	 * @param data
 	 * @throws ErrorWritingCSV
 	 */
-	public void writeToCSV(ArrayList<String> data) throws ErrorWritingCSV {
+	public void writeToCSV(ArrayList<String> data,String path) throws ErrorWritingCSV {
 		FileWriter fileWriter = null;
 		CSVPrinter csvFilePrinter = null;
 
 		try {
 
-			fileWriter = new FileWriter(PATH, true);
+			fileWriter = new FileWriter(path, true);
 			csvFilePrinter = new CSVPrinter(fileWriter, CSV_FILE_FORMAT_WRITE);
 			csvFilePrinter.printRecord(data);
 

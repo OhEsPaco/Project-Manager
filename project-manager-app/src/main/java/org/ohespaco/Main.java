@@ -30,11 +30,12 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.apache.commons.csv.CSVRecord;
+import org.ohespaco.dominio.GestorUsuarios;
 import org.ohespaco.dominio.Hash;
 import org.ohespaco.exceptions.ErrorWritingCSV;
 import org.ohespaco.persistencia.CSVAgent;
 import org.ohespaco.persistencia.CurrentSession;
-import org.ohespaco.presentacion.Login;
+import org.ohespaco.presentacion.MainFrame;
 
 public class Main {
 
@@ -60,9 +61,10 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
-		CurrentSession sesion = CurrentSession.getInstancia();
-		sesion.setPathCsvUsers("users.csv");
-		Login log = new Login();
+		CurrentSession.getInstancia();
+		GestorUsuarios.getInstancia("users.csv");
+		//sesion.setPathCsvUsers("users.csv");
+		MainFrame log = new MainFrame();
 		log.setVisible(true);
 	}
 

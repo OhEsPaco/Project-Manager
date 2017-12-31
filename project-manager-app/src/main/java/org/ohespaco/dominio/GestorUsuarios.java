@@ -37,13 +37,21 @@ import org.ohespaco.persistencia.CSVAgent;
 import org.ohespaco.persistencia.CurrentSession;
 
 public class GestorUsuarios {
-	private String path;
-	private HashMap<String, Usuario> usuarios = new HashMap<String, Usuario>();
-	private final String HEADER_CSV = "uuid,email,pass_hash,nombre,apellidos,rol,contacto,descripcion,foto";
+	private static String path;
+	private static HashMap<String, Usuario> usuarios = new HashMap<String, Usuario>();
+	private static final String HEADER_CSV = "uuid,email,pass_hash,nombre,apellidos,rol,contacto,descripcion,foto";
+	private static GestorUsuarios instancia = null;
 
-	public GestorUsuarios(String path) {
+	private GestorUsuarios(String path) {
 		this.path = path;
 		inicializarCSV();
+	}
+
+	public static GestorUsuarios getInstancia(String path) {
+		if (instancia == null) {
+			instancia = new GestorUsuarios(path);
+		}
+		return instancia;
 	}
 
 	public void cargarUsuarios() throws IOException {
@@ -51,8 +59,8 @@ public class GestorUsuarios {
 		String uuid, email, pass_hash, nombre, apellidos, rol, contacto, descripcion, foto;
 		Usuario user;
 		usuarios = new HashMap<String, Usuario>();
-		CSVAgent agente = new CSVAgent(path);
-		Iterable<CSVRecord> records = agente.readCSV();
+		CSVAgent agente = new CSVAgent();
+		Iterable<CSVRecord> records = agente.readCSV(path);
 		for (CSVRecord record : records) {
 			uuid = record.get("uuid");
 			email = record.get("email");
