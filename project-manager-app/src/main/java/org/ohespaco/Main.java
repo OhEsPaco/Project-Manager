@@ -40,27 +40,6 @@ import org.ohespaco.presentacion.MainFrame;
 public class Main {
 
 	public static void main(String[] args) {
-		//CSVAgent agente = new CSVAgent("C:\\Users\\pacog\\Documents\\pruebas/users.csv");
-		/*try {
-			
-			ArrayList<String> p = new ArrayList<String>();
-			p.add(UUID.randomUUID().toString());
-			p.add("pacogrc5@gmail.com");
-			p.add(Hash.md5("github"));
-			p.add("Francisco");
-			p.add("Garcia Sanchez");
-			p.add("CEO");
-			p.add("Ciudad Real");
-			p.add("CEO de vaporware");
-			p.add("PLACEHOLDER");
-			
-			agente.writeToCSV(p);
-			
-			
-		} catch (ErrorWritingCSV e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 		CurrentSession.getInstancia();
 		GestorUsuarios.getInstancia("users.csv");
 		//sesion.setPathCsvUsers("users.csv");

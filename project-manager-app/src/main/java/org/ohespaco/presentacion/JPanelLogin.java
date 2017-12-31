@@ -1,9 +1,33 @@
+/*
+Copyright (c) 2017 
+Francisco Manuel Garcia Sanchez-Belmonte
+Adrian Bustos Marin
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ */
 package org.ohespaco.presentacion;
 
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -72,9 +96,11 @@ public class JPanelLogin extends JPanel {
 						//////////////////////////////////////////////
 						//////////////////////////////////////////////
 						//////////////////////////////////////////////
+						System.out.println("logged");
 						
 					} else {
 						lblAviso.setVisible(true);
+					
 					}
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -145,8 +171,10 @@ public class JPanelLogin extends JPanel {
 				CardLayout cl = (CardLayout) (cards.getLayout());
 				cl.show(cards, "registro");
 				JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(loginPane);
-				topFrame.setBounds(100, 100, 600, 500);
-
+				Point posicion= topFrame.getLocationOnScreen();
+				
+				topFrame.setBounds((int)posicion.getX(), (int)posicion.getY(), 600, 500);
+				MainFrame.resetRegistro();
 			}
 
 			@Override
@@ -172,6 +200,11 @@ public class JPanelLogin extends JPanel {
 		lblAviso.setVisible(false);
 		loginPane.add(lblAviso);
 
+	}
+	public void initComponents() {
+		emailField.setText("");
+		passwordField.setText("");
+		lblAviso.setVisible(false);
 	}
 
 }

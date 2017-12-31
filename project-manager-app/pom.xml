@@ -9,7 +9,7 @@
 		<version>1.0</version>
 	</parent>
 	<artifactId>project-manager-app</artifactId>
-	<version>0.1</version>
+	<version>0.2</version>
 	<name>project-manager-app</name>
 	<url>https://github.com/OhEsPaco/Project-Manager</url>
 	<properties>
@@ -29,5 +29,11 @@
    			<artifactId>commons-csv</artifactId>
    			<version>1.5</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-validator/commons-validator -->
+		<dependency>
+    		<groupId>commons-validator</groupId>
+    		<artifactId>commons-validator</artifactId>
+    		<version>1.4.0</version>
+		</dependency>		
 	</dependencies>
 </project>

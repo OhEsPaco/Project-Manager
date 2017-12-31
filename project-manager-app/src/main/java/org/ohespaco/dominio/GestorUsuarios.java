@@ -1,13 +1,3 @@
-package org.ohespaco.dominio;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.util.HashMap;
-
-import org.apache.commons.csv.CSVRecord;
 /*
 Copyright (c) 2017 
 Francisco Manuel Garcia Sanchez-Belmonte
@@ -31,7 +21,22 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+package org.ohespaco.dominio;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.validator.routines.EmailValidator;
+import org.ohespaco.exceptions.ErrorWritingCSV;
 import org.ohespaco.exceptions.EscrituraErronea;
 import org.ohespaco.persistencia.CSVAgent;
 import org.ohespaco.persistencia.CurrentSession;
@@ -50,6 +55,7 @@ public class GestorUsuarios {
 	public static GestorUsuarios getInstancia(String path) {
 		if (instancia == null) {
 			instancia = new GestorUsuarios(path);
+
 		}
 		return instancia;
 	}
@@ -76,11 +82,46 @@ public class GestorUsuarios {
 		}
 
 	}
+	public void registrarUsuario(String email,String pass, String nombre,String apellidos,String rol,String contacto,String descripcion,String foto) {
+		//UUID.randomUUID().toString();
+		Usuario user = new Usuario(UUID.randomUUID().toString(), email, Hash.md5(pass), nombre, apellidos, rol, contacto, descripcion, foto);
+		escribirUsuario(user);
+		usuarios.put(user.getUuid(), user);
+	}
 
+	public void escribirUsuario(Usuario user) {
+		CSVAgent agente = new CSVAgent();
+		try {
+			
+			ArrayList<String> p = new ArrayList<String>();
+			p.add(user.getUuid());
+			p.add(user.getEmail());
+			p.add(user.getPass_hash());
+			p.add(user.getNombre());
+			p.add(user.getApellidos());
+			p.add(user.getRol());
+			p.add(user.getContacto());
+			p.add(user.getDescripcion());
+			p.add(user.getFoto());
+			
+			agente.writeToCSV(p,path);
+			
+			
+		} catch (ErrorWritingCSV e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	private void inicializarCSV() {
 		File tmpDir = new File(path);
 		if (!tmpDir.exists()) {
 			crearCSV();
+		}
+		try {
+			cargarUsuarios();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -98,6 +139,83 @@ public class GestorUsuarios {
 	 */
 	public HashMap<String, Usuario> getUsuarios() {
 		return usuarios;
+	}
+
+	public boolean existeEmail(String email) {
+		boolean existe = false;
+
+		if (!usuarios.isEmpty()) {
+			Usuario user;
+			for (String key : usuarios.keySet()) {
+				user = usuarios.get(key);
+
+				if (user.getEmail().equals(email)) {
+					existe = true;
+					break;
+				}
+
+			}
+		}
+
+		return existe;
+	}
+
+	// false si no es valido
+	public boolean validateString(String txt) {
+		String regx = "^[\\p{L} .'-]+$";
+		Pattern pattern = Pattern.compile(regx, Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(txt);
+		return matcher.find();
+	}
+	
+	// false si no es valido
+		public boolean validatePass(String txt) {
+			String regx = "^(?=\\S+$).{8,}$";
+			Pattern pattern = Pattern.compile(regx, Pattern.CASE_INSENSITIVE);
+			Matcher matcher = pattern.matcher(txt);
+			return matcher.find();
+		}
+		
+
+
+
+	public boolean usuarioValido(Usuario user, String salida) {
+		boolean valido = true;
+		boolean primero = true;
+		String coma = ", ";
+		salida = "";
+		if (GestorUsuarios.getInstancia("").existeEmail(user.getEmail())
+				|| !EmailValidator.getInstance().isValid(user.getEmail())) {
+			salida = "email";
+			valido = false;
+			primero = false;
+		}
+
+		if (!validateString(user.getNombre())) {
+			if (primero) {
+				salida = "nombre";
+			} else {
+				salida = salida + coma + "email";
+
+			}
+			primero = false;
+			valido = false;
+		}
+		if (!validateString(user.getApellidos())) {
+			if (primero) {
+				salida = "apellidos";
+			} else {
+				salida = salida + coma + "apellidos";
+
+			}
+			primero = false;
+			valido = false;
+		}
+		
+		
+		
+		return valido;
+
 	}
 
 	public boolean login(String email, String pass) {

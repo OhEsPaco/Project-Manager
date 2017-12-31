@@ -44,7 +44,9 @@ import java.awt.Toolkit;
 
 public class MainFrame extends JFrame {
 
-	private JPanel cards;
+	private static JPanel cards;
+	private static JPanelLogin log;
+	private static JPanelRegistro reg;
 
 	/**
 	 * Launch the application.
@@ -81,14 +83,19 @@ public class MainFrame extends JFrame {
 		
 		cards = new JPanel(new CardLayout());
 		
-		JPanelLogin log = new JPanelLogin(cards);
-		JPanelRegistro reg = new JPanelRegistro(cards);
+	    log = new JPanelLogin(cards);
+		reg = new JPanelRegistro(cards);
 		
 		cards.add(log.getLoginPane(), "login");
 		cards.add(reg.getRegistroPane(), "registro");
 		setContentPane(cards);
-		
-
+	
+	}
+	public static void resetLogin() {
+		log.initComponents();
+	}
+	public static void resetRegistro() {
+		reg.initComponents();
 	}
 
 	
