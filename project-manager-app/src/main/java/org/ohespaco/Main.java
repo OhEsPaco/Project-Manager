@@ -39,8 +39,8 @@ import org.ohespaco.presentacion.Login;
 public class Main {
 
 	public static void main(String[] args) {
-		/*CSVAgent agente = new CSVAgent("/home/paco/Documentos/pruebas/users.csv");
-		try {
+		//CSVAgent agente = new CSVAgent("C:\\Users\\pacog\\Documents\\pruebas/users.csv");
+		/*try {
 			
 			ArrayList<String> p = new ArrayList<String>();
 			p.add(UUID.randomUUID().toString());
@@ -61,9 +61,9 @@ public class Main {
 			e.printStackTrace();
 		}*/
 		CurrentSession sesion = CurrentSession.getInstancia();
-		sesion.setPathCsvUsers("/home/paco/Documentos/pruebas/users.csv");
-		Login login = new Login();
-		login.main(args);
+		sesion.setPathCsvUsers("users.csv");
+		Login log = new Login();
+		log.setVisible(true);
 	}
 
 }

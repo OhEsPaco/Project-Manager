@@ -1,7 +1,31 @@
+/*
+Copyright (c) 2017 
+Francisco Manuel Garcia Sanchez-Belmonte
+Adrian Bustos Marin
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ */
+
 package org.ohespaco.dominio;
 
 public class Usuario {
-	private String id;
+	private String uuid;
 	private String email;
 	private String pass_hash;
 	private String nombre;
@@ -11,9 +35,9 @@ public class Usuario {
 	private String descripcion;
 	private String foto;
 
-	public Usuario(String id, String email, String pass_hash, String nombre, String apellidos, String rol, String contacto,
+	public Usuario(String uuid, String email, String pass_hash, String nombre, String apellidos, String rol, String contacto,
 			String descripcion, String foto) {
-		this.id = id;
+		this.uuid = uuid;
 		this.email = email;
 		this.pass_hash = pass_hash;
 		this.nombre = nombre;
@@ -27,16 +51,16 @@ public class Usuario {
 	/**
 	 * @return the id
 	 */
-	public String getId() {
-		return id;
+	public String getUuid() {
+		return uuid;
 	}
 
 	/**
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(String id) {
-		this.id = id;
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
 	/**

@@ -22,68 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-package org.ohespaco.persistencia;
+package org.ohespaco.exceptions;
 
-import org.ohespaco.dominio.Usuario;
-
-public class CurrentSession {
-	private static Usuario user=null;
-	private static boolean logged=false;
-	private static CurrentSession instancia=null;
-	private static String pathCsvUsers;
-	
-
-	private CurrentSession() {
-		
-	}
-	
-	public static CurrentSession getInstancia() {
-		if(instancia==null) {
-			instancia=new CurrentSession();
-		}
-		return instancia;
-	}
-
-	/**
-	 * @return the user
-	 */
-	public Usuario getUser() {
-		return user;
-	}
-
-	/**
-	 * @param user the user to set
-	 */
-	public void setUser(Usuario user) {
-		this.user = user;
-	}
-
-	/**
-	 * @return the logged
-	 */
-	public boolean isLogged() {
-		return logged;
-	}
-
-	/**
-	 * @param logged the logged to set
-	 */
-	public void setLogged(boolean logged) {
-		this.logged = logged;
-	}
-	
-	/**
-	 * @return the pathCsvUsers
-	 */
-	public String getPathCsvUsers() {
-		return pathCsvUsers;
-	}
-
-	/**
-	 * @param pathCsvUsers the pathCsvUsers to set
-	 */
-	public void setPathCsvUsers(String pathCsvUsers) {
-		this.pathCsvUsers = pathCsvUsers;
-	}
+public class EscrituraErronea extends Exception {
 
 }
