@@ -24,26 +24,21 @@ SOFTWARE.
 
 package org.ohespaco;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.UUID;
-
-import org.apache.commons.csv.CSVRecord;
 import org.ohespaco.dominio.GestorUsuarios;
-import org.ohespaco.dominio.Hash;
-import org.ohespaco.exceptions.ErrorWritingCSV;
-import org.ohespaco.persistencia.CSVAgent;
 import org.ohespaco.persistencia.CurrentSession;
 import org.ohespaco.presentacion.MainFrame;
 
 public class Main {
 
 	public static void main(String[] args) {
+		
+		//Inicializa la sesion actual y el gestor de usuarios
 		CurrentSession.getInstancia();
 		GestorUsuarios.getInstancia("users.csv");
-		//sesion.setPathCsvUsers("users.csv");
+		
+		//Crea y lanza un MainFrame
 		MainFrame log = new MainFrame();
+		log.setResizable(false);
 		log.setVisible(true);
 	}
 

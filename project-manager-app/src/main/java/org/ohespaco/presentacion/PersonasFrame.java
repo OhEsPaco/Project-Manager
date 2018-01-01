@@ -64,7 +64,7 @@ public class PersonasFrame extends JFrame {
 	private JTextField rolField;
 	private JTextField contactoField;
 	private JPasswordField passwordField_2;
-	private JList listPersonas;
+	private JList<Usuario> listPersonas;
 	private String foto_path = "/org/ohespaco/recursos/user_icon.png";
 	private final String DEFAULT_FOTO_PATH="/org/ohespaco/recursos/user_icon.png";
 	private JTextArea textDescripcion;
