@@ -50,7 +50,6 @@ public class GestorUsuarios {
 	private static GestorUsuarios instancia = null;
 	private static DefaultListModel<Usuario> listaUsuarios = new DefaultListModel<Usuario>();
 
-
 	private GestorUsuarios(String path) {
 		this.path = path;
 		inicializarCSV();
@@ -64,7 +63,6 @@ public class GestorUsuarios {
 		return instancia;
 	}
 
-	
 	public void cargarUsuarios() throws IOException {
 
 		String uuid, email, pass_hash, nombre, apellidos, rol, contacto, descripcion, foto;
@@ -85,55 +83,103 @@ public class GestorUsuarios {
 			user = new Usuario(uuid, email, pass_hash, nombre, apellidos, rol, contacto, descripcion, foto);
 			usuarios.put(uuid, user);
 		}
-		
+		listaUsuarios = new DefaultListModel<Usuario>();
 		if (!usuarios.isEmpty()) {
-			
+
 			for (String key : usuarios.keySet()) {
 				user = usuarios.get(key);
 				listaUsuarios.addElement(user);
 			}
 		}
-		
 
 	}
-	
-	public DefaultListModel<Usuario> getDefaultList(){
+
+	public DefaultListModel<Usuario> getDefaultList() {
 		return listaUsuarios;
 	}
-	public void registrarUsuario(String email,String pass, String nombre,String apellidos,String rol,String contacto,String descripcion,String foto) {
-		//UUID.randomUUID().toString();
-		Usuario user = new Usuario(UUID.randomUUID().toString(), email, Hash.md5(pass), nombre, apellidos, rol, contacto, descripcion, foto);
+
+	public void registrarUsuario(String email, String pass, String nombre, String apellidos, String rol,
+			String contacto, String descripcion, String foto) {
+		// UUID.randomUUID().toString();
+		Usuario user = new Usuario(UUID.randomUUID().toString(), email, Hash.md5(pass), nombre, apellidos, rol,
+				contacto, descripcion, foto);
 		escribirUsuario(user);
 		usuarios.put(user.getUuid(), user);
 		listaUsuarios.addElement(user);
 	}
-	
-	public void borrarUsuario (Usuario user) {
+
+	public void volcarUsuarios() {
 		Usuario user_aux;
-		if(usuarios.get(user.getUuid())!=null) {
+		crearCSV();
+		if (!usuarios.isEmpty()) {
+			for (String key : usuarios.keySet()) {
+				user_aux = usuarios.get(key);
+				escribirUsuario(user_aux);
+			}
+		}
+	}
+
+	public void editarUsuario(String uuid, String email, String pass, String nombre, String apellidos, String rol,
+			String contacto, String descripcion, String foto, boolean cambiar_contraseña) {
+		Usuario user_aux = usuarios.get(uuid);
+
+		if (user_aux != null) {
+			user_aux.setEmail(email);
+			user_aux.setNombre(nombre);
+			user_aux.setApellidos(apellidos);
+			user_aux.setRol(rol);
+			user_aux.setContacto(contacto);
+			user_aux.setDescripcion(descripcion);
+			user_aux.setFoto(foto);
+			if (cambiar_contraseña) {
+				user_aux.setPass_hash(Hash.md5(pass));
+			}
+
+			usuarios.remove(uuid);
+			usuarios.put(user_aux.getUuid(), user_aux);
+
+			listaUsuarios = new DefaultListModel<Usuario>();
+			for (String key : usuarios.keySet()) {
+				user_aux = usuarios.get(key);
+				listaUsuarios.addElement(user_aux);
+
+			}
 			
+			if(CurrentSession.getInstancia().getUser().equals(uuid)) {
+				CurrentSession.getInstancia().setUser(usuarios.get(uuid));
+			}
+			
+			volcarUsuarios();
+
+		}
+	}
+
+	public void borrarUsuario(Usuario user) {
+		Usuario user_aux;
+		if (usuarios.get(user.getUuid()) != null) {
+
 			usuarios.remove(user.getUuid());
-			listaUsuarios= new DefaultListModel<Usuario>(); 
-			
+			listaUsuarios = new DefaultListModel<Usuario>();
+
 			if (!usuarios.isEmpty()) {
-				
+
 				crearCSV();
 				for (String key : usuarios.keySet()) {
 					user_aux = usuarios.get(key);
 					listaUsuarios.addElement(user_aux);
 					escribirUsuario(user_aux);
 				}
-			}else {
+			} else {
 				crearCSV();
 			}
-			
+
 		}
 	}
 
 	public void escribirUsuario(Usuario user) {
 		CSVAgent agente = new CSVAgent();
 		try {
-			
+
 			ArrayList<String> p = new ArrayList<String>();
 			p.add(user.getUuid());
 			p.add(user.getEmail());
@@ -144,15 +190,15 @@ public class GestorUsuarios {
 			p.add(user.getContacto());
 			p.add(user.getDescripcion());
 			p.add(user.getFoto());
-			
-			agente.writeToCSV(p,path);
-			
-			
+
+			agente.writeToCSV(p, path);
+
 		} catch (ErrorWritingCSV e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
 	private void inicializarCSV() {
 		File tmpDir = new File(path);
 		if (!tmpDir.exists()) {
@@ -208,17 +254,14 @@ public class GestorUsuarios {
 		Matcher matcher = pattern.matcher(txt);
 		return matcher.find();
 	}
-	
+
 	// false si no es valido
-		public boolean validatePass(String txt) {
-			String regx = "^(?=\\S+$).{8,}$";
-			Pattern pattern = Pattern.compile(regx, Pattern.CASE_INSENSITIVE);
-			Matcher matcher = pattern.matcher(txt);
-			return matcher.find();
-		}
-		
-
-
+	public boolean validatePass(String txt) {
+		String regx = "^(?=\\S+$).{8,}$";
+		Pattern pattern = Pattern.compile(regx, Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(txt);
+		return matcher.find();
+	}
 
 	public boolean usuarioValido(Usuario user, String salida) {
 		boolean valido = true;
@@ -252,9 +295,7 @@ public class GestorUsuarios {
 			primero = false;
 			valido = false;
 		}
-		
-		
-		
+
 		return valido;
 
 	}

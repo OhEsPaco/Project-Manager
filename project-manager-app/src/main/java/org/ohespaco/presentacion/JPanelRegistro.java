@@ -73,7 +73,7 @@ public class JPanelRegistro extends JPanel {
 	private JPasswordField passwordField_2;
 	private String foto_path =  "/org/ohespaco/recursos/user_icon.png";
 	private JTextArea textDescripcion;
-	private boolean changed_foto = false;
+	private final String DEFAULT_FOTO_PATH="/org/ohespaco/recursos/user_icon.png";
 
 	/**
 	 * Create the panel.
@@ -331,7 +331,7 @@ public class JPanelRegistro extends JPanel {
 
 				JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(registroPane);
 				Point posicion = topFrame.getLocationOnScreen();
-				topFrame.setBounds((int) posicion.getX(), (int) posicion.getY(), 310, 450);
+				topFrame.setBounds((int) posicion.getX(), (int) posicion.getY(), 320, 450);
 				
 				MainFrame.resetLogin();
 			}
@@ -366,7 +366,7 @@ public class JPanelRegistro extends JPanel {
 						foto_path = jfch.getSelectedFile().getAbsolutePath();
 						lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(foto_path).getImage()
 								.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH)));
-						changed_foto = true;
+						
 
 					}
 				} catch (HeadlessException ex) {
@@ -387,9 +387,9 @@ public class JPanelRegistro extends JPanel {
 
 		passwordField.setText("");
 		emailField.setText("");
-		foto_path = "/org/ohespaco/recursos/logo.png";
-		changed_foto = false;
-		lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource(foto_path)).getImage()
+		foto_path =DEFAULT_FOTO_PATH;
+		
+		lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource(DEFAULT_FOTO_PATH)).getImage()
 				.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH)));
 		lblAviso.setText("");
 		nombreField.setText("");

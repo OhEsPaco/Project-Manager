@@ -78,7 +78,7 @@ public class MainFrame extends JFrame {
 		setTitle("Project Manager");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 519, 450);
+		setBounds(100, 100, 320, 450);
 		getContentPane().setLayout(new CardLayout());
 		
 		
@@ -89,9 +89,10 @@ public class MainFrame extends JFrame {
 		princ = new JPanelPrincipal();
 		
 		setResizable(true);
-		cards.add(princ,"principal");
+		
 		cards.add(log.getLoginPane(), "login");
 		cards.add(reg.getRegistroPane(), "registro");
+		cards.add(princ,"principal");
 		
 		
 		setContentPane(cards);

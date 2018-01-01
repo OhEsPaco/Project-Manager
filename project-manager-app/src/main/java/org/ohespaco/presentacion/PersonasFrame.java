@@ -8,6 +8,7 @@ import static javax.swing.UIManager.setLookAndFeel;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.HeadlessException;
@@ -40,8 +41,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.ohespaco.dominio.GestorUsuarios;
 import org.ohespaco.dominio.Usuario;
+import org.ohespaco.persistencia.CurrentSession;
 
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 
@@ -63,6 +66,7 @@ public class PersonasFrame extends JFrame {
 	private JPasswordField passwordField_2;
 	private JList listPersonas;
 	private String foto_path = "/org/ohespaco/recursos/user_icon.png";
+	private final String DEFAULT_FOTO_PATH="/org/ohespaco/recursos/user_icon.png";
 	private JTextArea textDescripcion;
 	private boolean aplicar = false;
 	private JButton btnBorrar;
@@ -175,10 +179,34 @@ public class PersonasFrame extends JFrame {
 
 										if (new String(passwordField.getPassword()).equals(user.getPass_hash())) {
 											// No ha cambiado el password
+											// editarUsuario(String uuid, String email, String pass, String nombre,
+											// String apellidos, String rol,
+											// String contacto, String descripcion, String foto, boolean
+											// cambiar_contraseña)
+											GestorUsuarios.getInstancia("").editarUsuario(user.getUuid(),
+													emailField.getText(), new String(passwordField.getPassword()),
+													nombreField.getText(), apellidosField.getText(), rolField.getText(),
+													contactoField.getText(), textDescripcion.getText(), foto_path,
+													false);
+
+											listPersonas.setModel(GestorUsuarios.getInstancia("").getDefaultList());
+
 										} else {
 											// Ha cambiado el password
+
+											GestorUsuarios.getInstancia("").editarUsuario(user.getUuid(),
+													emailField.getText(), new String(passwordField.getPassword()),
+													nombreField.getText(), apellidosField.getText(), rolField.getText(),
+													contactoField.getText(), textDescripcion.getText(), foto_path,
+													true);
+
+											listPersonas.setModel(GestorUsuarios.getInstancia("").getDefaultList());
+
 										}
 
+										aplicar = false;
+										btnRegistrarse.setText("Añadir");
+										btnBorrar.setEnabled(false);
 									} else {
 										lblAviso.setText("Contraseña corta");
 										lblAviso.setVisible(true);
@@ -249,7 +277,7 @@ public class PersonasFrame extends JFrame {
 		registroPane.add(lblContrasea);
 		lblFoto = new JLabel("New label");
 		lblFoto.setBounds(403, 33, 120, 120);
-		lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource(foto_path)).getImage()
+		lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource(DEFAULT_FOTO_PATH)).getImage()
 				.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH)));
 
 		registroPane.add(lblFoto);
@@ -425,6 +453,10 @@ public class PersonasFrame extends JFrame {
 					}
 				} catch (HeadlessException ex) {
 
+					
+					lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource(DEFAULT_FOTO_PATH)).getImage()
+							.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH)));		
+					
 				}
 			}
 
@@ -454,7 +486,9 @@ public class PersonasFrame extends JFrame {
 						lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(user.getFoto()).getImage()
 								.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH)));
 					} else {
-						lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource(foto_path))
+						
+						////////////////////////////////////////////////////////////////////////////////////////////////////////
+						lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource(DEFAULT_FOTO_PATH))
 								.getImage()
 								.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH)));
 					}
@@ -466,7 +500,7 @@ public class PersonasFrame extends JFrame {
 					rolField.setText(user.getRol());
 
 					contactoField.setText(user.getContacto());
-
+					foto_path = user.getFoto();
 					textDescripcion.setText(user.getDescripcion());
 					aplicar = true;
 					btnRegistrarse.setText("Aplicar");
@@ -483,10 +517,31 @@ public class PersonasFrame extends JFrame {
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Usuario user = (Usuario) listPersonas.getSelectedValue();
+
+				Component frame = null;
 				if (user != null) {
-					GestorUsuarios.getInstancia("").borrarUsuario(user);
-					listPersonas.setModel(GestorUsuarios.getInstancia("").getDefaultList());
-					limpiar();
+					if (user.getUuid().equals(CurrentSession.getInstancia().getUser().getUuid())) {
+
+						JOptionPane.showMessageDialog(frame, "No se puede eliminar al usuario actual.", "Inane error",
+								JOptionPane.ERROR_MESSAGE);
+
+					} else {
+						String mensage = "¿Seguro que quieres eliminar a " + user.getEmail() + "?";
+						Object[] options = { "Borrar", "No borrar" };
+
+						int n = JOptionPane.showOptionDialog(frame, mensage, "Confirmacion", JOptionPane.YES_NO_OPTION,
+								JOptionPane.QUESTION_MESSAGE, null, // do not use a custom Icon
+								options, // the titles of buttons
+								options[1]); // default button title
+
+						if (n == JOptionPane.YES_OPTION) {
+							GestorUsuarios.getInstancia("").borrarUsuario(user);
+							listPersonas.setModel(GestorUsuarios.getInstancia("").getDefaultList());
+							limpiar();
+						}
+
+					}
+
 				}
 
 			}
@@ -500,13 +555,14 @@ public class PersonasFrame extends JFrame {
 	}
 
 	public void limpiar() {
+
 		aplicar = false;
 		btnRegistrarse.setText("Añadir");
 		btnBorrar.setEnabled(false);
 		passwordField.setText("");
 		passwordField_2.setText("");
 		emailField.setText("");
-
+		foto_path = DEFAULT_FOTO_PATH;
 		lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource(foto_path)).getImage()
 				.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH)));
 
