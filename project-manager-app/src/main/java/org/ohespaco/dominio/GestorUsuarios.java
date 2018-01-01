@@ -46,7 +46,7 @@ import org.ohespaco.persistencia.CurrentSession;
 public class GestorUsuarios {
 	private static String path;
 	private static HashMap<String, Usuario> usuarios = new HashMap<String, Usuario>();
-	private static final String HEADER_CSV = "uuid,email,pass_hash,nombre,apellidos,rol,contacto,descripcion,foto";
+	private static final String HEADER_CSV = "uuid,email,pass_hash,nombre,apellidos,rol,contacto,descripcion,foto\n";
 	private static GestorUsuarios instancia = null;
 	private static DefaultListModel<Usuario> listaUsuarios = new DefaultListModel<Usuario>();
 
@@ -106,6 +106,28 @@ public class GestorUsuarios {
 		escribirUsuario(user);
 		usuarios.put(user.getUuid(), user);
 		listaUsuarios.addElement(user);
+	}
+	
+	public void borrarUsuario (Usuario user) {
+		Usuario user_aux;
+		if(usuarios.get(user.getUuid())!=null) {
+			
+			usuarios.remove(user.getUuid());
+			listaUsuarios= new DefaultListModel<Usuario>(); 
+			
+			if (!usuarios.isEmpty()) {
+				
+				crearCSV();
+				for (String key : usuarios.keySet()) {
+					user_aux = usuarios.get(key);
+					listaUsuarios.addElement(user_aux);
+					escribirUsuario(user_aux);
+				}
+			}else {
+				crearCSV();
+			}
+			
+		}
 	}
 
 	public void escribirUsuario(Usuario user) {

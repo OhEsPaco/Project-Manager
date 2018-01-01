@@ -71,6 +71,8 @@ public class PersonasFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public PersonasFrame() {
+		setTitle("Gestionar personas");
+		setResizable(false);
 
 		try {
 			for (javax.swing.UIManager.LookAndFeelInfo info : getInstalledLookAndFeels()) {
@@ -88,7 +90,7 @@ public class PersonasFrame extends JFrame {
 		}
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 846, 512);
+		setBounds(100, 100, 779, 500);
 
 		registroPane = new JPanel();
 		registroPane.setBackground(new Color(46, 47, 51));
@@ -170,20 +172,13 @@ public class PersonasFrame extends JFrame {
 										.equals(new String(passwordField_2.getPassword()))) {
 									if (GestorUsuarios.getInstancia("")
 											.validatePass(new String(passwordField.getPassword()))) {
-										
-										
-										if(new String(passwordField.getPassword())
-										.equals(user.getPass_hash())) {
-											//No ha cambiado el password
-										}else {
-											//Ha cambiado el password
+
+										if (new String(passwordField.getPassword()).equals(user.getPass_hash())) {
+											// No ha cambiado el password
+										} else {
+											// Ha cambiado el password
 										}
-										
-										
-										
-										
-										
-				
+
 									} else {
 										lblAviso.setText("Contraseña corta");
 										lblAviso.setVisible(true);
@@ -214,7 +209,7 @@ public class PersonasFrame extends JFrame {
 
 			}
 		});
-		btnRegistrarse.setBounds(674, 421, 129, 30);
+		btnRegistrarse.setBounds(617, 421, 129, 30);
 		registroPane.add(btnRegistrarse);
 
 		passwordField = new JPasswordField();
@@ -225,7 +220,7 @@ public class PersonasFrame extends JFrame {
 			}
 		});
 		passwordField.setHorizontalAlignment(SwingConstants.LEFT);
-		passwordField.setBounds(545, 307, 258, 30);
+		passwordField.setBounds(488, 307, 258, 30);
 		registroPane.add(passwordField);
 
 		emailField = new JTextField();
@@ -235,7 +230,7 @@ public class PersonasFrame extends JFrame {
 				lblAviso.setVisible(false);
 			}
 		});
-		emailField.setBounds(255, 193, 258, 30);
+		emailField.setBounds(194, 193, 258, 30);
 		registroPane.add(emailField);
 		emailField.setColumns(10);
 
@@ -243,17 +238,17 @@ public class PersonasFrame extends JFrame {
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEmail.setForeground(Color.LIGHT_GRAY);
-		lblEmail.setBounds(255, 177, 258, 14);
+		lblEmail.setBounds(194, 177, 258, 14);
 		registroPane.add(lblEmail);
 
 		lblContrasea = new JLabel("Contraseña");
 		lblContrasea.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblContrasea.setHorizontalAlignment(SwingConstants.CENTER);
 		lblContrasea.setForeground(Color.LIGHT_GRAY);
-		lblContrasea.setBounds(545, 291, 258, 14);
+		lblContrasea.setBounds(488, 291, 258, 14);
 		registroPane.add(lblContrasea);
 		lblFoto = new JLabel("New label");
-		lblFoto.setBounds(467, 32, 120, 120);
+		lblFoto.setBounds(403, 33, 120, 120);
 		lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource(foto_path)).getImage()
 				.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH)));
 
@@ -263,7 +258,7 @@ public class PersonasFrame extends JFrame {
 		lblAviso.setForeground(Color.RED);
 		lblAviso.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAviso.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblAviso.setBounds(545, 405, 258, 14);
+		lblAviso.setBounds(488, 405, 258, 14);
 		lblAviso.setVisible(false);
 		registroPane.add(lblAviso);
 
@@ -275,14 +270,14 @@ public class PersonasFrame extends JFrame {
 			}
 		});
 		nombreField.setColumns(10);
-		nombreField.setBounds(255, 250, 258, 30);
+		nombreField.setBounds(194, 250, 258, 30);
 		registroPane.add(nombreField);
 
 		JLabel lblNombre = new JLabel("Nombre");
 		lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNombre.setForeground(Color.LIGHT_GRAY);
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNombre.setBounds(255, 234, 258, 14);
+		lblNombre.setBounds(194, 234, 258, 14);
 		registroPane.add(lblNombre);
 
 		apellidosField = new JTextField();
@@ -293,14 +288,14 @@ public class PersonasFrame extends JFrame {
 			}
 		});
 		apellidosField.setColumns(10);
-		apellidosField.setBounds(255, 307, 258, 30);
+		apellidosField.setBounds(194, 307, 258, 30);
 		registroPane.add(apellidosField);
 
 		JLabel lblApellidos = new JLabel("Apellidos");
 		lblApellidos.setHorizontalAlignment(SwingConstants.CENTER);
 		lblApellidos.setForeground(Color.LIGHT_GRAY);
 		lblApellidos.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblApellidos.setBounds(255, 291, 258, 14);
+		lblApellidos.setBounds(194, 291, 258, 14);
 		registroPane.add(lblApellidos);
 
 		rolField = new JTextField();
@@ -311,14 +306,14 @@ public class PersonasFrame extends JFrame {
 			}
 		});
 		rolField.setColumns(10);
-		rolField.setBounds(255, 364, 258, 30);
+		rolField.setBounds(194, 364, 258, 30);
 		registroPane.add(rolField);
 
 		JLabel lblRol = new JLabel("Rol");
 		lblRol.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRol.setForeground(Color.LIGHT_GRAY);
 		lblRol.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblRol.setBounds(255, 348, 258, 14);
+		lblRol.setBounds(194, 348, 258, 14);
 		registroPane.add(lblRol);
 
 		contactoField = new JTextField();
@@ -329,14 +324,14 @@ public class PersonasFrame extends JFrame {
 			}
 		});
 		contactoField.setColumns(10);
-		contactoField.setBounds(255, 421, 258, 30);
+		contactoField.setBounds(194, 421, 258, 30);
 		registroPane.add(contactoField);
 
 		JLabel lblContacto = new JLabel("Contacto");
 		lblContacto.setHorizontalAlignment(SwingConstants.CENTER);
 		lblContacto.setForeground(Color.LIGHT_GRAY);
 		lblContacto.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblContacto.setBounds(255, 405, 258, 14);
+		lblContacto.setBounds(194, 405, 258, 14);
 		registroPane.add(lblContacto);
 
 		passwordField_2 = new JPasswordField();
@@ -347,14 +342,14 @@ public class PersonasFrame extends JFrame {
 			}
 		});
 		passwordField_2.setHorizontalAlignment(SwingConstants.LEFT);
-		passwordField_2.setBounds(545, 364, 258, 30);
+		passwordField_2.setBounds(488, 364, 258, 30);
 		registroPane.add(passwordField_2);
 
 		JLabel labelPass = new JLabel("Repetir contraseña");
 		labelPass.setHorizontalAlignment(SwingConstants.CENTER);
 		labelPass.setForeground(Color.LIGHT_GRAY);
 		labelPass.setFont(new Font("Tahoma", Font.BOLD, 11));
-		labelPass.setBounds(545, 348, 258, 14);
+		labelPass.setBounds(488, 348, 258, 14);
 		registroPane.add(labelPass);
 
 		textDescripcion = new JTextArea();
@@ -365,14 +360,14 @@ public class PersonasFrame extends JFrame {
 			}
 		});
 		textDescripcion.setLineWrap(true);
-		textDescripcion.setBounds(545, 196, 258, 88);
+		textDescripcion.setBounds(488, 196, 258, 88);
 		registroPane.add(textDescripcion);
 
-		JLabel lblHablanosDeT = new JLabel("Hablanos de tí");
+		JLabel lblHablanosDeT = new JLabel("Descripción");
 		lblHablanosDeT.setHorizontalAlignment(SwingConstants.CENTER);
 		lblHablanosDeT.setForeground(Color.LIGHT_GRAY);
 		lblHablanosDeT.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblHablanosDeT.setBounds(545, 177, 258, 14);
+		lblHablanosDeT.setBounds(488, 177, 258, 14);
 		registroPane.add(lblHablanosDeT);
 
 		JLabel lblAtras = new JLabel("Limpiar campos");
@@ -392,31 +387,14 @@ public class PersonasFrame extends JFrame {
 				/////////////////////////////////////////////////////////////
 				// PULSACION DE LIMPIAR
 				///////////////////////////////////////////////////////////////
-				aplicar = false;
-				btnRegistrarse.setText("Añadir");
-				btnBorrar.setEnabled(false);
-				passwordField.setText("");
-				passwordField_2.setText("");
-				emailField.setText("");
-
-				lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource(foto_path)).getImage()
-						.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH)));
-
-				nombreField.setText("");
-				apellidosField.setText("");
-				rolField.setText("");
-
-				contactoField.setText("");
-
-				textDescripcion.setText("");
-				listPersonas.clearSelection();
+				limpiar();
 
 			}
 		});
 		lblAtras.setHorizontalAlignment(SwingConstants.LEFT);
 		lblAtras.setForeground(Color.LIGHT_GRAY);
 		lblAtras.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblAtras.setBounds(255, 12, 110, 14);
+		lblAtras.setBounds(194, 11, 110, 14);
 		registroPane.add(lblAtras);
 
 		JLabel lblCambiarFoto = new JLabel("Cambiar foto");
@@ -454,12 +432,17 @@ public class PersonasFrame extends JFrame {
 		lblCambiarFoto.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCambiarFoto.setForeground(Color.LIGHT_GRAY);
 		lblCambiarFoto.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblCambiarFoto.setBounds(477, 152, 110, 14);
+		lblCambiarFoto.setBounds(413, 152, 110, 14);
 		registroPane.add(lblCambiarFoto);
 
 		listPersonas = new JList(GestorUsuarios.getInstancia("").getDefaultList());
+		////////////////////////////////////////////////////////////////////////////////////////////
+		listPersonas.setForeground(new Color(46, 47, 51));
+		listPersonas.setFont(new Font("Tahoma", Font.BOLD, 11));
+		listPersonas.setBackground(new Color(46, 189, 89));
 		listPersonas.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
+				lblAviso.setVisible(false);
 				Usuario user = (Usuario) listPersonas.getSelectedValue();
 				if (user != null) {
 					passwordField.setText(user.getPass_hash());
@@ -492,16 +475,48 @@ public class PersonasFrame extends JFrame {
 
 			}
 		});
-		listPersonas.setBounds(10, 11, 210, 440);
+		listPersonas.setBounds(0, 0, 165, 471);
 
 		registroPane.add(listPersonas);
 
 		btnBorrar = new JButton("Borrar");
+		btnBorrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Usuario user = (Usuario) listPersonas.getSelectedValue();
+				if (user != null) {
+					GestorUsuarios.getInstancia("").borrarUsuario(user);
+					listPersonas.setModel(GestorUsuarios.getInstancia("").getDefaultList());
+					limpiar();
+				}
+
+			}
+		});
 		btnBorrar.setEnabled(false);
 		btnBorrar.setForeground(Color.WHITE);
 		btnBorrar.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnBorrar.setBackground(Color.RED);
-		btnBorrar.setBounds(545, 421, 129, 30);
+		btnBorrar.setBounds(488, 421, 129, 30);
 		registroPane.add(btnBorrar);
+	}
+
+	public void limpiar() {
+		aplicar = false;
+		btnRegistrarse.setText("Añadir");
+		btnBorrar.setEnabled(false);
+		passwordField.setText("");
+		passwordField_2.setText("");
+		emailField.setText("");
+
+		lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource(foto_path)).getImage()
+				.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH)));
+
+		nombreField.setText("");
+		apellidosField.setText("");
+		rolField.setText("");
+
+		contactoField.setText("");
+
+		textDescripcion.setText("");
+		listPersonas.clearSelection();
 	}
 }
