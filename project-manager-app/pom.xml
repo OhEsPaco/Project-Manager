@@ -9,7 +9,7 @@
 		<version>1.0</version>
 	</parent>
 	<artifactId>project-manager-app</artifactId>
-	<version>0.5</version>
+	<version>0.6</version>
 	<name>project-manager-app</name>
 	<url>https://github.com/OhEsPaco/Project-Manager</url>
 	<properties>

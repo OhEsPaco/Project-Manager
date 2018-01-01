@@ -26,6 +26,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -48,7 +49,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 
-public class PersonasFrame extends JFrame {
+public class PersonasFrame extends JDialog {
 
 	private JPanel registroPane;
 	private JButton btnRegistrarse;
@@ -74,7 +75,9 @@ public class PersonasFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PersonasFrame() {
+	public PersonasFrame(javax.swing.JFrame parent, boolean modal) {
+		super(parent,modal);
+		
 		setTitle("Gestionar personas");
 		setResizable(false);
 

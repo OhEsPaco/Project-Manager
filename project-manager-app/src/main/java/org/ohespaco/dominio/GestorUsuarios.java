@@ -369,6 +369,7 @@ public class GestorUsuarios {
 					sesion.setLogged(true);
 					logged = true;
 					sesion.setUser(user);
+					sesion.setLogin_time();
 					break;
 				}
 			}

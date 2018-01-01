@@ -24,6 +24,8 @@ SOFTWARE.
 
 package org.ohespaco.persistencia;
 
+import java.util.Date;
+
 import org.ohespaco.dominio.Usuario;
 
 public class CurrentSession {
@@ -31,7 +33,9 @@ public class CurrentSession {
 	private static boolean logged=false;
 	private static CurrentSession instancia=null;
 	private static String pathCsvUsers;
-	
+	private static Date login_time;
+
+
 
 	private CurrentSession() {
 		
@@ -63,6 +67,15 @@ public class CurrentSession {
 	 */
 	public boolean isLogged() {
 		return logged;
+	}
+	public Date getLogin_time() {
+		return login_time;
+	}
+
+	public void setLogin_time() {
+		long currentDateTime = System.currentTimeMillis();
+		login_time=new Date(currentDateTime);
+		
 	}
 
 	/**
