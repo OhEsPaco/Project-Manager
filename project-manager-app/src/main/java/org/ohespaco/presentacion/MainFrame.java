@@ -47,6 +47,7 @@ public class MainFrame extends JFrame {
 	private static JPanel cards;
 	private static JPanelLogin log;
 	private static JPanelRegistro reg;
+	private static JPanelPrincipal princ;
 
 	/**
 	 * Launch the application.
@@ -77,17 +78,22 @@ public class MainFrame extends JFrame {
 		setTitle("Project Manager");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 310, 450);
-		setLayout(new CardLayout());
+		setBounds(100, 100, 519, 450);
+		getContentPane().setLayout(new CardLayout());
 		
 		
 		cards = new JPanel(new CardLayout());
 		
 	    log = new JPanelLogin(cards);
 		reg = new JPanelRegistro(cards);
+		princ = new JPanelPrincipal();
 		
+		setResizable(true);
+		cards.add(princ,"principal");
 		cards.add(log.getLoginPane(), "login");
 		cards.add(reg.getRegistroPane(), "registro");
+		
+		
 		setContentPane(cards);
 	
 	}

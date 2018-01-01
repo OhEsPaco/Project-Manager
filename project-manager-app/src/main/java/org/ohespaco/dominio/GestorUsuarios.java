@@ -34,6 +34,8 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.DefaultListModel;
+
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.ohespaco.exceptions.ErrorWritingCSV;
@@ -46,6 +48,8 @@ public class GestorUsuarios {
 	private static HashMap<String, Usuario> usuarios = new HashMap<String, Usuario>();
 	private static final String HEADER_CSV = "uuid,email,pass_hash,nombre,apellidos,rol,contacto,descripcion,foto";
 	private static GestorUsuarios instancia = null;
+	private static DefaultListModel<Usuario> listaUsuarios = new DefaultListModel<Usuario>();
+
 
 	private GestorUsuarios(String path) {
 		this.path = path;
@@ -60,6 +64,7 @@ public class GestorUsuarios {
 		return instancia;
 	}
 
+	
 	public void cargarUsuarios() throws IOException {
 
 		String uuid, email, pass_hash, nombre, apellidos, rol, contacto, descripcion, foto;
@@ -80,13 +85,27 @@ public class GestorUsuarios {
 			user = new Usuario(uuid, email, pass_hash, nombre, apellidos, rol, contacto, descripcion, foto);
 			usuarios.put(uuid, user);
 		}
+		
+		if (!usuarios.isEmpty()) {
+			
+			for (String key : usuarios.keySet()) {
+				user = usuarios.get(key);
+				listaUsuarios.addElement(user);
+			}
+		}
+		
 
+	}
+	
+	public DefaultListModel<Usuario> getDefaultList(){
+		return listaUsuarios;
 	}
 	public void registrarUsuario(String email,String pass, String nombre,String apellidos,String rol,String contacto,String descripcion,String foto) {
 		//UUID.randomUUID().toString();
 		Usuario user = new Usuario(UUID.randomUUID().toString(), email, Hash.md5(pass), nombre, apellidos, rol, contacto, descripcion, foto);
 		escribirUsuario(user);
 		usuarios.put(user.getUuid(), user);
+		listaUsuarios.addElement(user);
 	}
 
 	public void escribirUsuario(Usuario user) {

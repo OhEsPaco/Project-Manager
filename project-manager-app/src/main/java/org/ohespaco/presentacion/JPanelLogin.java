@@ -96,7 +96,14 @@ public class JPanelLogin extends JPanel {
 						//////////////////////////////////////////////
 						//////////////////////////////////////////////
 						//////////////////////////////////////////////
-						System.out.println("logged");
+						CardLayout cl = (CardLayout) (cards.getLayout());
+						cl.show(cards, "principal");
+						JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(loginPane);
+						Point posicion= topFrame.getLocationOnScreen();
+						
+						topFrame.setBounds((int)posicion.getX(), (int)posicion.getY(), 600, 500);
+						topFrame.setResizable(true);
+						//MainFrame.resetRegistro();
 						
 					} else {
 						lblAviso.setVisible(true);
