@@ -15,6 +15,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import org.ohespaco.persistencia.CurrentSession;
+import org.ohespaco.dominio.Proyecto;
+import org.ohespaco.dominio.GestorProyectos;
 
 import java.awt.FlowLayout;
 import javax.swing.JMenuBar;
@@ -25,6 +27,8 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -70,6 +74,18 @@ private Component horizontalStrut=null;
 		JMenu mnArchivo = new JMenu("Archivo");
 		mnArchivo.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		menuBar.add(mnArchivo);
+		
+		JMenu mnNuevo = new JMenu("Nuevo...");
+		mnArchivo.add(mnNuevo);
+		
+		JMenuItem mntmProyecto = new JMenuItem("Proyecto");
+		mnNuevo.add(mntmProyecto);
+		mntmProyecto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ProyectFrame pf = new ProyectFrame();
+				pf.setVisible(true);
+			}
+		});
 		
 		JMenu mnEditar = new JMenu("Editar");
 		menuBar.add(mnEditar);

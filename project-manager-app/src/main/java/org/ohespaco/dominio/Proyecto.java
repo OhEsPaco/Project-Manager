@@ -24,16 +24,18 @@ SOFTWARE.
 
 package org.ohespaco.dominio;
 
+import java.sql.Date;
+import java.time.LocalDate;
 
 public class Proyecto {
 	
 	private String uuid;
 	private String nombre;
 	private String descripcion;
-	private String fecha_creacion;
+	private LocalDate fecha_creacion;
 	private String responsable;
 	
-	public Proyecto(String uuid, String nombre, String descripcion, String fecha_creacion, String responsable) {
+	public Proyecto(String uuid, String nombre, String descripcion, LocalDate fecha_creacion, String responsable) {
 		this.uuid = uuid;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -96,7 +98,7 @@ public class Proyecto {
 	 * @return the fecha_creacion
 	 */
 
-	public String getFecha_creacion() {
+	public LocalDate getFecha_creacion() {
 		return fecha_creacion;
 	}
 	
@@ -105,7 +107,7 @@ public class Proyecto {
 	 *            the fecha_creacion to set
 	 */
 
-	public void setFecha_creacion(String fecha_creacion) {
+	public void setFecha_creacion(LocalDate fecha_creacion) {
 		this.fecha_creacion = fecha_creacion;
 	}	
 	

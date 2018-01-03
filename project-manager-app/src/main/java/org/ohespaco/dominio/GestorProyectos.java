@@ -26,6 +26,8 @@ package org.ohespaco.dominio;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -79,7 +81,8 @@ public class GestorProyectos {
 	 */
 	public void cargarProyectos() throws IOException {
 
-		String uuid, nombre, descripcion, fecha_creacion, responsable = null;
+		String uuid, nombre, descripcion, responsable = null;
+		LocalDate fecha_creacion;
 		Proyecto proyect;
 		proyectos = new HashMap<String, Proyecto>();
 		CSVAgent agente = new CSVAgent();
@@ -123,7 +126,7 @@ public class GestorProyectos {
 	 * @param miembros
 	 * @param responsable
 	 */
-	public void crearProyecto(String nombre, String descripcion, String fecha_creacion, String responsable) {
+	public void crearProyecto(String nombre, String descripcion, LocalDate fecha_creacion, String responsable) {
 		Proyecto proyect = new Proyecto(UUID.randomUUID().toString(), nombre, descripcion,fecha_creacion, responsable);
 		escribirProyecto(proyect);
 		proyectos.put(proyect.getUuid(), proyect);
@@ -154,7 +157,7 @@ public class GestorProyectos {
 	 * @param miembros
 	 * @param responsable
 	 */
-	public void editarProyecto(String uuid, String nombre, String descripcion, String fecha_creacion, String miembros, String responsable) {
+	public void editarProyecto(String uuid, String nombre, String descripcion, LocalDate fecha_creacion, String miembros, String responsable) {
 		Proyecto proyect_aux = proyectos.get(uuid);
 
 		if (proyect_aux != null) {
@@ -217,7 +220,7 @@ public class GestorProyectos {
 			ArrayList<String> p = new ArrayList<String>();
 			p.add(proyect.getUuid());
 			p.add(proyect.getDescripcion());
-			p.add(proyect.getFecha_creacion());
+			p.add(proyect.getFecha_creacion().toString());
 			p.add(proyect.getResponsable());
 			
 			agente.writeToCSV(p, path);
