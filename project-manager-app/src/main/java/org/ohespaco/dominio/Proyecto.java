@@ -24,21 +24,20 @@ SOFTWARE.
 
 package org.ohespaco.dominio;
 
+
 public class Proyecto {
 	
 	private String uuid;
 	private String nombre;
 	private String descripcion;
 	private String fecha_creacion;
-	private String miembros;
 	private String responsable;
 	
-	public Proyecto(String uuid, String nombre, String descripcion, String fecha_creacion, String miembros, String responsable) {
+	public Proyecto(String uuid, String nombre, String descripcion, String fecha_creacion, String responsable) {
 		this.uuid = uuid;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.fecha_creacion = fecha_creacion;
-		this.miembros = miembros;
 		this.responsable = responsable;		
 	}
 
@@ -108,24 +107,7 @@ public class Proyecto {
 
 	public void setFecha_creacion(String fecha_creacion) {
 		this.fecha_creacion = fecha_creacion;
-	}
-	
-	/**
-	 * @return the miembros
-	 */
-
-	public String getMiembros() {
-		return miembros;
-	}
-	
-	/**
-	 * @param miembros
-	 *            the miembros to set
-	 */
-
-	public void setMiembros(String miembros) {
-		this.miembros = miembros;
-	}
+	}	
 	
 	/**
 	 * @return the responsable

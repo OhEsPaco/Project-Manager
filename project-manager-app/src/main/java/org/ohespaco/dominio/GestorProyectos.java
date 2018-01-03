@@ -29,8 +29,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.swing.DefaultListModel;
 
@@ -38,7 +36,6 @@ import org.apache.commons.csv.CSVRecord;
 import org.ohespaco.exceptions.ErrorWritingCSV;
 import org.ohespaco.exceptions.EscrituraErronea;
 import org.ohespaco.persistencia.CSVAgent;
-import org.ohespaco.persistencia.CurrentSession;
 
 public class GestorProyectos {
 	//Camino al csv de proyectos
@@ -50,7 +47,7 @@ public class GestorProyectos {
 	//Hashmap de pryecto
 	private static HashMap<String, Proyecto> proyectos = new HashMap<String, Proyecto>();	
 	//Cabecero del csv
-	private static final String HEADER_CSV = "uuid,nombre,descripcion,fecha_creacion,miembros,responsable\n";
+	private static final String HEADER_CSV = "uuid,nombre,descripcion,fecha_creacion,responsable\n";
 	
 	/**
 	 * Constructor de GestorUsuarios
@@ -82,7 +79,7 @@ public class GestorProyectos {
 	 */
 	public void cargarProyectos() throws IOException {
 
-		String uuid, nombre, descripcion, fecha_creacion, miembros, responsable = null;
+		String uuid, nombre, descripcion, fecha_creacion, responsable = null;
 		Proyecto proyect;
 		proyectos = new HashMap<String, Proyecto>();
 		CSVAgent agente = new CSVAgent();
@@ -92,8 +89,8 @@ public class GestorProyectos {
 			nombre = record.get("nombre");
 			descripcion = record.get("descripcion");
 			fecha_creacion = record.get("fecha_creacion");
-			miembros = record.get("miembros");
-			proyect = new Proyecto(uuid, nombre, descripcion, fecha_creacion, miembros, responsable);
+			responsable = record.get("responsable");
+			proyect = new Proyecto(uuid, nombre, descripcion, fecha_creacion, responsable);
 			proyectos.put(uuid, proyect);
 		}
 		listaProyectos = new DefaultListModel<Proyecto>();
@@ -126,8 +123,8 @@ public class GestorProyectos {
 	 * @param miembros
 	 * @param responsable
 	 */
-	public void crearProyecto(String nombre, String descripcion, String fecha_creacion, String miembros, String responsable) {
-		Proyecto proyect = new Proyecto(UUID.randomUUID().toString(), nombre, descripcion,fecha_creacion, miembros, responsable);
+	public void crearProyecto(String nombre, String descripcion, String fecha_creacion, String responsable) {
+		Proyecto proyect = new Proyecto(UUID.randomUUID().toString(), nombre, descripcion,fecha_creacion, responsable);
 		escribirProyecto(proyect);
 		proyectos.put(proyect.getUuid(), proyect);
 		listaProyectos.addElement(proyect);
@@ -164,7 +161,6 @@ public class GestorProyectos {
 			proyect_aux.setNombre(nombre);
 			proyect_aux.setDescripcion(descripcion);
 			proyect_aux.setFecha_creacion(fecha_creacion);
-			proyect_aux.setMiembros(miembros);
 			proyect_aux.setResponsable(responsable);
 
 			proyectos.remove(uuid);
@@ -176,10 +172,6 @@ public class GestorProyectos {
 				listaProyectos.addElement(proyect_aux);
 
 			}
-
-		/*	if (CurrentSession.getInstancia().getProyect().equals(uuid)) {
-				CurrentSession.getInstancia().setProyect(proyectos.get(uuid));
-			}*/
 
 			volcarProyectos();
 
@@ -226,7 +218,6 @@ public class GestorProyectos {
 			p.add(proyect.getUuid());
 			p.add(proyect.getDescripcion());
 			p.add(proyect.getFecha_creacion());
-			p.add(proyect.getMiembros());
 			p.add(proyect.getResponsable());
 			
 			agente.writeToCSV(p, path);
