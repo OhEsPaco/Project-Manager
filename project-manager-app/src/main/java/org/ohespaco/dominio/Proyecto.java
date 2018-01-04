@@ -32,10 +32,10 @@ public class Proyecto {
 	private String uuid;
 	private String nombre;
 	private String descripcion;
-	private LocalDate fecha_creacion;
+	private Date fecha_creacion;
 	private String responsable;
 	
-	public Proyecto(String uuid, String nombre, String descripcion, LocalDate fecha_creacion, String responsable) {
+	public Proyecto(String uuid, String nombre, String descripcion, Date fecha_creacion, String responsable) {
 		this.uuid = uuid;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -98,7 +98,7 @@ public class Proyecto {
 	 * @return the fecha_creacion
 	 */
 
-	public LocalDate getFecha_creacion() {
+	public Date getFecha_creacion() {
 		return fecha_creacion;
 	}
 	
@@ -107,8 +107,10 @@ public class Proyecto {
 	 *            the fecha_creacion to set
 	 */
 
-	public void setFecha_creacion(LocalDate fecha_creacion) {
+	public void setFecha_creacion(Date fecha_creacion) {
 		this.fecha_creacion = fecha_creacion;
+		//long currentDateTime = System.currentTimeMillis();
+		//login_time=new Date(currentDateTime);
 	}	
 	
 	/**
@@ -126,6 +128,10 @@ public class Proyecto {
 
 	public void setResponsable(String responsable) {
 		this.responsable = responsable;
+	}
+	@Override
+	public String toString() {
+		return nombre;
 	}
 	
 }

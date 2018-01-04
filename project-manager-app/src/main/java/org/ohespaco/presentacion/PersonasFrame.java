@@ -525,7 +525,7 @@ public class PersonasFrame extends JDialog {
 				if (user != null) {
 					if (user.getUuid().equals(CurrentSession.getInstancia().getUser().getUuid())) {
 
-						JOptionPane.showMessageDialog(frame, "No se puede eliminar al usuario actual.", "Inane error",
+						JOptionPane.showMessageDialog(frame, "No se puede eliminar al usuario actual.", "Usuario en uso",
 								JOptionPane.ERROR_MESSAGE);
 
 					} else {
