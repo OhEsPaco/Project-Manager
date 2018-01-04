@@ -25,7 +25,6 @@ SOFTWARE.
 package org.ohespaco.dominio;
 
 import java.sql.Date;
-import java.time.LocalDate;
 
 public class Proyecto {
 	
