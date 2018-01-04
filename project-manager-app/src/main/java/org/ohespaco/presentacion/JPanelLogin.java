@@ -101,7 +101,8 @@ public class JPanelLogin extends JPanel {
 						JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(loginPane);
 						Point posicion= topFrame.getLocationOnScreen();
 						
-						topFrame.setBounds((int)posicion.getX(), (int)posicion.getY(), 600, 500);
+						//topFrame.setBounds((int)posicion.getX(), (int)posicion.getY(), 600, 500);
+						topFrame.setBounds((int)posicion.getX(), (int)posicion.getY(), 1000, 1000);
 						topFrame.setResizable(true);
 						//MainFrame.resetRegistro();
 						

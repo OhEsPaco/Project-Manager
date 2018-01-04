@@ -19,6 +19,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.ohespaco.persistencia.CurrentSession;
 import org.ohespaco.dominio.Proyecto;
 import org.ohespaco.dominio.Usuario;
+import org.jdesktop.swingx.JXDatePicker;
 import org.ohespaco.dominio.GestorProyectos;
 import org.ohespaco.dominio.GestorUsuarios;
 
@@ -40,6 +41,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.Calendar;
 
 import javax.swing.JLabel;
 import java.awt.Component;
@@ -72,6 +74,11 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JEditorPane;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.JTree;
+import javax.swing.JTextPane;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import net.miginfocom.swing.MigLayout;
 
 public class JPanelPrincipal extends JPanel {
 private JPanel panelsur=null;
@@ -86,6 +93,7 @@ private JTextField txtDescripcin;
 private 	JTextArea dtrpnEditordescripcion ;
 private static final Color VERDEGUAY=new Color(46, 189, 89);
 private static final Color GRISGUAY=new Color(46, 47, 51);
+private JTextField txtNombretarea;
 	/**
 	 * Create the panel.
 	 */
@@ -97,7 +105,7 @@ private static final Color GRISGUAY=new Color(46, 47, 51);
 		setBackground((new Color(46, 47, 51)));
 		setLayout(new BorderLayout(0, 0));
 		
-		
+	
 		//panelIZ.add(list);
 		
 		JPanel panelnor = new JPanel();
@@ -255,6 +263,7 @@ private static final Color GRISGUAY=new Color(46, 47, 51);
 		panelsur.add(lblLogintimebottombar);
 		
 		JSplitPane splitPane = new JSplitPane();
+		splitPane.setOneTouchExpandable(true);
 		splitPane.setDividerLocation(150);
 		add(splitPane, BorderLayout.CENTER);
 		
@@ -284,9 +293,9 @@ private static final Color GRISGUAY=new Color(46, 47, 51);
 	    		
 	    	}
 	    });
-		listaproyectos.setForeground(VERDEGUAY);
-		listaproyectos.setFont(new Font("Tahoma", Font.BOLD, 11));
-		listaproyectos.setBackground(GRISGUAY);
+		listaproyectos.setForeground(Color.BLACK);
+		listaproyectos.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		listaproyectos.setBackground(Color.WHITE);
 		listaproyectos.setFixedCellHeight(40);
 		//list.setFixedCellWidth(150);
 		listaproyectos.setCellRenderer(getRenderer());
@@ -309,11 +318,14 @@ private static final Color GRISGUAY=new Color(46, 47, 51);
 		split_izq.add(scrollPane_1);
 		
 		JSplitPane splitPane_1 = new JSplitPane();
+		splitPane_1.setOneTouchExpandable(true);
+		splitPane_1.setResizeWeight(1.0);
 		//splitPane_1.setDividerLocation(200);
 		//splitPane_1.setResizeWeight(.5d);
 		splitPane.setRightComponent(splitPane_1);
 		
 		JSplitPane splitPane_2 = new JSplitPane();
+		splitPane_2.setResizeWeight(0.5);
 		splitPane_2.setOrientation(JSplitPane.VERTICAL_SPLIT);
 	//	
 		//splitPane_2.setResizeWeight(.5d);
@@ -323,17 +335,113 @@ private static final Color GRISGUAY=new Color(46, 47, 51);
 		splitPane_1.setRightComponent(splitPane_2);
 		
 		JPanel panelEquipo = new JPanel();
+		panelEquipo.setMaximumSize(new Dimension(600,600));
+		//panelEquipo.setMinimumSize(new Dimension(500,200));
 		splitPane_2.setLeftComponent(panelEquipo);
+		panelEquipo.setLayout(new BorderLayout(0, 0));
 		
+		JLabel lblEquipo = new JLabel("Equipo");
+		lblEquipo.setHorizontalAlignment(SwingConstants.CENTER);
+		panelEquipo.add(lblEquipo, BorderLayout.NORTH);
+		
+		JSplitPane splitPane_4 = new JSplitPane();
+		panelEquipo.add(splitPane_4, BorderLayout.CENTER);
+		
+		JScrollPane scrollPane_5 = new JScrollPane();
+		splitPane_4.setLeftComponent(scrollPane_5);
+		
+		JList list = new JList();
+		scrollPane_5.setViewportView(list);
+		
+		JPanel panel_2 = new JPanel();
+		splitPane_4.setRightComponent(panel_2);
+		panel_2.setLayout(new GridLayout(2, 1, 0, 0));
 		JPanel panelTareas = new JPanel();
 		splitPane_2.setRightComponent(panelTareas);
+		panelTareas.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel = new JPanel();
+		panelTareas.add(panel, BorderLayout.CENTER);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		txtNombretarea = new JTextField();
+		txtNombretarea.setHorizontalAlignment(SwingConstants.CENTER);
+		txtNombretarea.setText("nombretarea");
+		panel.add(txtNombretarea, BorderLayout.NORTH);
+		txtNombretarea.setColumns(10);
+		txtNombretarea.setMaximumSize(new Dimension(Integer.MAX_VALUE,25));
+		
+		JPanel panel_1 = new JPanel();
+		
+		panel_1.setMaximumSize(new Dimension(Integer.MAX_VALUE,50));
+		JLabel lblNewLabel = new JLabel("Inicio");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_1.add(lblNewLabel);
+		
+		JXDatePicker pickerInicio = new JXDatePicker();
+		pickerInicio.setDate(Calendar.getInstance().getTime());
+		panel_1.add(pickerInicio);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Terminada"}));
+		panel_1.add(comboBox);
+
+		
+		panel.add(panel_1, BorderLayout.SOUTH);
+		
+		panel_1.setLayout(new GridLayout(2, 5));
+		panel_1.setMinimumSize(new Dimension(1,50));
+		JButton btnNewButton_2 = new JButton("Personas");
+		panel_1.add(btnNewButton_2);
+		
+		Component horizontalStrut_4 = Box.createHorizontalStrut(20);
+		panel_1.add(horizontalStrut_4);
+		
+		JLabel lblNewLabel_1 = new JLabel("Final");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_1.add(lblNewLabel_1);
+		JXDatePicker pickerFinal = new JXDatePicker();
+		pickerFinal.setDate(Calendar.getInstance().getTime());
+		panel_1.add(pickerFinal);
+		
+		JButton btnNewButton = new JButton("Calendario");
+		panel_1.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Eliminar");
+		panel_1.add(btnNewButton_1);
+		
+		Component horizontalStrut_5 = Box.createHorizontalStrut(20);
+		panel_1.add(horizontalStrut_5);
+		
+		JSplitPane splitPane_3 = new JSplitPane();
+		splitPane_3.setOneTouchExpandable(true);
+		panel.add(splitPane_3, BorderLayout.CENTER);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		splitPane_3.setLeftComponent(scrollPane_2);
+		
+		JTree tree = new JTree();
+		scrollPane_2.setViewportView(tree);
+		
+		JScrollPane scrollPane_4 = new JScrollPane();
+		splitPane_3.setRightComponent(scrollPane_4);
+		
+		JTextArea textArea = new JTextArea();
+		scrollPane_4.setViewportView(textArea);
+	
+		JScrollPane scrollPane_3 = new JScrollPane();
+	
+		panelTareas.add(scrollPane_3, BorderLayout.WEST);
+		
+		
+	
 		
 		JPanel panelGeneral = new JPanel();
 		splitPane_1.setLeftComponent(panelGeneral);
 		panelGeneral.setLayout(new BoxLayout(panelGeneral, BoxLayout.Y_AXIS));
 		
 		JPanel panelNor = new JPanel();
-		panelNor.setBackground(new Color(46, 47, 51));
+		panelNor.setBackground(Color.WHITE);
 		panelNor.setMaximumSize( new Dimension(10000, 100));
 		panelGeneral.add(panelNor);
 		panelNor.setLayout(new BoxLayout(panelNor, BoxLayout.X_AXIS));
@@ -342,16 +450,16 @@ private static final Color GRISGUAY=new Color(46, 47, 51);
 		panelNor.add(horizontalStrut_2);
 		
 		JLabel lblTitulo = new JLabel("Titulo: ");
-		lblTitulo.setForeground(Color.LIGHT_GRAY);
-		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblTitulo.setForeground(Color.BLACK);
+		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panelNor.add(lblTitulo);
 		
 		txtTitulo = new JTextField();
 		txtTitulo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 
-		txtTitulo.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtTitulo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtTitulo.setForeground(VERDEGUAY);
-		txtTitulo.setBackground(GRISGUAY);
+		txtTitulo.setBackground(Color.WHITE);
 		panelNor.add(txtTitulo);
 		txtTitulo.setColumns(10);
 		
@@ -359,12 +467,12 @@ private static final Color GRISGUAY=new Color(46, 47, 51);
 		panelNor.add(horizontalStrut_1);
 		
 		JLabel lblCreacion = new JLabel("Creacion: ");
-		lblCreacion.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblCreacion.setForeground(Color.LIGHT_GRAY);
+		lblCreacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblCreacion.setForeground(Color.BLACK);
 		panelNor.add(lblCreacion);
 		
 		txtFechacreacion = new JLabel();
-		txtFechacreacion.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtFechacreacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtFechacreacion.setForeground(VERDEGUAY);
 		txtFechacreacion.setText("                  ");
 		
@@ -378,8 +486,8 @@ private static final Color GRISGUAY=new Color(46, 47, 51);
 		
 		txtDescripcin = new JTextField();
 		txtDescripcin.setFont(new Font("Tahoma", Font.BOLD, 13));
-		txtDescripcin.setForeground(Color.LIGHT_GRAY);
-		txtDescripcin.setBackground(new Color(46, 47, 51));
+		txtDescripcin.setForeground(Color.BLACK);
+		txtDescripcin.setBackground(Color.LIGHT_GRAY);
 		txtDescripcin.setEditable(false);
 		txtDescripcin.setHorizontalAlignment(SwingConstants.CENTER);
 		txtDescripcin.setText("Descripción");
@@ -411,12 +519,12 @@ private static final Color GRISGUAY=new Color(46, 47, 51);
 		
 	    dtrpnEditordescripcion = new JTextArea();
 	    dtrpnEditordescripcion = new JTextArea();
-		 dtrpnEditordescripcion.setFont(new Font("Tahoma", Font.BOLD, 11));
+		 dtrpnEditordescripcion.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		 dtrpnEditordescripcion.setLineWrap(true); //Makes the text wrap to the next line
 		 dtrpnEditordescripcion.setWrapStyleWord(true); //Makes the text wrap full words, not just letters
 		// dtrpnEditordescripcion.setText(gettysburgAddress);
 		 //dtrpnEditordescripcion.setWrapStyleWord(true);
-		 dtrpnEditordescripcion.setForeground(VERDEGUAY);
+		 dtrpnEditordescripcion.setForeground(Color.BLACK);
 		 Color bgColor =new Color(46, 47, 51);
 		
 
@@ -424,7 +532,7 @@ private static final Color GRISGUAY=new Color(46, 47, 51);
 		  defaults.put("EditorPane[Enabled].backgroundPainter", bgColor);
 		  dtrpnEditordescripcion.putClientProperty("Nimbus.Overrides", defaults);
 		  dtrpnEditordescripcion.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
-		  dtrpnEditordescripcion.setBackground(bgColor);
+		  dtrpnEditordescripcion.setBackground(Color.WHITE);
 		scrollPane.setViewportView(dtrpnEditordescripcion);
 		Dimension maximumSize= new Dimension(9999999,25);
 		Dimension maximumSizeDate= new Dimension(100,100);
