@@ -25,6 +25,7 @@ SOFTWARE.
 package org.ohespaco;
 
 import org.ohespaco.dominio.GestorProyectos;
+import org.ohespaco.dominio.GestorTareas;
 import org.ohespaco.dominio.GestorUsuarios;
 import org.ohespaco.persistencia.CurrentSession;
 import org.ohespaco.presentacion.MainFrame;
@@ -37,6 +38,7 @@ public class Main {
 		CurrentSession.getInstancia();
 		GestorUsuarios.getInstancia("users.csv");
 		GestorProyectos.getInstancia("projects.csv");
+		GestorTareas.getInstancia("tasks.csv");
 		
 		//Crea y lanza un MainFrame
 		MainFrame log = new MainFrame();

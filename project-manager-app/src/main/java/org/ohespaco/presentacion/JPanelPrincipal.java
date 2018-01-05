@@ -18,9 +18,11 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import org.ohespaco.persistencia.CurrentSession;
 import org.ohespaco.dominio.Proyecto;
+import org.ohespaco.dominio.Tarea;
 import org.ohespaco.dominio.Usuario;
 import org.jdesktop.swingx.JXDatePicker;
 import org.ohespaco.dominio.GestorProyectos;
+import org.ohespaco.dominio.GestorTareas;
 import org.ohespaco.dominio.GestorUsuarios;
 
 import java.awt.FlowLayout;
@@ -34,6 +36,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import java.awt.Insets;
+import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -79,6 +82,13 @@ import javax.swing.JTextPane;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import net.miginfocom.swing.MigLayout;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
 
 public class JPanelPrincipal extends JPanel {
 private JPanel panelsur=null;
@@ -88,12 +98,18 @@ private Component horizontalStrut=null;
 private JTable table;
 private JList listaproyectos;
 private JTextField txtTitulo;
-private JLabel txtFechacreacion;
-private JTextField txtDescripcin;
+private JTextField txtFechacreacion;
 private 	JTextArea dtrpnEditordescripcion ;
 private static final Color VERDEGUAY=new Color(46, 189, 89);
 private static final Color GRISGUAY=new Color(46, 47, 51);
+private JTree tree;
 private JTextField txtNombretarea;
+private JTextArea descripcionTarea;
+private JTextField txtTags;
+private JTextField txtEquipo;
+private JTextField textField;
+private JTextField textField_1;
+private JTextField textField_2;
 	/**
 	 * Create the panel.
 	 */
@@ -102,7 +118,7 @@ private JTextField txtNombretarea;
 		
 	
 	
-		setBackground((new Color(46, 47, 51)));
+		//setBackground((new Color(46, 47, 51)));
 		setLayout(new BorderLayout(0, 0));
 		
 	
@@ -243,27 +259,26 @@ private JTextField txtNombretarea;
 		menuBar.add(mnAyuda);
 		
 	    panelsur = new JPanel();
-	    panelsur.setBackground(new Color(46, 189, 89));
+	    panelsur.setBackground(new Color(112, 154, 208));
 	    panelsur.setForeground(Color.BLACK);
 		add(panelsur, BorderLayout.SOUTH);
 		panelsur.addComponentListener(new ResizeListener());
 	    panelsur.setLayout(new GridLayout(0, 2, 0, 0));
 	    lblUsuariobottombar = new JLabel("Usuario_bottombar");
 	    lblUsuariobottombar.setHorizontalAlignment(SwingConstants.CENTER);
-	    lblUsuariobottombar.setForeground(Color.BLACK);
+	    lblUsuariobottombar.setForeground(Color.WHITE);
 	    lblUsuariobottombar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panelsur.add(lblUsuariobottombar);
 		
 		
 		
 		lblLogintimebottombar = new JLabel("Logintime_bottombar");
-		lblLogintimebottombar.setForeground(Color.BLACK);
+		lblLogintimebottombar.setForeground(Color.WHITE);
 		lblLogintimebottombar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblLogintimebottombar.setHorizontalAlignment(SwingConstants.CENTER);
 		panelsur.add(lblLogintimebottombar);
 		
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setOneTouchExpandable(true);
 		splitPane.setDividerLocation(150);
 		add(splitPane, BorderLayout.CENTER);
 		
@@ -279,6 +294,31 @@ private JTextField txtNombretarea;
 					txtTitulo.setText(project.getNombre());
 					txtFechacreacion.setText(""+project.getFecha_creacion());
 					dtrpnEditordescripcion.setText(project.getDescripcion());
+					tree.setModel(GestorTareas.getInstancia("").getTree("Tareas",project.getUuid()));
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
 					
 				}
 	    		
@@ -307,9 +347,6 @@ private JTextField txtNombretarea;
 		listaproyectos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scrollPane_1 = new JScrollPane(listaproyectos);
 		
-		//scrollPane_1.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-		scrollPane_1.setViewportBorder(new MatteBorder(1, 1, 1, 1,new Color(46, 189, 89)));
-		scrollPane_1.setBackground(new Color(46, 189, 89));
 		scrollPane_1.setViewportView(listaproyectos);
 		
 		
@@ -319,13 +356,13 @@ private JTextField txtNombretarea;
 		
 		JSplitPane splitPane_1 = new JSplitPane();
 		splitPane_1.setOneTouchExpandable(true);
-		splitPane_1.setResizeWeight(1.0);
+		splitPane_1.setResizeWeight(0.6);
 		//splitPane_1.setDividerLocation(200);
 		//splitPane_1.setResizeWeight(.5d);
 		splitPane.setRightComponent(splitPane_1);
 		
 		JSplitPane splitPane_2 = new JSplitPane();
-		splitPane_2.setResizeWeight(0.5);
+		splitPane_2.setResizeWeight(0.001);
 		splitPane_2.setOrientation(JSplitPane.VERTICAL_SPLIT);
 	//	
 		//splitPane_2.setResizeWeight(.5d);
@@ -340,11 +377,16 @@ private JTextField txtNombretarea;
 		splitPane_2.setLeftComponent(panelEquipo);
 		panelEquipo.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblEquipo = new JLabel("Equipo");
-		lblEquipo.setHorizontalAlignment(SwingConstants.CENTER);
-		panelEquipo.add(lblEquipo, BorderLayout.NORTH);
+		txtEquipo = new JTextField();
+		txtEquipo.setHorizontalAlignment(SwingConstants.CENTER);
+		txtEquipo.setEditable(false);
+		txtEquipo.setText("Equipo");
+		panelEquipo.add(txtEquipo, BorderLayout.NORTH);
+		txtEquipo.setColumns(10);
 		
 		JSplitPane splitPane_4 = new JSplitPane();
+		splitPane_4.setResizeWeight(0.06);
+		splitPane_4.setDividerLocation(150);
 		panelEquipo.add(splitPane_4, BorderLayout.CENTER);
 		
 		JScrollPane scrollPane_5 = new JScrollPane();
@@ -353,9 +395,79 @@ private JTextField txtNombretarea;
 		JList list = new JList();
 		scrollPane_5.setViewportView(list);
 		
-		JPanel panel_2 = new JPanel();
-		splitPane_4.setRightComponent(panel_2);
-		panel_2.setLayout(new GridLayout(2, 1, 0, 0));
+		JPanel panel_3 = new JPanel();
+		panel_3.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(112, 154, 208)));
+		splitPane_4.setRightComponent(panel_3);
+		panel_3.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_separador = new JPanel();
+		panel_3.add(panel_separador, BorderLayout.SOUTH);
+		panel_separador.setLayout(new BoxLayout(panel_separador, BoxLayout.Y_AXIS));
+		
+		Component rigidArea = Box.createRigidArea(new Dimension(3, 3));
+		panel_separador.add(rigidArea);
+		
+		JButton btnExpulsar = new JButton("Expulsar");
+		btnExpulsar.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panel_separador.add(btnExpulsar);
+		
+		Component rigidArea_1 = Box.createRigidArea(new Dimension(3, 3));
+		panel_separador.add(rigidArea_1);
+		
+		JPanel panel_7 = new JPanel();
+		panel_3.add(panel_7, BorderLayout.CENTER);
+		panel_7.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_6 = new JPanel();
+		panel_7.add(panel_6, BorderLayout.SOUTH);
+		panel_6.setLayout(new GridLayout(3, 3, 5, 3));
+		
+		JLabel lblNewLabel_3 = new JLabel("Nombre");
+		lblNewLabel_3.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_6.add(lblNewLabel_3);
+		
+		textField = new JTextField();
+		textField.setEditable(false);
+		panel_6.add(textField);
+		textField.setColumns(10);
+		
+		Component horizontalStrut_8 = Box.createHorizontalStrut(20);
+		panel_6.add(horizontalStrut_8);
+		
+		JLabel lblNewLabel_5 = new JLabel("Apellidos");
+		lblNewLabel_5.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_6.add(lblNewLabel_5);
+		
+		textField_2 = new JTextField();
+		textField_2.setEditable(false);
+		panel_6.add(textField_2);
+		textField_2.setColumns(10);
+		
+		Component horizontalStrut_6 = Box.createHorizontalStrut(20);
+		panel_6.add(horizontalStrut_6);
+		
+		JLabel lblNewLabel_4 = new JLabel("Rol");
+		lblNewLabel_4.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_6.add(lblNewLabel_4);
+		
+		textField_1 = new JTextField();
+		panel_6.add(textField_1);
+		textField_1.setColumns(10);
+		
+		Component horizontalStrut_7 = Box.createHorizontalStrut(20);
+		panel_6.add(horizontalStrut_7);
+		
+		JPanel panel_8 = new JPanel();
+		
+		panel_7.add(panel_8, BorderLayout.CENTER);
+		panel_8.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblFotoequipo = new JLabel("");
+		lblFotoequipo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFotoequipo.setIcon(new ImageIcon(
+				new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/logo.png")).getImage()
+						.getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+		panel_8.add(lblFotoequipo, BorderLayout.CENTER);
 		JPanel panelTareas = new JPanel();
 		splitPane_2.setRightComponent(panelTareas);
 		panelTareas.setLayout(new BorderLayout(0, 0));
@@ -365,8 +477,9 @@ private JTextField txtNombretarea;
 		panel.setLayout(new BorderLayout(0, 0));
 		
 		txtNombretarea = new JTextField();
+		txtNombretarea.setEditable(false);
 		txtNombretarea.setHorizontalAlignment(SwingConstants.CENTER);
-		txtNombretarea.setText("nombretarea");
+		txtNombretarea.setText("Tareas");
 		panel.add(txtNombretarea, BorderLayout.NORTH);
 		txtNombretarea.setColumns(10);
 		txtNombretarea.setMaximumSize(new Dimension(Integer.MAX_VALUE,25));
@@ -382,9 +495,10 @@ private JTextField txtNombretarea;
 		pickerInicio.setDate(Calendar.getInstance().getTime());
 		panel_1.add(pickerInicio);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Terminada"}));
-		panel_1.add(comboBox);
+		JComboBox comboBoxEstado = new JComboBox();
+		((JLabel)comboBoxEstado.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
+		comboBoxEstado.setModel(new DefaultComboBoxModel(new String[] {"Activa", "Completa", "Tardia"}));
+		panel_1.add(comboBoxEstado);
 
 		
 		panel.add(panel_1, BorderLayout.SOUTH);
@@ -414,20 +528,63 @@ private JTextField txtNombretarea;
 		panel_1.add(horizontalStrut_5);
 		
 		JSplitPane splitPane_3 = new JSplitPane();
+		splitPane_3.setDividerLocation(150);
 		splitPane_3.setOneTouchExpandable(true);
 		panel.add(splitPane_3, BorderLayout.CENTER);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		splitPane_3.setLeftComponent(scrollPane_2);
 		
-		JTree tree = new JTree();
+	     tree = new JTree();
+	     tree.addTreeSelectionListener(new TreeSelectionListener() {
+	     	public void valueChanged(TreeSelectionEvent e) {
+	     		DefaultMutableTreeNode node=(DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+	     		Tarea task;
+	     		try {
+	     	    task=(Tarea)node.getUserObject();
+	     		if(task!=null) {
+	     			
+	     			pickerInicio.setDate(task.getFecha_creacion());
+	     			pickerFinal.setDate(task.getFecha_fin());
+	     			descripcionTarea.setText(task.getComentarios());
+	     			comboBoxEstado.setSelectedIndex(task.getEstado());
+	     			txtTags.setText(task.getEtiquetas());
+	     		}
+	     		}catch(java.lang.ClassCastException ey) {
+	     			
+	     		}
+	     		
+	     	}
+	     });
+		/*tree.setModel(new DefaultTreeModel(
+			new DefaultMutableTreeNode("JTree") {
+				{
+				}
+			}
+		));*/
 		scrollPane_2.setViewportView(tree);
 		
 		JScrollPane scrollPane_4 = new JScrollPane();
 		splitPane_3.setRightComponent(scrollPane_4);
 		
-		JTextArea textArea = new JTextArea();
-		scrollPane_4.setViewportView(textArea);
+		JPanel panel_4 = new JPanel();
+		scrollPane_4.setViewportView(panel_4);
+		panel_4.setLayout(new BorderLayout(0, 0));
+		
+	    descripcionTarea = new JTextArea();
+	    panel_4.add(descripcionTarea, BorderLayout.CENTER);
+	    
+	    JPanel panel_5 = new JPanel();
+	    panel_4.add(panel_5, BorderLayout.SOUTH);
+	    panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.X_AXIS));
+	    
+	    JLabel lblTags = new JLabel("  Tags");
+	    panel_5.add(lblTags);
+	    
+	    txtTags = new JTextField();
+	    txtTags.setText("tags");
+	    panel_5.add(txtTags);
+	    txtTags.setColumns(10);
 	
 		JScrollPane scrollPane_3 = new JScrollPane();
 	
@@ -440,10 +597,20 @@ private JTextField txtNombretarea;
 		splitPane_1.setLeftComponent(panelGeneral);
 		panelGeneral.setLayout(new BoxLayout(panelGeneral, BoxLayout.Y_AXIS));
 		
+		JPanel panel_2 = new JPanel();
+		panelGeneral.add(panel_2, BorderLayout.NORTH);
+		panel_2.setMaximumSize(new Dimension(Integer.MAX_VALUE,100));
+		panel_2.setLayout(new GridLayout(2, 1, 0, 0));
+		
+		JTextField lblNewLabel_2 = new JTextField("Descripción del proyecto");
+		lblNewLabel_2.setEditable(false);
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_2.add(lblNewLabel_2);
+		
 		JPanel panelNor = new JPanel();
-		panelNor.setBackground(Color.WHITE);
+		panel_2.add(panelNor);
+		//panelNor.setBackground(Color.WHITE);
 		panelNor.setMaximumSize( new Dimension(10000, 100));
-		panelGeneral.add(panelNor);
 		panelNor.setLayout(new BoxLayout(panelNor, BoxLayout.X_AXIS));
 		
 		Component horizontalStrut_2 = Box.createHorizontalStrut(3);
@@ -455,10 +622,9 @@ private JTextField txtNombretarea;
 		panelNor.add(lblTitulo);
 		
 		txtTitulo = new JTextField();
-		txtTitulo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 
 		txtTitulo.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtTitulo.setForeground(VERDEGUAY);
+		txtTitulo.setForeground(Color.BLACK);
 		txtTitulo.setBackground(Color.WHITE);
 		panelNor.add(txtTitulo);
 		txtTitulo.setColumns(10);
@@ -471,29 +637,19 @@ private JTextField txtNombretarea;
 		lblCreacion.setForeground(Color.BLACK);
 		panelNor.add(lblCreacion);
 		
-		txtFechacreacion = new JLabel();
+		txtFechacreacion = new JTextField();
+		txtFechacreacion.setEditable(false);
 		txtFechacreacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtFechacreacion.setForeground(VERDEGUAY);
+		txtFechacreacion.setForeground(Color.BLACK);
 		txtFechacreacion.setText("                  ");
 		
 		//txtFechacreacion.setMinimumSize(new Dimension(150,25));
-	//	txtFechacreacion.setMaximumSize(new Dimension(150,25));
+	txtFechacreacion.setMaximumSize(new Dimension(200,25));
 		panelNor.add(txtFechacreacion);
 		
 		
 		Component horizontalStrut_3 = Box.createHorizontalStrut(3);
-		//panelNor.add(horizontalStrut_3);
-		
-		txtDescripcin = new JTextField();
-		txtDescripcin.setFont(new Font("Tahoma", Font.BOLD, 13));
-		txtDescripcin.setForeground(Color.BLACK);
-		txtDescripcin.setBackground(Color.LIGHT_GRAY);
-		txtDescripcin.setEditable(false);
-		txtDescripcin.setHorizontalAlignment(SwingConstants.CENTER);
-		txtDescripcin.setText("Descripción");
-		txtDescripcin.setMaximumSize(new Dimension(2147483647, 25));
-		panelGeneral.add(txtDescripcin);
-		txtDescripcin.setColumns(10);
+		//txtDescripcin.setColumns(10);
 		/* dtrpnEditordescripcion = new JTextArea();
 		 dtrpnEditordescripcion.setFont(new Font("Tahoma", Font.BOLD, 11));
 		 dtrpnEditordescripcion.setLineWrap(true); //Makes the text wrap to the next line
@@ -515,7 +671,7 @@ private JTextField txtNombretarea;
 		//panelGeneral.add(dtrpnEditordescripcion);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		panelGeneral.add(scrollPane);
+		panelGeneral.add(scrollPane, BorderLayout.CENTER);
 		
 	    dtrpnEditordescripcion = new JTextArea();
 	    dtrpnEditordescripcion = new JTextArea();
@@ -553,7 +709,7 @@ private JTextField txtNombretarea;
 	                    Object value, int index, boolean isSelected,
 	                    boolean cellHasFocus) {
 	                JLabel listCellRendererComponent = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,cellHasFocus);
-	                listCellRendererComponent.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0,VERDEGUAY));
+	                listCellRendererComponent.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,new Color(112,154,208)));
 	                return listCellRendererComponent;
 	            }
 	        };

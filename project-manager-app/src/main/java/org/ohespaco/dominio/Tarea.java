@@ -36,26 +36,34 @@ public class Tarea {
 	private Date fecha_creacion;
 	private Date fecha_fin;
 	private String etiquetas;
-	private static DefaultListModel<Tarea> subtareas = new DefaultListModel<Tarea>();
 	private String comentarios;
 	private int prioridad;
 	private int estado;
+	private String uuid_proyecto;
 	
-	public Tarea(String uuid, String uuid_tarea_padre, String nombre, Date fecha_creacion,
-			Date fecha_fin, String etiquetas, DefaultListModel<Tarea> subtareas,
+	public Tarea(String uuid, String uuid_tarea_padre,String uuid_proyecto, String nombre, Date fecha_creacion,
+			Date fecha_fin, String etiquetas,
 			String comentarios, int prioridad, int estado) {
 		
 		this.uuid = uuid;
 		this.uuid_tarea_padre = uuid_tarea_padre;
+		this.uuid_proyecto=uuid_proyecto;
 		this.nombre = nombre;
 		this.fecha_creacion = fecha_creacion;
 		this.fecha_fin = fecha_fin;
 		this.etiquetas = etiquetas;
-		Tarea.subtareas = subtareas;
 		this.comentarios = comentarios;
 		this.prioridad = prioridad; 
 		this.estado = estado;
 			
+	}
+
+	public String getUuid_proyecto() {
+		return uuid_proyecto;
+	}
+
+	public void setUuid_proyecto(String uuid_proyecto) {
+		this.uuid_proyecto = uuid_proyecto;
 	}
 
 	/**
@@ -161,24 +169,7 @@ public class Tarea {
 		this.etiquetas = etiquetas;
 	}
 
-	
-	/**
-	 * @return the subtareas
-	 */
-	public static DefaultListModel<Tarea> getSubtareas() {
-		return subtareas;
-	}
 
-	
-	/**
-	 * @param subtareas
-	 *            the sutareas to set
-	 */
-	public static void setSubtareas(DefaultListModel<Tarea> subtareas) {
-		Tarea.subtareas = subtareas;
-	}
-
-	
 	/**
 	 * @return the comentarios
 	 */

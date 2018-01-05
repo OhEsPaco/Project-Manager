@@ -78,14 +78,14 @@ public class JPanelLogin extends JPanel {
 
 	private void createLogin() {
 		loginPane = new JPanel();
-		loginPane.setBackground(new Color(46, 47, 51));
+		
 		loginPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		loginPane.setLayout(null);
 
 		btnEntrar = new JButton("Entrar");
-		btnEntrar.setForeground(Color.WHITE);
+		btnEntrar.setForeground(Color.DARK_GRAY);
 		btnEntrar.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnEntrar.setBackground(new Color(46, 189, 89));
+	
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -102,7 +102,8 @@ public class JPanelLogin extends JPanel {
 						Point posicion= topFrame.getLocationOnScreen();
 						
 						//topFrame.setBounds((int)posicion.getX(), (int)posicion.getY(), 600, 500);
-						topFrame.setBounds((int)posicion.getX(), (int)posicion.getY(), 1000, 1000);
+						topFrame.setBounds((int)posicion.getX(), (int)posicion.getY(), 1300, 700);
+						topFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 						topFrame.setResizable(true);
 						//MainFrame.resetRegistro();
 						
@@ -147,14 +148,14 @@ public class JPanelLogin extends JPanel {
 		lblEmail = new JLabel("Email");
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEmail.setForeground(Color.LIGHT_GRAY);
+		lblEmail.setForeground(Color.DARK_GRAY);
 		lblEmail.setBounds(23, 195, 258, 14);
 		loginPane.add(lblEmail);
 
 		lblContrasea = new JLabel("Contraseña");
 		lblContrasea.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblContrasea.setHorizontalAlignment(SwingConstants.CENTER);
-		lblContrasea.setForeground(Color.LIGHT_GRAY);
+		lblContrasea.setForeground(Color.DARK_GRAY);
 		lblContrasea.setBounds(23, 261, 258, 14);
 		loginPane.add(lblContrasea);
 		lblNewLabel = new JLabel("New label");
@@ -167,12 +168,13 @@ public class JPanelLogin extends JPanel {
 
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBackground(Color.GRAY);
-		comboBox.setForeground(Color.LIGHT_GRAY);
+		comboBox.setForeground(Color.DARK_GRAY);
 		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Castellano", "Inglés" }));
 		comboBox.setBounds(142, 11, 139, 24);
 		loginPane.add(comboBox);
 
 		JLabel lblRegistro = new JLabel("¿Aún no tienes cuenta? Registrate");
+		lblRegistro.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblRegistro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -195,10 +197,10 @@ public class JPanelLogin extends JPanel {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				lblRegistro.setForeground(Color.LIGHT_GRAY);
+				lblRegistro.setForeground(new Color(112,154,208));
 			}
 		});
-		lblRegistro.setForeground(Color.LIGHT_GRAY);
+		lblRegistro.setForeground(new Color(112,154,208));
 		lblRegistro.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRegistro.setBounds(23, 385, 258, 14);
 		loginPane.add(lblRegistro);

@@ -60,7 +60,7 @@ public class MainFrame extends JFrame {
 
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/org/ohespaco/recursos/noicon.png")));
-		try {
+	/*	try {
 			for (javax.swing.UIManager.LookAndFeelInfo info : getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
 					setLookAndFeel(info.getClassName());
@@ -73,6 +73,11 @@ public class MainFrame extends JFrame {
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 				| javax.swing.UnsupportedLookAndFeelException ex) {
 			getLogger(MainFrame.class.getName()).log(SEVERE, null, ex);
+		}*/
+		try {
+		    setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+		} catch (Exception e) {
+		    e.printStackTrace();
 		}
 
 		setTitle("Project Manager");

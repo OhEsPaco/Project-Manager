@@ -32,6 +32,8 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import javax.swing.DefaultListModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 import org.apache.commons.csv.CSVRecord;
 import org.ohespaco.exceptions.ErrorWritingCSV;
@@ -45,12 +47,12 @@ public class GestorTareas {
 	//Hashmap de usuarios
 	private static HashMap<String, Tarea> tareas = new HashMap<String, Tarea>();
 	//Cabecero del csv
-	private static final String HEADER_CSV = "uuid,uuid_tarea_padre,nombre,fecha_creacion,fecha_fin,etiquetas,subtareas,comentarios,prioridad,estado\n";
+	private static final String HEADER_CSV = "uuid,uuid_tarea_padre,uuid_proyecto,nombre,fecha_creacion,fecha_fin,etiquetas,comentarios,prioridad,estado\n";
 	//Instancia global del gestor
 	private static GestorTareas instancia = null;
 	//List para mostrar en la interfaz
 	private static DefaultListModel<Tarea> listaTareas = new DefaultListModel<Tarea>();
-
+	private static final String PADRE_DEFAULT="DEFAULT0-TASK-0000-0000-000000000000";
 	/**
 	 * Constructor de GestorTareas
 	 * 
@@ -81,9 +83,9 @@ public class GestorTareas {
 	 */
 	public void cargarTareas() throws IOException {
 
-		String uuid, uuid_tarea_padre, nombre, etiquetas, comentarios;
+		String uuid, uuid_tarea_padre,uuid_proyecto, nombre, etiquetas, comentarios;
 		Date fecha_creacion, fecha_fin;
-		DefaultListModel<Tarea> subtareas = null;
+
 		int prioridad, estado;
 		Tarea task;
 		tareas = new HashMap<String, Tarea>();
@@ -92,16 +94,16 @@ public class GestorTareas {
 		for (CSVRecord record : records) {
 			uuid = record.get("uuid");
 			uuid_tarea_padre = record.get("uuid_tarea_padre");
+			uuid_proyecto =record.get("uuid_proyecto");
 			nombre = record.get("nombre");
-			etiquetas = record.get("etiquetas");
-			comentarios = record.get("comentarios"); 
 			fecha_creacion = new Date(Long.parseLong(record.get("fecha_creacion")));
 			fecha_fin = new Date(Long.parseLong(record.get("fecha_fin")));
-			//subtareas =
+			etiquetas = record.get("etiquetas");
+			comentarios = record.get("comentarios"); 
 			prioridad = Integer.parseInt(record.get("prioridad"));
 			estado = Integer.parseInt(record.get("estado"));
 
-			task = new Tarea(uuid, uuid_tarea_padre,nombre, fecha_creacion, fecha_fin, etiquetas, subtareas, comentarios, prioridad, estado);
+			task = new Tarea(uuid, uuid_tarea_padre,uuid_proyecto,nombre, fecha_creacion, fecha_fin, etiquetas, comentarios, prioridad, estado);
 			tareas.put(uuid, task);
 		}
 		listaTareas = new DefaultListModel<Tarea>();
@@ -135,11 +137,26 @@ public class GestorTareas {
 	 * @param subtareas
 	 * @param comentarios
 	 */
-	public void crearTarea(String nombre,Usuario usuario, Date fecha_creacion,
-			Date fecha_fin, String etiquetas, DefaultListModel<Tarea> subtareas, String comentarios, int prioridad, int estado) {
+/*public Tarea(String uuid, String uuid_tarea_padre,String uuid_proyecto, String nombre, Date fecha_creacion,
+			Date fecha_fin, String etiquetas,
+			String comentarios, int prioridad, int estado) {*/
+	
+	public void crearTarea(String uuid_tarea_padre,String uuid_proyecto, String nombre, Date fecha_creacion,
+			Date fecha_fin, String etiquetas,
+			String comentarios, int prioridad, int estado) {
 		
-		Tarea task = new Tarea(UUID.randomUUID().toString(), UUID.randomUUID().toString(), nombre,
-				fecha_creacion, fecha_fin, etiquetas, subtareas, comentarios, prioridad, estado);
+		Tarea task = new Tarea(UUID.randomUUID().toString(), uuid_tarea_padre, uuid_proyecto,nombre,
+				fecha_creacion, fecha_fin, etiquetas, comentarios, prioridad, estado);
+		escribirTarea(task);
+		tareas.put(task.getUuid(), task);
+		listaTareas.addElement(task);
+	}
+	public void crearTarea(String uuid_proyecto, String nombre, Date fecha_creacion,
+			Date fecha_fin, String etiquetas,
+			String comentarios, int prioridad, int estado) {
+		
+		Tarea task = new Tarea(UUID.randomUUID().toString(), PADRE_DEFAULT, uuid_proyecto,nombre,
+				fecha_creacion, fecha_fin, etiquetas, comentarios, prioridad, estado);
 		escribirTarea(task);
 		tareas.put(task.getUuid(), task);
 		listaTareas.addElement(task);
@@ -174,17 +191,18 @@ public class GestorTareas {
 	 * @param prioridad
 	 * @param estado
 	 */
-	public void editarTarea(String uuid, String uuid_tarea_padre, String nombre, 
+	public void editarTarea(String uuid, String uuid_tarea_padre,String nombre, 
 			Date fecha_creacion, Date fecha_fin, String etiquetas,
-			DefaultListModel<Tarea> subtareas, String comentarios, int prioridad, int estado) {
+		String comentarios, int prioridad, int estado) {
 		Tarea task_aux = tareas.get(uuid);
 
 		if (task_aux != null) {
 			task_aux.setNombre(nombre);
+			task_aux.setUuid_tarea_padre(uuid_tarea_padre);
 			task_aux.setFecha_creacion(fecha_creacion);
 			task_aux.setFecha_fin(fecha_fin);
 			task_aux.setEtiquetas(etiquetas);
-			task_aux.setSubtareas(subtareas);
+		
 			task_aux.setComentarios(comentarios);
 			task_aux.setPrioridad(prioridad);
 			task_aux.setEstado(estado);
@@ -241,11 +259,11 @@ public class GestorTareas {
 			ArrayList<String> p = new ArrayList<String>();
 			p.add(task.getUuid());
 			p.add(task.getUuid_tarea_padre());
+			p.add(task.getUuid_proyecto());
 			p.add(task.getNombre());
 			p.add((task.getFecha_creacion()).toString());
 			p.add(task.getFecha_fin().toString());
-			p.add(task.getEtiquetas().toString());
-			p.add(task.getSubtareas().toString());
+			p.add(task.getEtiquetas());
 			p.add(task.getComentarios());
 			p.add(Integer.toString(task.getPrioridad()));
 			p.add(Integer.toString(task.getEstado()));
@@ -318,6 +336,34 @@ public class GestorTareas {
 		}
 
 		return existe;
+	}
+	
+	public DefaultTreeModel getTree(String root_label, String uuid_proyecto) {
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode(root_label);
+		Tarea task_aux = null;
+		if(!tareas.isEmpty()) {
+			
+			metodo(PADRE_DEFAULT,uuid_proyecto,task_aux, root);
+			
+			
+		}
+		return new DefaultTreeModel(root);
+
+	}
+	
+	private void metodo(String uuid_padre,String uuid_proyecto, Tarea task_aux,DefaultMutableTreeNode root) {
+		for (String key : tareas.keySet()) {
+			task_aux = tareas.get(key);
+			if(task_aux.getUuid_tarea_padre().equals(uuid_padre)&&task_aux.getUuid_proyecto().equals(uuid_proyecto)) {
+				DefaultMutableTreeNode subtarea = new DefaultMutableTreeNode(task_aux);
+				root.add(subtarea);
+				metodo(task_aux.getUuid(),uuid_proyecto,task_aux,subtarea);
+				
+			}
+		
+			
+			
+		}
 	}
 	
 }

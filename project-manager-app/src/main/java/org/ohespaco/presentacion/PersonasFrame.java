@@ -48,6 +48,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.JScrollPane;
 
 public class PersonasFrame extends JDialog {
 
@@ -81,7 +82,7 @@ public class PersonasFrame extends JDialog {
 		setTitle("Gestionar personas");
 		setResizable(false);
 
-		try {
+		/*try {
 			for (javax.swing.UIManager.LookAndFeelInfo info : getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
 					setLookAndFeel(info.getClassName());
@@ -94,20 +95,20 @@ public class PersonasFrame extends JDialog {
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 				| javax.swing.UnsupportedLookAndFeelException ex) {
 			getLogger(MainFrame.class.getName()).log(SEVERE, null, ex);
-		}
+		}*/
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 779, 500);
+		setBounds(100, 100, 779, 499);
 
 		registroPane = new JPanel();
-		registroPane.setBackground(new Color(46, 47, 51));
+		
 		registroPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		registroPane.setLayout(null);
 		setContentPane(registroPane);
 		btnRegistrarse = new JButton("Añadir");
-		btnRegistrarse.setForeground(Color.WHITE);
+		btnRegistrarse.setForeground(Color.DARK_GRAY);
 		btnRegistrarse.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnRegistrarse.setBackground(new Color(46, 189, 89));
+	
 		btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				lblAviso.setVisible(false);
@@ -268,14 +269,14 @@ public class PersonasFrame extends JDialog {
 		lblEmail = new JLabel("Email");
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEmail.setForeground(Color.LIGHT_GRAY);
+		lblEmail.setForeground(Color.DARK_GRAY);
 		lblEmail.setBounds(194, 177, 258, 14);
 		registroPane.add(lblEmail);
 
 		lblContrasea = new JLabel("Contraseña");
 		lblContrasea.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblContrasea.setHorizontalAlignment(SwingConstants.CENTER);
-		lblContrasea.setForeground(Color.LIGHT_GRAY);
+		lblContrasea.setForeground(Color.DARK_GRAY);
 		lblContrasea.setBounds(488, 291, 258, 14);
 		registroPane.add(lblContrasea);
 		lblFoto = new JLabel("New label");
@@ -306,7 +307,7 @@ public class PersonasFrame extends JDialog {
 
 		JLabel lblNombre = new JLabel("Nombre");
 		lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNombre.setForeground(Color.LIGHT_GRAY);
+		lblNombre.setForeground(Color.DARK_GRAY);
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNombre.setBounds(194, 234, 258, 14);
 		registroPane.add(lblNombre);
@@ -324,7 +325,7 @@ public class PersonasFrame extends JDialog {
 
 		JLabel lblApellidos = new JLabel("Apellidos");
 		lblApellidos.setHorizontalAlignment(SwingConstants.CENTER);
-		lblApellidos.setForeground(Color.LIGHT_GRAY);
+		lblApellidos.setForeground(Color.DARK_GRAY);
 		lblApellidos.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblApellidos.setBounds(194, 291, 258, 14);
 		registroPane.add(lblApellidos);
@@ -342,7 +343,7 @@ public class PersonasFrame extends JDialog {
 
 		JLabel lblRol = new JLabel("Rol");
 		lblRol.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRol.setForeground(Color.LIGHT_GRAY);
+		lblRol.setForeground(Color.DARK_GRAY);
 		lblRol.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblRol.setBounds(194, 348, 258, 14);
 		registroPane.add(lblRol);
@@ -360,7 +361,7 @@ public class PersonasFrame extends JDialog {
 
 		JLabel lblContacto = new JLabel("Contacto");
 		lblContacto.setHorizontalAlignment(SwingConstants.CENTER);
-		lblContacto.setForeground(Color.LIGHT_GRAY);
+		lblContacto.setForeground(Color.DARK_GRAY);
 		lblContacto.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblContacto.setBounds(194, 405, 258, 14);
 		registroPane.add(lblContacto);
@@ -378,7 +379,7 @@ public class PersonasFrame extends JDialog {
 
 		JLabel labelPass = new JLabel("Repetir contraseña");
 		labelPass.setHorizontalAlignment(SwingConstants.CENTER);
-		labelPass.setForeground(Color.LIGHT_GRAY);
+		labelPass.setForeground(Color.DARK_GRAY);
 		labelPass.setFont(new Font("Tahoma", Font.BOLD, 11));
 		labelPass.setBounds(488, 348, 258, 14);
 		registroPane.add(labelPass);
@@ -396,7 +397,7 @@ public class PersonasFrame extends JDialog {
 
 		JLabel lblHablanosDeT = new JLabel("Descripción");
 		lblHablanosDeT.setHorizontalAlignment(SwingConstants.CENTER);
-		lblHablanosDeT.setForeground(Color.LIGHT_GRAY);
+		lblHablanosDeT.setForeground(Color.DARK_GRAY);
 		lblHablanosDeT.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblHablanosDeT.setBounds(488, 177, 258, 14);
 		registroPane.add(lblHablanosDeT);
@@ -410,7 +411,7 @@ public class PersonasFrame extends JDialog {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				lblAtras.setForeground(Color.LIGHT_GRAY);
+				lblAtras.setForeground(Color.DARK_GRAY);
 			}
 
 			@Override
@@ -423,7 +424,7 @@ public class PersonasFrame extends JDialog {
 			}
 		});
 		lblAtras.setHorizontalAlignment(SwingConstants.LEFT);
-		lblAtras.setForeground(Color.LIGHT_GRAY);
+		lblAtras.setForeground(Color.DARK_GRAY);
 		lblAtras.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblAtras.setBounds(194, 11, 110, 14);
 		registroPane.add(lblAtras);
@@ -438,7 +439,7 @@ public class PersonasFrame extends JDialog {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				lblCambiarFoto.setForeground(Color.LIGHT_GRAY);
+				lblCambiarFoto.setForeground(Color.DARK_GRAY);
 			}
 
 			@Override
@@ -465,56 +466,10 @@ public class PersonasFrame extends JDialog {
 
 		});
 		lblCambiarFoto.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCambiarFoto.setForeground(Color.LIGHT_GRAY);
+		lblCambiarFoto.setForeground(Color.DARK_GRAY);
 		lblCambiarFoto.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblCambiarFoto.setBounds(413, 152, 110, 14);
 		registroPane.add(lblCambiarFoto);
-
-		listPersonas = new JList(GestorUsuarios.getInstancia("").getDefaultList());
-		////////////////////////////////////////////////////////////////////////////////////////////
-		listPersonas.setForeground(new Color(46, 47, 51));
-		listPersonas.setFont(new Font("Tahoma", Font.BOLD, 11));
-		listPersonas.setBackground(new Color(46, 189, 89));
-		listPersonas.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				lblAviso.setVisible(false);
-				Usuario user = (Usuario) listPersonas.getSelectedValue();
-				if (user != null) {
-					passwordField.setText(user.getPass_hash());
-					passwordField_2.setText(user.getPass_hash());
-					emailField.setText(user.getEmail());
-
-					File f = new File(user.getFoto());
-					if (f.exists() && !f.isDirectory()) {
-						lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(user.getFoto()).getImage()
-								.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH)));
-					} else {
-						
-						////////////////////////////////////////////////////////////////////////////////////////////////////////
-						lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource(DEFAULT_FOTO_PATH))
-								.getImage()
-								.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH)));
-					}
-
-					// lblFoto;
-
-					nombreField.setText(user.getNombre());
-					apellidosField.setText(user.getApellidos());
-					rolField.setText(user.getRol());
-
-					contactoField.setText(user.getContacto());
-					foto_path = user.getFoto();
-					textDescripcion.setText(user.getDescripcion());
-					aplicar = true;
-					btnRegistrarse.setText("Aplicar");
-					btnBorrar.setEnabled(true);
-				}
-
-			}
-		});
-		listPersonas.setBounds(0, 0, 165, 471);
-
-		registroPane.add(listPersonas);
 
 		btnBorrar = new JButton("Borrar");
 		btnBorrar.addActionListener(new ActionListener() {
@@ -550,11 +505,61 @@ public class PersonasFrame extends JDialog {
 			}
 		});
 		btnBorrar.setEnabled(false);
-		btnBorrar.setForeground(Color.WHITE);
+		btnBorrar.setForeground(Color.DARK_GRAY);
 		btnBorrar.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnBorrar.setBackground(Color.RED);
+		
 		btnBorrar.setBounds(488, 421, 129, 30);
 		registroPane.add(btnBorrar);
+		
+				listPersonas = new JList(GestorUsuarios.getInstancia("").getDefaultList());
+				////////////////////////////////////////////////////////////////////////////////////////////
+				listPersonas.setForeground(new Color(46, 47, 51));
+				listPersonas.setFont(new Font("Tahoma", Font.BOLD, 11));
+				listPersonas.setBackground(new Color(46, 189, 89));
+				listPersonas.addListSelectionListener(new ListSelectionListener() {
+					public void valueChanged(ListSelectionEvent e) {
+						lblAviso.setVisible(false);
+						Usuario user = (Usuario) listPersonas.getSelectedValue();
+						if (user != null) {
+							passwordField.setText(user.getPass_hash());
+							passwordField_2.setText(user.getPass_hash());
+							emailField.setText(user.getEmail());
+
+							File f = new File(user.getFoto());
+							if (f.exists() && !f.isDirectory()) {
+								lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(user.getFoto()).getImage()
+										.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH)));
+							} else {
+								
+								////////////////////////////////////////////////////////////////////////////////////////////////////////
+								lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource(DEFAULT_FOTO_PATH))
+										.getImage()
+										.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH)));
+							}
+
+							// lblFoto;
+
+							nombreField.setText(user.getNombre());
+							apellidosField.setText(user.getApellidos());
+							rolField.setText(user.getRol());
+
+							contactoField.setText(user.getContacto());
+							foto_path = user.getFoto();
+							textDescripcion.setText(user.getDescripcion());
+							aplicar = true;
+							btnRegistrarse.setText("Aplicar");
+							btnBorrar.setEnabled(true);
+						}
+
+					}
+				});
+				listPersonas.setBounds(0, 0, 171, 471);
+				
+						registroPane.add(listPersonas);
+		
+		JScrollPane scrollPane = new JScrollPane(listPersonas);
+		scrollPane.setBounds(0, 0, 171, 471);
+		registroPane.add(scrollPane);
 	}
 
 	public void limpiar() {

@@ -91,14 +91,14 @@ public class JPanelRegistro extends JPanel {
 	public void createRegistro() {
 
 		registroPane = new JPanel();
-		registroPane.setBackground(new Color(46, 47, 51));
+		
 		registroPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		registroPane.setLayout(null);
 
 		btnRegistrarse = new JButton("Registro");
-		btnRegistrarse.setForeground(Color.WHITE);
+		btnRegistrarse.setForeground(Color.DARK_GRAY);
 		btnRegistrarse.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnRegistrarse.setBackground(new Color(46, 189, 89));
+	
 		btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				lblAviso.setVisible(false);
@@ -169,14 +169,14 @@ public class JPanelRegistro extends JPanel {
 		lblEmail = new JLabel("Email");
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEmail.setForeground(Color.LIGHT_GRAY);
+		lblEmail.setForeground(Color.DARK_GRAY);
 		lblEmail.setBounds(23, 177, 258, 14);
 		registroPane.add(lblEmail);
 
 		lblContrasea = new JLabel("Contraseña");
 		lblContrasea.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblContrasea.setHorizontalAlignment(SwingConstants.CENTER);
-		lblContrasea.setForeground(Color.LIGHT_GRAY);
+		lblContrasea.setForeground(Color.DARK_GRAY);
 		lblContrasea.setBounds(309, 292, 258, 14);
 		registroPane.add(lblContrasea);
 		lblFoto = new JLabel("New label");
@@ -188,7 +188,7 @@ public class JPanelRegistro extends JPanel {
 
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBackground(Color.GRAY);
-		comboBox.setForeground(Color.LIGHT_GRAY);
+		comboBox.setForeground(Color.DARK_GRAY);
 		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Castellano", "Inglés" }));
 		comboBox.setBounds(428, 11, 139, 24);
 		registroPane.add(comboBox);
@@ -214,7 +214,7 @@ public class JPanelRegistro extends JPanel {
 
 		JLabel lblNombre = new JLabel("Nombre");
 		lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNombre.setForeground(Color.LIGHT_GRAY);
+		lblNombre.setForeground(Color.DARK_GRAY);
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNombre.setBounds(23, 234, 258, 14);
 		registroPane.add(lblNombre);
@@ -232,7 +232,7 @@ public class JPanelRegistro extends JPanel {
 
 		JLabel lblApellidos = new JLabel("Apellidos");
 		lblApellidos.setHorizontalAlignment(SwingConstants.CENTER);
-		lblApellidos.setForeground(Color.LIGHT_GRAY);
+		lblApellidos.setForeground(Color.DARK_GRAY);
 		lblApellidos.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblApellidos.setBounds(23, 291, 258, 14);
 		registroPane.add(lblApellidos);
@@ -250,7 +250,7 @@ public class JPanelRegistro extends JPanel {
 
 		JLabel lblRol = new JLabel("Rol");
 		lblRol.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRol.setForeground(Color.LIGHT_GRAY);
+		lblRol.setForeground(Color.DARK_GRAY);
 		lblRol.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblRol.setBounds(23, 348, 258, 14);
 		registroPane.add(lblRol);
@@ -268,7 +268,7 @@ public class JPanelRegistro extends JPanel {
 
 		JLabel lblContacto = new JLabel("Contacto");
 		lblContacto.setHorizontalAlignment(SwingConstants.CENTER);
-		lblContacto.setForeground(Color.LIGHT_GRAY);
+		lblContacto.setForeground(Color.DARK_GRAY);
 		lblContacto.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblContacto.setBounds(23, 405, 258, 14);
 		registroPane.add(lblContacto);
@@ -286,7 +286,7 @@ public class JPanelRegistro extends JPanel {
 
 		JLabel labelPass = new JLabel("Repetir contraseña");
 		labelPass.setHorizontalAlignment(SwingConstants.CENTER);
-		labelPass.setForeground(Color.LIGHT_GRAY);
+		labelPass.setForeground(Color.DARK_GRAY);
 		labelPass.setFont(new Font("Tahoma", Font.BOLD, 11));
 		labelPass.setBounds(309, 348, 258, 14);
 		registroPane.add(labelPass);
@@ -304,7 +304,7 @@ public class JPanelRegistro extends JPanel {
 
 		JLabel lblHablanosDeT = new JLabel("Hablanos de tí");
 		lblHablanosDeT.setHorizontalAlignment(SwingConstants.CENTER);
-		lblHablanosDeT.setForeground(Color.LIGHT_GRAY);
+		lblHablanosDeT.setForeground(Color.DARK_GRAY);
 		lblHablanosDeT.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblHablanosDeT.setBounds(309, 177, 258, 14);
 		registroPane.add(lblHablanosDeT);
@@ -318,7 +318,7 @@ public class JPanelRegistro extends JPanel {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				lblAtras.setForeground(Color.LIGHT_GRAY);
+				lblAtras.setForeground(new Color(112,154,208));
 			}
 
 			@Override
@@ -337,7 +337,7 @@ public class JPanelRegistro extends JPanel {
 			}
 		});
 		lblAtras.setHorizontalAlignment(SwingConstants.LEFT);
-		lblAtras.setForeground(Color.LIGHT_GRAY);
+		lblAtras.setForeground(new Color(112,154,208));
 		lblAtras.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblAtras.setBounds(23, 16, 74, 14);
 		registroPane.add(lblAtras);
@@ -352,7 +352,7 @@ public class JPanelRegistro extends JPanel {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				lblCambiarFoto.setForeground(Color.LIGHT_GRAY);
+				lblCambiarFoto.setForeground(Color.DARK_GRAY);
 			}
 
 			@Override
@@ -376,7 +376,7 @@ public class JPanelRegistro extends JPanel {
 
 		});
 		lblCambiarFoto.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCambiarFoto.setForeground(Color.LIGHT_GRAY);
+		lblCambiarFoto.setForeground(Color.DARK_GRAY);
 		lblCambiarFoto.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblCambiarFoto.setBounds(220, 152, 120, 14);
 		registroPane.add(lblCambiarFoto);
