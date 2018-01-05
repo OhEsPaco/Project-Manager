@@ -81,7 +81,6 @@ import javax.swing.JTree;
 import javax.swing.JTextPane;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import net.miginfocom.swing.MigLayout;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.event.TreeSelectionListener;
@@ -278,12 +277,12 @@ private JTextField textField_2;
 		lblLogintimebottombar.setHorizontalAlignment(SwingConstants.CENTER);
 		panelsur.add(lblLogintimebottombar);
 		
-		JSplitPane splitPane = new JSplitPane();
-		splitPane.setDividerLocation(150);
-		add(splitPane, BorderLayout.CENTER);
+		JSplitPane mainSplit = new JSplitPane();
+		mainSplit.setDividerLocation(150);
+		add(mainSplit, BorderLayout.CENTER);
 		
 		JPanel split_izq = new JPanel();
-		splitPane.setLeftComponent(split_izq);
+		mainSplit.setLeftComponent(split_izq);
 		split_izq.setLayout(new BorderLayout(0, 0));
 	    listaproyectos = new JList(GestorProyectos.getInstancia("").getDefaultList());
 	    listaproyectos.addListSelectionListener(new ListSelectionListener() {
@@ -354,14 +353,16 @@ private JTextField textField_2;
 		
 		split_izq.add(scrollPane_1);
 		
-		JSplitPane splitPane_1 = new JSplitPane();
-		splitPane_1.setOneTouchExpandable(true);
-		splitPane_1.setResizeWeight(0.6);
+		JSplitPane split_der = new JSplitPane();
+		
+		split_der.setOneTouchExpandable(true);
+		split_der.setResizeWeight(0.6);
 		//splitPane_1.setDividerLocation(200);
 		//splitPane_1.setResizeWeight(.5d);
-		splitPane.setRightComponent(splitPane_1);
+		mainSplit.setRightComponent(split_der);
 		
 		JSplitPane splitPane_2 = new JSplitPane();
+		splitPane_2.setOneTouchExpandable(true);
 		splitPane_2.setResizeWeight(0.001);
 		splitPane_2.setOrientation(JSplitPane.VERTICAL_SPLIT);
 	//	
@@ -369,7 +370,7 @@ private JTextField textField_2;
 
 
 		//splitPane_2.setDividerLocation(150);
-		splitPane_1.setRightComponent(splitPane_2);
+		split_der.setRightComponent(splitPane_2);
 		
 		JPanel panelEquipo = new JPanel();
 		panelEquipo.setMaximumSize(new Dimension(600,600));
@@ -536,6 +537,7 @@ private JTextField textField_2;
 		splitPane_3.setLeftComponent(scrollPane_2);
 		
 	     tree = new JTree();
+	     tree.setModel(null);
 	     tree.addTreeSelectionListener(new TreeSelectionListener() {
 	     	public void valueChanged(TreeSelectionEvent e) {
 	     		DefaultMutableTreeNode node=(DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
@@ -594,7 +596,7 @@ private JTextField textField_2;
 	
 		
 		JPanel panelGeneral = new JPanel();
-		splitPane_1.setLeftComponent(panelGeneral);
+		split_der.setLeftComponent(panelGeneral);
 		panelGeneral.setLayout(new BoxLayout(panelGeneral, BoxLayout.Y_AXIS));
 		
 		JPanel panel_2 = new JPanel();
@@ -692,8 +694,6 @@ private JTextField textField_2;
 		scrollPane.setViewportView(dtrpnEditordescripcion);
 		Dimension maximumSize= new Dimension(9999999,25);
 		Dimension maximumSizeDate= new Dimension(100,100);
-		
-		
 		
 		
 		
