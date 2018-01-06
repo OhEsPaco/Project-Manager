@@ -3,10 +3,7 @@ package org.ohespaco.presentacion;
 import javax.swing.JPanel;
 import java.awt.Color;
 
-import static java.util.logging.Level.SEVERE;
-import static java.util.logging.Logger.getLogger;
-import static javax.swing.UIManager.getInstalledLookAndFeels;
-import static javax.swing.UIManager.setLookAndFeel;
+
 
 import java.awt.BorderLayout;
 import javax.swing.JToolBar;
@@ -34,7 +31,6 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import com.hexidec.ekit.EkitCore;
 import java.awt.Insets;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
@@ -194,7 +190,7 @@ public class JPanelPrincipal extends JPanel {
 				Proyecto project = (Proyecto) listaproyectos.getSelectedValue();
 				int index = 0;
 				// SI NO HAY PROYECTO SELECCIONADO GUARDAR EL RESTO DE COSAS
-				GestorTareas.getInstancia("").guardarTareas();
+				
 				if (project != null) {
 
 					// Guardar proyecto visible
@@ -226,7 +222,8 @@ public class JPanelPrincipal extends JPanel {
 					JOptionPane.showMessageDialog(frame, "No hay proyecto seleccionado.", "Seleccionar proyecto.",
 							JOptionPane.ERROR_MESSAGE);
 				}
-
+				GestorProyectos.getInstancia("").guardarProyectos();
+				GestorTareas.getInstancia("").guardarTareas();
 				// listaproyectos.setModel(GestorProyectos.getInstancia("").getDefaultList());
 				// listaproyectos.setSelectedIndex(index);
 				/*
@@ -309,7 +306,7 @@ public class JPanelPrincipal extends JPanel {
 						//limpiarTareas();
 						System.out.println("----"+task.getNombre()+"--"+task.getUuid());
 						//GestorTareas.getInstancia("").imprimirHash();
-						treeTareas.setModel(GestorTareas.getInstancia("").actualizarTree("Tareas","4705b444-8a39-4757-8b59-758cb424d8b2"));
+						treeTareas.setModel(GestorTareas.getInstancia("").actualizarTree("Tareas",project.getUuid()));
 						GestorTareas.getInstancia("").imprimirHash();
 						
 						
@@ -584,6 +581,14 @@ public class JPanelPrincipal extends JPanel {
 		panel_1.add(pickerFinal);
 
 		JButton btnNewButton = new JButton("Calendario");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+				
+			}
+		});
 		panel_1.add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("Eliminar");

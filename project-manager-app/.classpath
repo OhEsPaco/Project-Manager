@@ -22,7 +22,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/pacog/Desktop/ekit/ekit.jar"/>
-	<classpathentry kind="lib" path="C:/Users/pacog/Desktop/ekit/ekitapplet.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
