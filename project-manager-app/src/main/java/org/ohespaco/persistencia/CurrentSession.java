@@ -24,6 +24,7 @@ SOFTWARE.
 
 package org.ohespaco.persistencia;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.ohespaco.dominio.Usuario;
@@ -34,7 +35,6 @@ public class CurrentSession {
 	private static CurrentSession instancia=null;
 	private static String pathCsvUsers;
 	private static Date login_time;
-
 
 
 	private CurrentSession() {

@@ -26,10 +26,13 @@ package org.ohespaco.dominio;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.DefaultListModel;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -42,17 +45,18 @@ import org.ohespaco.persistencia.CSVAgent;
 import org.ohespaco.persistencia.CurrentSession;
 
 public class GestorTareas {
-	//Camino al csv de tareas
+	// Camino al csv de tareas
 	private static String path;
-	//Hashmap de usuarios
-	private static HashMap<String, Tarea> tareas = new HashMap<String, Tarea>();
-	//Cabecero del csv
+	// Hashmap de usuarios
+	private static ConcurrentHashMap<String, Tarea> tareas = new ConcurrentHashMap <String, Tarea>();
+	// Cabecero del csv
 	private static final String HEADER_CSV = "uuid,uuid_tarea_padre,uuid_proyecto,nombre,fecha_creacion,fecha_fin,etiquetas,comentarios,prioridad,estado\n";
-	//Instancia global del gestor
+	// Instancia global del gestor
 	private static GestorTareas instancia = null;
-	//List para mostrar en la interfaz
+	// List para mostrar en la interfaz
 	private static DefaultListModel<Tarea> listaTareas = new DefaultListModel<Tarea>();
-	private static final String PADRE_DEFAULT="DEFAULT0-TASK-0000-0000-000000000000";
+	private static final String PADRE_DEFAULT = "DEFAULT0-TASK-0000-0000-000000000000";
+	private static DefaultTreeModel tree;
 	/**
 	 * Constructor de GestorTareas
 	 * 
@@ -62,7 +66,7 @@ public class GestorTareas {
 		this.path = path;
 		inicializarCSV();
 	}
-	
+
 	/**
 	 * Crea o retorna la instancia del gestor
 	 * 
@@ -81,29 +85,42 @@ public class GestorTareas {
 	 * 
 	 * @throws IOException
 	 */
+	public void imprimirHash() {
+		Tarea tarea_aux;
+		
+		if (!tareas.isEmpty()) {
+			for (String key : tareas.keySet()) {
+				tarea_aux = tareas.get(key);
+				System.out.println(tarea_aux.getUuid()+","+tarea_aux.getUuid_tarea_padre()+","+tarea_aux.getUuid_proyecto()+","+tarea_aux.getNombre()+","+tarea_aux.getEtiquetas()+","+tarea_aux.getComentarios());
+			}
+		}
+		
+		System.out.println("//////////////////////");
+	}
 	public void cargarTareas() throws IOException {
 
-		String uuid, uuid_tarea_padre,uuid_proyecto, nombre, etiquetas, comentarios;
+		String uuid, uuid_tarea_padre, uuid_proyecto, nombre, etiquetas, comentarios;
 		Date fecha_creacion, fecha_fin;
 
 		int prioridad, estado;
 		Tarea task;
-		tareas = new HashMap<String, Tarea>();
+		tareas = new ConcurrentHashMap <String, Tarea>();
 		CSVAgent agente = new CSVAgent();
 		Iterable<CSVRecord> records = agente.readCSV(path);
 		for (CSVRecord record : records) {
 			uuid = record.get("uuid");
 			uuid_tarea_padre = record.get("uuid_tarea_padre");
-			uuid_proyecto =record.get("uuid_proyecto");
+			uuid_proyecto = record.get("uuid_proyecto");
 			nombre = record.get("nombre");
 			fecha_creacion = new Date(Long.parseLong(record.get("fecha_creacion")));
 			fecha_fin = new Date(Long.parseLong(record.get("fecha_fin")));
 			etiquetas = record.get("etiquetas");
-			comentarios = record.get("comentarios"); 
+			comentarios = record.get("comentarios");
 			prioridad = Integer.parseInt(record.get("prioridad"));
 			estado = Integer.parseInt(record.get("estado"));
 
-			task = new Tarea(uuid, uuid_tarea_padre,uuid_proyecto,nombre, fecha_creacion, fecha_fin, etiquetas, comentarios, prioridad, estado);
+			task = new Tarea(uuid, uuid_tarea_padre, uuid_proyecto, nombre, fecha_creacion, fecha_fin, etiquetas,
+					comentarios, prioridad, estado);
 			tareas.put(uuid, task);
 		}
 		listaTareas = new DefaultListModel<Tarea>();
@@ -125,7 +142,7 @@ public class GestorTareas {
 	public DefaultListModel<Tarea> getDefaultList() {
 		return listaTareas;
 	}
-	
+
 	/**
 	 * Metodo para crear tarea nueva
 	 * 
@@ -137,36 +154,42 @@ public class GestorTareas {
 	 * @param subtareas
 	 * @param comentarios
 	 */
-/*public Tarea(String uuid, String uuid_tarea_padre,String uuid_proyecto, String nombre, Date fecha_creacion,
-			Date fecha_fin, String etiquetas,
-			String comentarios, int prioridad, int estado) {*/
+	/*
+	 * public Tarea(String uuid, String uuid_tarea_padre,String uuid_proyecto,
+	 * String nombre, Date fecha_creacion, Date fecha_fin, String etiquetas, String
+	 * comentarios, int prioridad, int estado) {
+	 */
+
+	public void crearTarea(String uuid_tarea_padre, String uuid_proyecto, String nombre, Date fecha_creacion,
+			Date fecha_fin, String etiquetas, String comentarios, int prioridad, int estado) {
+		
+		Tarea task = new Tarea(UUID.randomUUID().toString(), uuid_tarea_padre, uuid_proyecto, nombre, fecha_creacion,
+				fecha_fin, etiquetas, comentarios, prioridad, estado);
 	
-	public void crearTarea(String uuid_tarea_padre,String uuid_proyecto, String nombre, Date fecha_creacion,
-			Date fecha_fin, String etiquetas,
-			String comentarios, int prioridad, int estado) {
-		
-		Tarea task = new Tarea(UUID.randomUUID().toString(), uuid_tarea_padre, uuid_proyecto,nombre,
-				fecha_creacion, fecha_fin, etiquetas, comentarios, prioridad, estado);
-		escribirTarea(task);
 		tareas.put(task.getUuid(), task);
+		
 		listaTareas.addElement(task);
+	
+		actualizarTree("Tareas",uuid_proyecto);
+		
 	}
-	public void crearTarea(String uuid_proyecto, String nombre, Date fecha_creacion,
-			Date fecha_fin, String etiquetas,
+
+	public void crearTarea(String uuid_proyecto, String nombre, Date fecha_creacion, Date fecha_fin, String etiquetas,
 			String comentarios, int prioridad, int estado) {
-		
-		Tarea task = new Tarea(UUID.randomUUID().toString(), PADRE_DEFAULT, uuid_proyecto,nombre,
-				fecha_creacion, fecha_fin, etiquetas, comentarios, prioridad, estado);
-		escribirTarea(task);
+
+		Tarea task = new Tarea(UUID.randomUUID().toString(), PADRE_DEFAULT, uuid_proyecto, nombre, fecha_creacion,
+				fecha_fin, etiquetas, comentarios, prioridad, estado);
+
 		tareas.put(task.getUuid(), task);
 		listaTareas.addElement(task);
+		actualizarTree("Tareas",uuid_proyecto);
 	}
 
 	/**
 	 * Vuelca el hashmap en un archivo csv
 	 * 
 	 */
-	public void volcarTareas() {
+	public void guardarTareas() {
 		Tarea tarea_aux;
 		crearCSV();
 		if (!tareas.isEmpty()) {
@@ -176,12 +199,12 @@ public class GestorTareas {
 			}
 		}
 	}
-	
+
 	/**
 	 * Edita un usuario existente
 	 * 
 	 * @param uuid
-	 @param uuid_tarea_padre
+	 * @param uuid_tarea_padre
 	 * @param nombre
 	 * @param fecha_creacion
 	 * @param fecha_fin
@@ -191,18 +214,16 @@ public class GestorTareas {
 	 * @param prioridad
 	 * @param estado
 	 */
-	public void editarTarea(String uuid, String uuid_tarea_padre,String nombre, 
-			Date fecha_creacion, Date fecha_fin, String etiquetas,
-		String comentarios, int prioridad, int estado) {
+	public void editarTarea(String uuid, String nombre, Date fecha_creacion, Date fecha_fin,
+			String etiquetas, String comentarios, int prioridad, int estado) {
 		Tarea task_aux = tareas.get(uuid);
 
 		if (task_aux != null) {
 			task_aux.setNombre(nombre);
-			task_aux.setUuid_tarea_padre(uuid_tarea_padre);
 			task_aux.setFecha_creacion(fecha_creacion);
 			task_aux.setFecha_fin(fecha_fin);
 			task_aux.setEtiquetas(etiquetas);
-		
+
 			task_aux.setComentarios(comentarios);
 			task_aux.setPrioridad(prioridad);
 			task_aux.setEstado(estado);
@@ -215,12 +236,11 @@ public class GestorTareas {
 				task_aux = tareas.get(key);
 				listaTareas.addElement(task_aux);
 			}
-
-			volcarTareas();
+			actualizarTree("CAMBIADO",task_aux.getUuid_proyecto());
 
 		}
 	}
-	
+
 	/**
 	 * Elimina una lista
 	 * 
@@ -230,26 +250,43 @@ public class GestorTareas {
 		Tarea task_aux;
 		if (tareas.get(task.getUuid()) != null) {
 
-			tareas.remove(task.getUuid());
+			borradoRecursivo( task);
 			listaTareas = new DefaultListModel<Tarea>();
 
 			if (!tareas.isEmpty()) {
 
-				crearCSV();
 				for (String key : tareas.keySet()) {
 					task_aux = tareas.get(key);
+					
+					
 					listaTareas.addElement(task_aux);
-					escribirTarea(task_aux);
+
 				}
-			} else {
-				crearCSV();
-			}
+				actualizarTree("CAMBIADO",task.getUuid_proyecto());
+			} 
 
 		}
 	}
-	
+	private void borradoRecursivo(Tarea padre) {
+		Tarea task_aux;
+		
+		if (tareas.get(padre.getUuid()) != null) {
+			tareas.remove(padre.getUuid());
+			for (String key : tareas.keySet()) {
+				task_aux = tareas.get(key);
+				if(padre.getUuid().equals(task_aux.getUuid_tarea_padre())) {
+					borradoRecursivo(task_aux);
+				}
+				
+			}
+			
+		}
+		
+	}
+
 	/**
 	 * Añade una lista al csv
+	 * 
 	 * @param lista
 	 */
 	public void escribirTarea(Tarea task) {
@@ -261,8 +298,8 @@ public class GestorTareas {
 			p.add(task.getUuid_tarea_padre());
 			p.add(task.getUuid_proyecto());
 			p.add(task.getNombre());
-			p.add((task.getFecha_creacion()).toString());
-			p.add(task.getFecha_fin().toString());
+			p.add(Long.toString(task.getFecha_creacion().getTime()));
+			p.add(Long.toString(task.getFecha_fin().getTime()));
 			p.add(task.getEtiquetas());
 			p.add(task.getComentarios());
 			p.add(Integer.toString(task.getPrioridad()));
@@ -309,10 +346,10 @@ public class GestorTareas {
 	 * 
 	 * @return the tareas
 	 */
-	public HashMap<String, Tarea> getTareas() {
+	public ConcurrentHashMap <String, Tarea> getTareas() {
 		return tareas;
 	}
-	
+
 	/**
 	 * Retorna true si existe el nombre dado
 	 * 
@@ -337,33 +374,33 @@ public class GestorTareas {
 
 		return existe;
 	}
-	
-	public DefaultTreeModel getTree(String root_label, String uuid_proyecto) {
+
+	public DefaultTreeModel actualizarTree(String root_label, String uuid_proyecto) {
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode(root_label);
 		Tarea task_aux = null;
-		if(!tareas.isEmpty()) {
-			
-			metodo(PADRE_DEFAULT,uuid_proyecto,task_aux, root);
-			
-			
+		if (!tareas.isEmpty()) {
+
+			busquedaDeNodos(PADRE_DEFAULT, uuid_proyecto, task_aux, root);
+
 		}
-		return new DefaultTreeModel(root);
+		tree=new DefaultTreeModel(root);
+		
+		return tree;
 
 	}
-	
-	private void metodo(String uuid_padre,String uuid_proyecto, Tarea task_aux,DefaultMutableTreeNode root) {
+
+	private void busquedaDeNodos(String uuid_padre, String uuid_proyecto, Tarea task_aux, DefaultMutableTreeNode root) {
 		for (String key : tareas.keySet()) {
 			task_aux = tareas.get(key);
-			if(task_aux.getUuid_tarea_padre().equals(uuid_padre)&&task_aux.getUuid_proyecto().equals(uuid_proyecto)) {
+			if (task_aux.getUuid_tarea_padre().equals(uuid_padre)
+					&& task_aux.getUuid_proyecto().equals(uuid_proyecto)) {
 				DefaultMutableTreeNode subtarea = new DefaultMutableTreeNode(task_aux);
 				root.add(subtarea);
-				metodo(task_aux.getUuid(),uuid_proyecto,task_aux,subtarea);
-				
+				busquedaDeNodos(task_aux.getUuid(), uuid_proyecto, task_aux, subtarea);
+
 			}
-		
-			
-			
+
 		}
 	}
-	
+
 }

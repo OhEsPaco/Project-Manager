@@ -131,7 +131,6 @@ public class GestorProyectos {
 	 */
 	public void crearProyecto(String nombre, String descripcion) {
 		Proyecto proyect = new Proyecto(UUID.randomUUID().toString(), nombre, descripcion,new Date(System.currentTimeMillis()), RESPONSABLE_DEFAULT);
-		escribirProyecto(proyect);
 		proyectos.put(proyect.getUuid(), proyect);
 		listaProyectos.addElement(proyect);
 	}
@@ -140,7 +139,7 @@ public class GestorProyectos {
 	 * Vuelca el hashmap en un archivo csv
 	 * 
 	 */
-	public void volcarProyectos() {
+	public void guardarProyectos() {
 		Proyecto proyect_aux;
 		crearCSV();
 		if (!proyectos.isEmpty()) {
@@ -176,7 +175,7 @@ public class GestorProyectos {
 
 			}
 
-			volcarProyectos();
+		
 
 		}
 	}
@@ -195,14 +194,12 @@ public class GestorProyectos {
 
 			if (!proyectos.isEmpty()) {
 
-				crearCSV();
+				
 				for (String key : proyectos.keySet()) {
 					proyect_aux = proyectos.get(key);
 					listaProyectos.addElement(proyect_aux);
-					escribirProyecto(proyect_aux);
+					
 				}
-			} else {
-				crearCSV();
 			}
 
 		}
@@ -213,7 +210,7 @@ public class GestorProyectos {
 	 * Añade un usuario al csv
 	 * @param proyect
 	 */
-	public void escribirProyecto(Proyecto proyect) {
+	private void escribirProyecto(Proyecto proyect) {
 		CSVAgent agente = new CSVAgent();
 		try {
 

@@ -137,6 +137,8 @@ public class GestorUsuarios {
 			String contacto, String descripcion, String foto) {
 		Usuario user = new Usuario(UUID.randomUUID().toString(), email, Hash.md5(pass), nombre, apellidos, rol,
 				contacto, descripcion, foto);
+		
+
 		escribirUsuario(user);
 		usuarios.put(user.getUuid(), user);
 		listaUsuarios.addElement(user);
@@ -146,7 +148,7 @@ public class GestorUsuarios {
 	 * Vuelca el hashmap en un archivo csv
 	 * 
 	 */
-	public void volcarUsuarios() {
+	public void guardarUsuarios() {
 		Usuario user_aux;
 		crearCSV();
 		if (!usuarios.isEmpty()) {
@@ -201,7 +203,7 @@ public class GestorUsuarios {
 				CurrentSession.getInstancia().setUser(usuarios.get(uuid));
 			}
 
-			volcarUsuarios();
+			
 
 		}
 	}
@@ -220,15 +222,12 @@ public class GestorUsuarios {
 
 			if (!usuarios.isEmpty()) {
 
-				crearCSV();
 				for (String key : usuarios.keySet()) {
 					user_aux = usuarios.get(key);
 					listaUsuarios.addElement(user_aux);
-					escribirUsuario(user_aux);
+					
 				}
-			} else {
-				crearCSV();
-			}
+			} 
 
 		}
 	}
@@ -237,7 +236,7 @@ public class GestorUsuarios {
 	 * Añade un usuario al csv
 	 * @param user
 	 */
-	public void escribirUsuario(Usuario user) {
+  public void escribirUsuario(Usuario user) {
 		CSVAgent agente = new CSVAgent();
 		try {
 
