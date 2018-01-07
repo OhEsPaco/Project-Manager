@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2017 
+Copyright (c) 2017
 Francisco Manuel Garcia Sanchez-Belmonte
 Adrian Bustos Marin
 
@@ -35,8 +35,8 @@ public class Usuario {
 	private String descripcion;
 	private String foto;
 
-	public Usuario(String uuid, String email, String pass_hash, String nombre, String apellidos, String rol, String contacto,
-			String descripcion, String foto) {
+	public Usuario(String uuid, String email, String pass_hash, String nombre, String apellidos, String rol,
+			String contacto, String descripcion, String foto) {
 		this.uuid = uuid;
 		this.email = email;
 		this.pass_hash = pass_hash;
@@ -175,10 +175,11 @@ public class Usuario {
 	public void setFoto(String foto) {
 		this.foto = foto;
 	}
+
 	@Override
 	public String toString() {
 		return email;
-		
+
 	}
 
 }

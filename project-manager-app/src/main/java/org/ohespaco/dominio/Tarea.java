@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2017 
+Copyright (c) 2017
 Francisco Manuel Garcia Sanchez-Belmonte
 Adrian Bustos Marin
 
@@ -26,10 +26,8 @@ package org.ohespaco.dominio;
 
 import java.util.Date;
 
-import javax.swing.DefaultListModel;
-
 public class Tarea {
-	
+
 	private String uuid;
 	private String uuid_tarea_padre;
 	private String nombre;
@@ -40,22 +38,21 @@ public class Tarea {
 	private int prioridad;
 	private int estado;
 	private String uuid_proyecto;
-	
-	public Tarea(String uuid, String uuid_tarea_padre,String uuid_proyecto, String nombre, Date fecha_creacion,
-			Date fecha_fin, String etiquetas,
-			String comentarios, int prioridad, int estado) {
-		
+
+	public Tarea(String uuid, String uuid_tarea_padre, String uuid_proyecto, String nombre, Date fecha_creacion,
+			Date fecha_fin, String etiquetas, String comentarios, int prioridad, int estado) {
+
 		this.uuid = uuid;
 		this.uuid_tarea_padre = uuid_tarea_padre;
-		this.uuid_proyecto=uuid_proyecto;
+		this.uuid_proyecto = uuid_proyecto;
 		this.nombre = nombre;
 		this.fecha_creacion = fecha_creacion;
 		this.fecha_fin = fecha_fin;
 		this.etiquetas = etiquetas;
 		this.comentarios = comentarios;
-		this.prioridad = prioridad; 
+		this.prioridad = prioridad;
 		this.estado = estado;
-			
+
 	}
 
 	public String getUuid_proyecto() {
@@ -66,164 +63,81 @@ public class Tarea {
 		this.uuid_proyecto = uuid_proyecto;
 	}
 
-	/**
-	 * @return the id
-	 */
 	public String getUuid() {
 		return uuid;
 	}
-	
 
-	
-	/**
-	 * @param id
-	 *            the id to set
-	 */
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
-	
-	
-	/**
-	 * @return the id_tarea_padre
-	 */
+
 	public String getUuid_tarea_padre() {
 		return uuid_tarea_padre;
 	}
 
-	
-	/**
-	 * @param id_tarea_pdre
-	 *            the id_tarea_padre to set
-	 */
 	public void setUuid_tarea_padre(String uuid_tarea_padre) {
 		this.uuid_tarea_padre = uuid_tarea_padre;
 	}
 
-	
-	/**
-	 * @return the nombre
-	 */
 	public String getNombre() {
 		return nombre;
 	}
 
-	
-	/**
-	 * @param nombre
-	 *            the nombre to set
-	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
-
-
-	/**
-	 * @return the fecha_creacion
-	 */
 	public Date getFecha_creacion() {
 		return fecha_creacion;
 	}
 
-	
-	/**
-	 * @param fecha_creacion
-	 *            the fecha_creacion to set
-	 */
 	public void setFecha_creacion(Date fecha_creacion) {
 		this.fecha_creacion = fecha_creacion;
 	}
 
-	
-	/**
-	 * @return the fecha_fin
-	 */
 	public Date getFecha_fin() {
 		return fecha_fin;
 	}
-	
 
-	/**
-	 * @param fecha_fin
-	 *            the fecha_fin to set
-	 */
 	public void setFecha_fin(Date fecha_fin) {
 		this.fecha_fin = fecha_fin;
 	}
 
-	
-	/**
-	 * @return the etiquetas
-	 */
 	public String getEtiquetas() {
 		return etiquetas;
 	}
 
-	
-	/**
-	 * @param etiquetas
-	 *            the etiquetas to set
-	 */
 	public void setEtiquetas(String etiquetas) {
 		this.etiquetas = etiquetas;
 	}
 
-
-	/**
-	 * @return the comentarios
-	 */
 	public String getComentarios() {
 		return comentarios;
 	}
 
-	
-	/**
-	 * @param comentarios
-	 *            the comentarios to set
-	 */
 	public void setComentarios(String comentarios) {
 		this.comentarios = comentarios;
 	}
-	
-	
-	/**
-	 * @return the estado
-	 */
+
 	public int getEstado() {
 		return estado;
 	}
 
-	
-	/**
-	 * @param estado
-	 *            the estado to set
-	 */
 	public void setEstado(int estado) {
 		this.estado = estado;
 	}
-	
-	
-	/**
-	 * @return the prioridad
-	 */
+
 	public int getPrioridad() {
 		return prioridad;
 	}
 
-	
-	/**
-	 * @param prioridad
-	 *            the prioridad to set
-	 */
 	public void setPrioridad(int prioridad) {
 		this.prioridad = prioridad;
 	}
-	
 
 	@Override
 	public String toString() {
-		return nombre;	
+		return nombre;
 	}
-	
+
 }

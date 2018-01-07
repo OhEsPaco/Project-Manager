@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2017 
+Copyright (c) 2017
 Francisco Manuel Garcia Sanchez-Belmonte
 Adrian Bustos Marin
 
@@ -26,6 +26,7 @@ package org.ohespaco.presentacion;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -49,7 +50,6 @@ import javax.swing.border.EmptyBorder;
 
 import org.ohespaco.dominio.GestorUsuarios;
 
-
 public class JPanelLogin extends JPanel {
 	private JPanel loginPane;
 	private JButton btnEntrar;
@@ -61,55 +61,46 @@ public class JPanelLogin extends JPanel {
 	private JLabel lblAviso;
 	private JPanel cards;
 
-	/**
-	 * Create the panel.
-	 */
 	public JPanelLogin(JPanel cards) {
-		
-		this.cards=cards;
+
+		this.cards = cards;
 		createLogin();
 	}
-	
-	
+
 	public JPanel getLoginPane() {
 		return loginPane;
 	}
 
-
 	private void createLogin() {
 		loginPane = new JPanel();
-		
+
 		loginPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		loginPane.setLayout(null);
 
 		btnEntrar = new JButton("Entrar");
-		//btnEntrar.setForeground(Color.DARK_GRAY);
 		btnEntrar.setFont(new Font("Tahoma", Font.BOLD, 11));
-	
+
 		btnEntrar.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-			
+
 				try {
 					GestorUsuarios.getInstancia("").cargarUsuarios();
-					if (GestorUsuarios.getInstancia("").login(emailField.getText(), new String(passwordField.getPassword()))) {
-						//////////////////////////////////////////////
-						//////////////////////////////////////////////
-						//////////////////////////////////////////////
+					if (GestorUsuarios.getInstancia("").login(emailField.getText(),
+							new String(passwordField.getPassword()))) {
+
 						CardLayout cl = (CardLayout) (cards.getLayout());
 						cl.show(cards, "principal");
 						JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(loginPane);
-						Point posicion= topFrame.getLocationOnScreen();
-						
-						//topFrame.setBounds((int)posicion.getX(), (int)posicion.getY(), 600, 500);
-						topFrame.setBounds((int)posicion.getX(), (int)posicion.getY(), 1300, 700);
-						topFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+						Point posicion = topFrame.getLocationOnScreen();
+
+						topFrame.setBounds((int) posicion.getX(), (int) posicion.getY(), 1300, 700);
+						topFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
 						topFrame.setResizable(true);
-						//MainFrame.resetRegistro();
-						
+
 					} else {
 						lblAviso.setVisible(true);
-					
+
 					}
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -121,7 +112,7 @@ public class JPanelLogin extends JPanel {
 		loginPane.add(btnEntrar);
 
 		passwordField = new JPasswordField();
-		////////////////////////////////////
+
 		passwordField.setText("12345678");
 		passwordField.addMouseListener(new MouseAdapter() {
 			@Override
@@ -148,14 +139,14 @@ public class JPanelLogin extends JPanel {
 		lblEmail = new JLabel("Email");
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
-		//lblEmail.setForeground(Color.DARK_GRAY);
+		// lblEmail.setForeground(Color.DARK_GRAY);
 		lblEmail.setBounds(23, 195, 258, 14);
 		loginPane.add(lblEmail);
 
 		lblContrasea = new JLabel("Contraseña");
 		lblContrasea.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblContrasea.setHorizontalAlignment(SwingConstants.CENTER);
-		//lblContrasea.setForeground(Color.DARK_GRAY);
+
 		lblContrasea.setBounds(23, 261, 258, 14);
 		loginPane.add(lblContrasea);
 		lblNewLabel = new JLabel("New label");
@@ -167,8 +158,7 @@ public class JPanelLogin extends JPanel {
 		loginPane.add(lblNewLabel);
 
 		JComboBox comboBox = new JComboBox();
-		//comboBox.setBackground(Color.GRAY);
-		//comboBox.setForeground(Color.DARK_GRAY);
+
 		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Castellano", "Inglés" }));
 		comboBox.setBounds(142, 11, 139, 24);
 		loginPane.add(comboBox);
@@ -178,16 +168,14 @@ public class JPanelLogin extends JPanel {
 		lblRegistro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				/////////////////////////////////////////////////////////////
-				// PULSACION DE REGISTRARSE
-				///////////////////////////////////////////////////////////////
+
 				CardLayout cl = (CardLayout) (cards.getLayout());
 				cl.show(cards, "registro");
 				JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(loginPane);
-				Point posicion= topFrame.getLocationOnScreen();
-				
-				topFrame.setBounds((int)posicion.getX(), (int)posicion.getY(), 600, 500);
-				MainFrame.resetRegistro();
+				Point posicion = topFrame.getLocationOnScreen();
+
+				topFrame.setBounds((int) posicion.getX(), (int) posicion.getY(), 600, 500);
+				JFrameMain.resetRegistro();
 			}
 
 			@Override
@@ -197,10 +185,10 @@ public class JPanelLogin extends JPanel {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				lblRegistro.setForeground(new Color(112,154,208));
+				lblRegistro.setForeground(new Color(112, 154, 208));
 			}
 		});
-		lblRegistro.setForeground(new Color(112,154,208));
+		lblRegistro.setForeground(new Color(112, 154, 208));
 		lblRegistro.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRegistro.setBounds(23, 385, 258, 14);
 		loginPane.add(lblRegistro);
@@ -214,6 +202,7 @@ public class JPanelLogin extends JPanel {
 		loginPane.add(lblAviso);
 
 	}
+
 	public void initComponents() {
 		emailField.setText("");
 		passwordField.setText("");

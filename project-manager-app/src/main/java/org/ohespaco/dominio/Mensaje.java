@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2017 
+Copyright (c) 2017
 Francisco Manuel Garcia Sanchez-Belmonte
 Adrian Bustos Marin
 
@@ -25,5 +25,64 @@ SOFTWARE.
 package org.ohespaco.dominio;
 
 public class Mensaje {
+	private String uuid_emisor;
+	private String uuid_receptor;
+	private String asunto;
+	private String mensaje;
+	private String uuid;
+
+	public Mensaje(String uuid, String uuid_emisor, String uuid_receptor, String asunto, String mensaje) {
+
+		this.uuid = uuid;
+		this.uuid_emisor = uuid_emisor;
+		this.uuid_receptor = uuid_receptor;
+		this.mensaje = mensaje;
+		this.asunto = asunto;
+	}
+
+	public String getUuid_emisor() {
+		return uuid_emisor;
+	}
+
+	public void setUuid_emisor(String uuid_emisor) {
+		this.uuid_emisor = uuid_emisor;
+	}
+
+	public String getUuid_receptor() {
+		return uuid_receptor;
+	}
+
+	public void setUuid_receptor(String uuid_receptor) {
+		this.uuid_receptor = uuid_receptor;
+	}
+
+	public String getMensaje() {
+		return mensaje;
+	}
+
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
+	}
+
+	public String getAsunto() {
+		return asunto;
+	}
+
+	public void setAsunto(String asunto) {
+		this.asunto = asunto;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	@Override
+	public String toString() {
+		return "[" + asunto + "]";
+	}
 
 }

@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2017 
+Copyright (c) 2017
 Francisco Manuel Garcia Sanchez-Belmonte
 Adrian Bustos Marin
 

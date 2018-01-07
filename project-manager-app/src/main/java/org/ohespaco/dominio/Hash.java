@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2017 
+Copyright (c) 2017
 Francisco Manuel Garcia Sanchez-Belmonte
 Adrian Bustos Marin
 
@@ -24,9 +24,10 @@ SOFTWARE.
 
 package org.ohespaco.dominio;
 
+import static java.security.MessageDigest.getInstance;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import static java.security.MessageDigest.getInstance;
 import java.security.NoSuchAlgorithmException;
 
 public class Hash {
@@ -37,7 +38,7 @@ public class Hash {
 	 * @return
 	 * @throws NoSuchAlgorithmException
 	 */
-	public static String md5(String entrada)  {
+	public static String md5(String entrada) {
 		MessageDigest m = null;
 		try {
 			m = getInstance("MD5");
@@ -46,7 +47,7 @@ public class Hash {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return new BigInteger(1, m.digest()).toString(16);
 	}
 }

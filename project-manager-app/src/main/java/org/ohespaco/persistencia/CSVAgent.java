@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2017 
+Copyright (c) 2017
 Francisco Manuel Garcia Sanchez-Belmonte
 Adrian Bustos Marin
 
@@ -36,14 +36,12 @@ import org.ohespaco.exceptions.ErrorWritingCSV;
 
 public class CSVAgent {
 
-	
 	private static final CSVFormat CSV_FILE_FORMAT_READ = CSVFormat.EXCEL.withHeader();
 	private static final CSVFormat CSV_FILE_FORMAT_WRITE = CSVFormat.EXCEL;
 
-
 	/**
 	 * Lee un archivo CSV y devuelve una estructura iterable.
-	 * 
+	 *
 	 * @return Iterable<CSVRecord>
 	 * @throws IOException
 	 */
@@ -54,11 +52,11 @@ public class CSVAgent {
 
 	/**
 	 * Escribe un archivo CSV a partir de un ArrayList.
-	 * 
+	 *
 	 * @param data
 	 * @throws ErrorWritingCSV
 	 */
-	public void writeToCSV(ArrayList<String> data,String path) throws ErrorWritingCSV {
+	public void writeToCSV(ArrayList<String> data, String path) throws ErrorWritingCSV {
 		FileWriter fileWriter = null;
 		CSVPrinter csvFilePrinter = null;
 

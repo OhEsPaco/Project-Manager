@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2017 
+Copyright (c) 2017
 Francisco Manuel Garcia Sanchez-Belmonte
 Adrian Bustos Marin
 
@@ -40,33 +40,22 @@ import org.ohespaco.persistencia.CSVAgent;
 import org.ohespaco.persistencia.CurrentSession;
 
 public class GestorUsuarios {
-	// Camino al csv de usuarios
+
 	private static String path;
-	// Hashmap de usuarios
+
 	private static HashMap<String, Usuario> usuarios = new HashMap<String, Usuario>();
-	// Cabecero del csv
+
 	private static final String HEADER_CSV = "uuid,email,pass_hash,nombre,apellidos,rol,contacto,descripcion,foto\n";
-	// Instancia global del gestor
+
 	private static GestorUsuarios instancia = null;
-	// List para mostrar en la interfaz
+
 	private static DefaultListModel<Usuario> listaUsuarios = new DefaultListModel<Usuario>();
 
-	/**
-	 * Constructor de GestorUsuarios
-	 * 
-	 * @param path
-	 */
 	private GestorUsuarios(String path) {
-		this.path = path;
+		GestorUsuarios.path = path;
 		inicializarCSV();
 	}
 
-	/**
-	 * Crea o retorna la instancia del gestor
-	 * 
-	 * @param path
-	 * @return
-	 */
 	public static GestorUsuarios getInstancia(String path) {
 		if (instancia == null) {
 			instancia = new GestorUsuarios(path);
@@ -75,11 +64,6 @@ public class GestorUsuarios {
 		return instancia;
 	}
 
-	/**
-	 * Carga los usuarios
-	 * 
-	 * @throws IOException
-	 */
 	public void cargarUsuarios() throws IOException {
 
 		String uuid, email, pass_hash, nombre, apellidos, rol, contacto, descripcion, foto;
@@ -111,27 +95,10 @@ public class GestorUsuarios {
 
 	}
 
-	/**
-	 * Retorna la lista de usuarios
-	 * 
-	 * @return
-	 */
 	public DefaultListModel<Usuario> getDefaultList() {
 		return listaUsuarios;
 	}
 
-	/**
-	 * Metodo para registrar un usuario nuevo
-	 * 
-	 * @param email
-	 * @param pass
-	 * @param nombre
-	 * @param apellidos
-	 * @param rol
-	 * @param contacto
-	 * @param descripcion
-	 * @param foto
-	 */
 	public void registrarUsuario(String email, String pass, String nombre, String apellidos, String rol,
 			String contacto, String descripcion, String foto) {
 		Usuario user = new Usuario(UUID.randomUUID().toString(), email, Hash.md5(pass), nombre, apellidos, rol,
@@ -142,10 +109,6 @@ public class GestorUsuarios {
 		listaUsuarios.addElement(user);
 	}
 
-	/**
-	 * Vuelca el hashmap en un archivo csv
-	 * 
-	 */
 	public void guardarUsuarios() {
 		Usuario user_aux;
 		crearCSV();
@@ -157,20 +120,6 @@ public class GestorUsuarios {
 		}
 	}
 
-	/**
-	 * Edita un usuario existente
-	 * 
-	 * @param uuid
-	 * @param email
-	 * @param pass
-	 * @param nombre
-	 * @param apellidos
-	 * @param rol
-	 * @param contacto
-	 * @param descripcion
-	 * @param foto
-	 * @param cambiar_contraseña
-	 */
 	public void editarUsuario(String uuid, String email, String pass, String nombre, String apellidos, String rol,
 			String contacto, String descripcion, String foto, boolean cambiar_contraseña) {
 		Usuario user_aux = usuarios.get(uuid);
@@ -204,11 +153,6 @@ public class GestorUsuarios {
 		}
 	}
 
-	/**
-	 * Elimina un usuario
-	 * 
-	 * @param user
-	 */
 	public void borrarUsuario(Usuario user) {
 		Usuario user_aux;
 		if (usuarios.get(user.getUuid()) != null) {
@@ -228,11 +172,6 @@ public class GestorUsuarios {
 		}
 	}
 
-	/**
-	 * Añade un usuario al csv
-	 * 
-	 * @param user
-	 */
 	public void escribirUsuario(Usuario user) {
 		CSVAgent agente = new CSVAgent();
 		try {
@@ -256,9 +195,6 @@ public class GestorUsuarios {
 		}
 	}
 
-	/**
-	 * Crea un csv si no existe y carga los usuarios
-	 */
 	private void inicializarCSV() {
 		File tmpDir = new File(path);
 		if (!tmpDir.exists()) {
@@ -272,9 +208,6 @@ public class GestorUsuarios {
 		}
 	}
 
-	/**
-	 * Crea un csv nuevo
-	 */
 	private void crearCSV() {
 		try {
 			ES_de_archivos.escribir_linea(path, true, HEADER_CSV);
@@ -284,11 +217,6 @@ public class GestorUsuarios {
 		}
 	}
 
-	/**
-	 * Retorna el hashmap de usuarios
-	 * 
-	 * @return the usuarios
-	 */
 	public HashMap<String, Usuario> getUsuarios() {
 		return usuarios;
 	}
@@ -306,12 +234,6 @@ public class GestorUsuarios {
 		return user;
 	}
 
-	/**
-	 * Retorna true si existe el email dado
-	 * 
-	 * @param email
-	 * @return
-	 */
 	public boolean existeEmail(String email) {
 		boolean existe = false;
 
@@ -331,11 +253,6 @@ public class GestorUsuarios {
 		return existe;
 	}
 
-	/**
-	 * 
-	 * @param txt
-	 * @return
-	 */
 	public boolean validateString(String txt) {
 		// false si no es valido
 		String regx = "^[\\p{L} .'-]+$";
@@ -344,10 +261,6 @@ public class GestorUsuarios {
 		return matcher.find();
 	}
 
-	/**
-	 * @param txt
-	 * @return
-	 */
 	public boolean validatePass(String txt) {
 		// false si no es valido
 		String regx = "^(?=\\S+$).{8,}$";
@@ -356,11 +269,6 @@ public class GestorUsuarios {
 		return matcher.find();
 	}
 
-	/**
-	 * @param email
-	 * @param pass
-	 * @return
-	 */
 	public boolean login(String email, String pass) {
 		boolean logged = false;
 

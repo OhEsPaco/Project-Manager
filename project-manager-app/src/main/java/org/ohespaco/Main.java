@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2017 
+Copyright (c) 2017
 Francisco Manuel Garcia Sanchez-Belmonte
 Adrian Bustos Marin
 
@@ -25,31 +25,29 @@ SOFTWARE.
 package org.ohespaco;
 
 import org.ohespaco.dominio.GestorEquipo;
+import org.ohespaco.dominio.GestorMensajes;
 import org.ohespaco.dominio.GestorMiembrosTareas;
 import org.ohespaco.dominio.GestorProyectos;
 import org.ohespaco.dominio.GestorTareas;
 import org.ohespaco.dominio.GestorUsuarios;
 import org.ohespaco.persistencia.CurrentSession;
-import org.ohespaco.presentacion.GestionarEquipoFrame;
-import org.ohespaco.presentacion.MainFrame;
+import org.ohespaco.presentacion.JFrameMain;
 
 public class Main {
 
 	public static void main(String[] args) {
-		//GestionarEquipoFrame ee= new GestionarEquipoFrame();
-		//ee.setVisible(true);
-		//Inicializa la sesion actual y el gestor de usuarios
+
+		// Inicializa la sesion actual y los gestores
 		CurrentSession.getInstancia();
 		GestorUsuarios.getInstancia("users.csv");
 		GestorProyectos.getInstancia("projects.csv");
 		GestorTareas.getInstancia("tasks.csv");
 		GestorEquipo.getInstancia("equipo.csv");
 		GestorMiembrosTareas.getInstancia("members.csv");
-		//Crea y lanza un MainFrame
-		MainFrame.launch();
-	//	MainFrame log = new MainFrame();
-	//	log.setResizable(false);
-		//log.setVisible(true);
+		GestorMensajes.getInstancia("mensajes.csv");
+		// Crea y lanza un JFrameMain
+		JFrameMain.launch();
+
 	}
 
 }

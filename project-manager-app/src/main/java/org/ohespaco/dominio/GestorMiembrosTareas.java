@@ -37,37 +37,19 @@ import org.ohespaco.exceptions.EscrituraErronea;
 import org.ohespaco.persistencia.CSVAgent;
 
 public class GestorMiembrosTareas {
-	// Camino al csv de Tarea
-	private static String path;
-	// List para mostrar en la interfaz
-	private static DefaultListModel<MiembroTarea> listaTarea = new DefaultListModel<MiembroTarea>();
-	// Instancia global del gestor
-	private static GestorMiembrosTareas instancia = null;
-	// Hashmap de pryecto
-	private static HashMap<String, MiembroTarea> Tarea = new HashMap<String, MiembroTarea>();
-	// Cabecero del csv
-	private static final String HEADER_CSV = "uuid,uuid_proyecto,uuid_usuario,uuid_tarea,rol\n";
-	private static final String TASK_DEFAULT = "DEFAULT0-TASK-0000-0000-000000000000";
-	// MiembroTarea(String uuid, String uuid_proyecto, String uuid_usuario, String
-	// uuid_tarea, String rol) {
 
-	/*
-	 * public void imprimirHash() { MiembroTarea aux;
-	 * 
-	 * if (!Tarea.isEmpty()) { for (String key : Tarea.keySet()) { aux =
-	 * Tarea.get(key);
-	 * System.out.println(aux.getUuid_proyecto()+" "+aux.getUuid_usuario()+" "+aux.
-	 * getRol()); } }
-	 * 
-	 * System.out.println("//////////////////////"); }
-	 */
-	/**
-	 * Constructor de GestorUsuarios
-	 * 
-	 * @param path
-	 */
+	private static String path;
+
+	private static DefaultListModel<MiembroTarea> listaTarea = new DefaultListModel<MiembroTarea>();
+
+	private static GestorMiembrosTareas instancia = null;
+
+	private static HashMap<String, MiembroTarea> Tarea = new HashMap<String, MiembroTarea>();
+
+	private static final String HEADER_CSV = "uuid,uuid_proyecto,uuid_usuario,uuid_tarea,rol\n";
+
 	private GestorMiembrosTareas(String path) {
-		this.path = path;
+		GestorMiembrosTareas.path = path;
 		inicializarCSV();
 	}
 
@@ -91,12 +73,6 @@ public class GestorMiembrosTareas {
 		return esta;
 	}
 
-	/**
-	 * Crea o retorna la instancia del gestor
-	 * 
-	 * @param path
-	 * @return
-	 */
 	public static GestorMiembrosTareas getInstancia(String path) {
 		if (instancia == null) {
 			instancia = new GestorMiembrosTareas(path);
@@ -117,11 +93,6 @@ public class GestorMiembrosTareas {
 		return user;
 	}
 
-	/**
-	 * Carga los Tarea
-	 * 
-	 * @throws IOException
-	 */
 	public void cargarTarea() throws IOException {
 
 		String uuid, uuid_proyecto, uuid_usuario, uuid_tarea, rol = null;
@@ -150,58 +121,10 @@ public class GestorMiembrosTareas {
 
 	}
 
-	/**
-	 * Retorna la lista de Tarea
-	 * 
-	 * @return
-	 */
 	public DefaultListModel<MiembroTarea> getDefaultList() {
 		return listaTarea;
 	}
 
-	/*
-	 * public boolean estaEnProyecto(String uuid_proyecto, String uuid_usuario) {
-	 * boolean esta = false; MiembroTarea miembro;
-	 * 
-	 * if (!Tarea.isEmpty()) {
-	 * 
-	 * for (String key : Tarea.keySet()) { miembro = Tarea.get(key); if
-	 * (miembro.getUuid_proyecto().equals(uuid_proyecto) &&
-	 * miembro.getUuid_usuario().equals(uuid_usuario)) { esta = true; break; }
-	 * 
-	 * }
-	 * 
-	 * }
-	 * 
-	 * return esta; }
-	 */
-
-	/*
-	 * public DefaultListModel<MiembroTarea> getMiembrosNoEnProyecto(String
-	 * uuid_proyecto){ MiembroTarea miembro; DefaultListModel<MiembroTarea>
-	 * listaTarea_aux = new DefaultListModel<MiembroTarea>(); if (!Tarea.isEmpty())
-	 * {
-	 * 
-	 * for (String key : Tarea.keySet()) { miembro = Tarea.get(key); if
-	 * (!miembro.getUuid_proyecto().equals(uuid_proyecto)) {
-	 * listaTarea_aux.addElement(miembro); }
-	 * 
-	 * }
-	 * 
-	 * } return listaTarea_aux;
-	 * 
-	 * }
-	 */
-	/**
-	 * Metodo para añadir un tarea nuevo
-	 * 
-	 * 
-	 * @param nombre
-	 * @param descripcion
-	 * @param fecha_creacion
-	 * @param miembros
-	 * @param responsable
-	 */
 	public void miembroEquipoEliminado(String uuid_user) {
 
 		MiembroTarea miembro_aux;
@@ -240,10 +163,6 @@ public class GestorMiembrosTareas {
 		listaTarea.addElement(miembro);
 	}
 
-	/**
-	 * Vuelca el hashmap en un archivo csv
-	 * 
-	 */
 	public void guardarTareas() {
 		MiembroTarea miembro;
 		crearCSV();
@@ -255,15 +174,6 @@ public class GestorMiembrosTareas {
 		}
 	}
 
-	/**
-	 * Edita un usuario existente
-	 * 
-	 * @param uuid
-	 * @param descripcion
-	 * @param fecha_cracion
-	 * @param miembros
-	 * @param responsable
-	 */
 	public void editarAsociacion(MiembroTarea miembro) {
 
 		if (miembro != null) {
@@ -281,11 +191,6 @@ public class GestorMiembrosTareas {
 		}
 	}
 
-	/**
-	 * Elimina un tarea
-	 * 
-	 * @param proyect
-	 */
 	public void eliminarAsociacion(MiembroTarea miembro) {
 		MiembroTarea miembro_aux;
 		if (Tarea.get(miembro.getUuid()) != null) {
@@ -305,11 +210,6 @@ public class GestorMiembrosTareas {
 		}
 	}
 
-	/**
-	 * Añade un usuario al csv
-	 * 
-	 * @param proyect
-	 */
 	private void escribirTarea(MiembroTarea miembro) {
 		CSVAgent agente = new CSVAgent();
 		try {
@@ -328,9 +228,6 @@ public class GestorMiembrosTareas {
 		}
 	}
 
-	/**
-	 * Crea un csv si no existe y carga los Tarea
-	 */
 	private void inicializarCSV() {
 		File tmpDir = new File(path);
 		if (!tmpDir.exists()) {
@@ -344,9 +241,6 @@ public class GestorMiembrosTareas {
 		}
 	}
 
-	/**
-	 * Crea un csv nuevo
-	 */
 	private void crearCSV() {
 		try {
 			ES_de_archivos.escribir_linea(path, true, HEADER_CSV);
@@ -356,11 +250,6 @@ public class GestorMiembrosTareas {
 		}
 	}
 
-	/**
-	 * Retorna el hashmap de Tarea
-	 * 
-	 * @return the Tarea
-	 */
 	public HashMap<String, MiembroTarea> getTarea() {
 		return Tarea;
 	}

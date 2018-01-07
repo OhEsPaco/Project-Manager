@@ -9,7 +9,6 @@
 		<version>1.0</version>
 	</parent>
 	<artifactId>project-manager-app</artifactId>
-	<version>0.14</version>
 	<name>project-manager-app</name>
 	<url>https://github.com/OhEsPaco/Project-Manager</url>
 	<properties>
@@ -42,19 +41,23 @@
     		<version>1.6.1</version>
 		</dependency>		
 		<!-- https://mvnrepository.com/artifact/com.seaglasslookandfeel/seaglasslookandfeel -->
-<dependency>
-    <groupId>com.seaglasslookandfeel</groupId>
-    <artifactId>seaglasslookandfeel</artifactId>
-    <version>0.2.1</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/com.github.insubstantial/substance -->
-<dependency>
-    <groupId>com.github.insubstantial</groupId>
-    <artifactId>substance</artifactId>
-    <version>7.3</version>
-</dependency>
-
-
-			
+		<dependency>
+    		<groupId>com.seaglasslookandfeel</groupId>
+    		<artifactId>seaglasslookandfeel</artifactId>
+    		<version>0.2.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.github.insubstantial/substance -->
+		<dependency>
+    		<groupId>com.github.insubstantial</groupId>
+    		<artifactId>substance</artifactId>
+    		<version>7.3</version>
+			</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+		<dependency>
+    		<groupId>commons-codec</groupId>
+    		<artifactId>commons-codec</artifactId>
+    		<version>1.11</version>
+		</dependency>	
 	</dependencies>
+	<version>1.0</version>
 </project>

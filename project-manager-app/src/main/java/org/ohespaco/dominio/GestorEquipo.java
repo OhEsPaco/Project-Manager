@@ -37,38 +37,19 @@ import org.ohespaco.exceptions.EscrituraErronea;
 import org.ohespaco.persistencia.CSVAgent;
 
 public class GestorEquipo {
-	// Camino al csv de Equipo
+
 	private static String path;
-	// List para mostrar en la interfaz
+
 	private static DefaultListModel<MiembroEquipo> listaEquipo = new DefaultListModel<MiembroEquipo>();
-	// Instancia global del gestor
+
 	private static GestorEquipo instancia = null;
-	// Hashmap de pryecto
+
 	private static HashMap<String, MiembroEquipo> Equipo = new HashMap<String, MiembroEquipo>();
-	// Cabecero del csv
+
 	private static final String HEADER_CSV = "uuid,uuid_proyecto,uuid_usuario,rol\n";
-	private static final String TASK_DEFAULT = "DEFAULT0-TASK-0000-0000-000000000000";
 
-	public void imprimirHash() {
-		MiembroEquipo aux;
-
-		if (!Equipo.isEmpty()) {
-			for (String key : Equipo.keySet()) {
-				aux = Equipo.get(key);
-				System.out.println(aux.getUuid_proyecto() + " " + aux.getUuid_usuario() + " " + aux.getRol());
-			}
-		}
-
-		System.out.println("//////////////////////");
-	}
-
-	/**
-	 * Constructor de GestorUsuarios
-	 * 
-	 * @param path
-	 */
 	private GestorEquipo(String path) {
-		this.path = path;
+		GestorEquipo.path = path;
 		inicializarCSV();
 	}
 
@@ -102,12 +83,6 @@ public class GestorEquipo {
 
 	}
 
-	/**
-	 * Crea o retorna la instancia del gestor
-	 * 
-	 * @param path
-	 * @return
-	 */
 	public static GestorEquipo getInstancia(String path) {
 		if (instancia == null) {
 			instancia = new GestorEquipo(path);
@@ -115,11 +90,6 @@ public class GestorEquipo {
 		return instancia;
 	}
 
-	/**
-	 * Carga los Equipo
-	 * 
-	 * @throws IOException
-	 */
 	public void cargarEquipo() throws IOException {
 
 		String uuid, uuid_proyecto, uuid_usuario, rol = null;
@@ -147,11 +117,6 @@ public class GestorEquipo {
 
 	}
 
-	/**
-	 * Retorna la lista de Equipo
-	 * 
-	 * @return
-	 */
 	public DefaultListModel<MiembroEquipo> getDefaultList() {
 		return listaEquipo;
 	}
@@ -213,32 +178,6 @@ public class GestorEquipo {
 		return esta;
 	}
 
-	/*
-	 * public DefaultListModel<MiembroEquipo> getMiembrosNoEnProyecto(String
-	 * uuid_proyecto){ MiembroEquipo miembro; DefaultListModel<MiembroEquipo>
-	 * listaEquipo_aux = new DefaultListModel<MiembroEquipo>(); if
-	 * (!Equipo.isEmpty()) {
-	 * 
-	 * for (String key : Equipo.keySet()) { miembro = Equipo.get(key); if
-	 * (!miembro.getUuid_proyecto().equals(uuid_proyecto)) {
-	 * listaEquipo_aux.addElement(miembro); }
-	 * 
-	 * }
-	 * 
-	 * } return listaEquipo_aux;
-	 * 
-	 * }
-	 */
-	/**
-	 * Metodo para añadir un equipo nuevo
-	 * 
-	 * 
-	 * @param nombre
-	 * @param descripcion
-	 * @param fecha_creacion
-	 * @param miembros
-	 * @param responsable
-	 */
 	public void addMiembro(String uuid_proyecto, String uuid_usuario, String rol) {
 		MiembroEquipo miembro = new MiembroEquipo(UUID.randomUUID().toString(), uuid_proyecto, uuid_usuario, rol);
 
@@ -246,10 +185,6 @@ public class GestorEquipo {
 		listaEquipo.addElement(miembro);
 	}
 
-	/**
-	 * Vuelca el hashmap en un archivo csv
-	 * 
-	 */
 	public void guardarEquipos() {
 		MiembroEquipo miembro;
 		crearCSV();
@@ -261,15 +196,6 @@ public class GestorEquipo {
 		}
 	}
 
-	/**
-	 * Edita un usuario existente
-	 * 
-	 * @param uuid
-	 * @param descripcion
-	 * @param fecha_cracion
-	 * @param miembros
-	 * @param responsable
-	 */
 	public void editarAsociacion(MiembroEquipo miembro) {
 
 		if (miembro != null) {
@@ -287,11 +213,6 @@ public class GestorEquipo {
 		}
 	}
 
-	/**
-	 * Elimina un equipo
-	 * 
-	 * @param proyect
-	 */
 	public void eliminarAsociacion(MiembroEquipo miembro) {
 		MiembroEquipo miembro_aux;
 		if (Equipo.get(miembro.getUuid()) != null) {
@@ -311,11 +232,6 @@ public class GestorEquipo {
 		}
 	}
 
-	/**
-	 * Añade un usuario al csv
-	 * 
-	 * @param proyect
-	 */
 	private void escribirEquipo(MiembroEquipo miembro) {
 		CSVAgent agente = new CSVAgent();
 		try {
@@ -333,9 +249,6 @@ public class GestorEquipo {
 		}
 	}
 
-	/**
-	 * Crea un csv si no existe y carga los Equipo
-	 */
 	private void inicializarCSV() {
 		File tmpDir = new File(path);
 		if (!tmpDir.exists()) {
@@ -349,9 +262,6 @@ public class GestorEquipo {
 		}
 	}
 
-	/**
-	 * Crea un csv nuevo
-	 */
 	private void crearCSV() {
 		try {
 			ES_de_archivos.escribir_linea(path, true, HEADER_CSV);
@@ -361,11 +271,6 @@ public class GestorEquipo {
 		}
 	}
 
-	/**
-	 * Retorna el hashmap de Equipo
-	 * 
-	 * @return the Equipo
-	 */
 	public HashMap<String, MiembroEquipo> getEquipo() {
 		return Equipo;
 	}

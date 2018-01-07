@@ -1,111 +1,108 @@
+/*
+Copyright (c) 2017
+Francisco Manuel Garcia Sanchez-Belmonte
+Adrian Bustos Marin
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ */
 package org.ohespaco.presentacion;
 
-import javax.swing.JPanel;
-import java.awt.Color;
-
 import java.awt.BorderLayout;
-import javax.swing.JToolBar;
-import javax.swing.ListCellRenderer;
-import javax.swing.SwingUtilities;
-import javax.swing.UIDefaults;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.util.Calendar;
 
-import org.ohespaco.persistencia.CurrentSession;
-import org.ohespaco.dominio.Proyecto;
-import org.ohespaco.dominio.Tarea;
-import org.ohespaco.dominio.Usuario;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.JTree;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import org.jdesktop.swingx.JXDatePicker;
 import org.ohespaco.dominio.GestorEquipo;
+import org.ohespaco.dominio.GestorMensajes;
 import org.ohespaco.dominio.GestorMiembrosTareas;
 import org.ohespaco.dominio.GestorProyectos;
 import org.ohespaco.dominio.GestorTareas;
 import org.ohespaco.dominio.GestorUsuarios;
 import org.ohespaco.dominio.MiembroEquipo;
-
-import java.awt.FlowLayout;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import java.awt.Font;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import java.awt.Insets;
-import java.awt.TextArea;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.sql.Date;
-import java.util.Calendar;
-
-import javax.swing.JLabel;
-import java.awt.Component;
-import java.awt.ComponentOrientation;
-import java.awt.Dialog;
-import java.awt.Dimension;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import java.awt.GridLayout;
-import java.awt.Image;
-
-import javax.swing.SwingConstants;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JList;
-import javax.swing.JTabbedPane;
-import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.MatteBorder;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JSplitPane;
-import javax.swing.JPopupMenu;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JEditorPane;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.JTree;
-import javax.swing.JTextPane;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SpinnerDateModel;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import org.ohespaco.dominio.Proyecto;
+import org.ohespaco.dominio.Tarea;
+import org.ohespaco.dominio.Usuario;
+import org.ohespaco.persistencia.CurrentSession;
 
 public class JPanelPrincipal extends JPanel {
 	private JPanel panelsur = null;
 	private JLabel lblUsuariobottombar = null;
 	private JLabel lblLogintimebottombar = null;
-	private Component horizontalStrut = null;
-	private JTable table;
 	private JList listaproyectos;
 	private JTextField txtTitulo;
 	private JTextField txtFechacreacion;
 	private JTextArea dtrpnEditordescripcion;
 	private JTree treeTareas;
 	private JTextField txtNombretarea;
-	private JTextArea descripcionTarea;
+	private JTextPane descripcionTarea;
 	private JTextField txtTags;
 	private JTextField txtEquipo;
 	private JTextField nombreMiembro;
@@ -117,20 +114,12 @@ public class JPanelPrincipal extends JPanel {
 	private JComboBox comboBoxEstadoTarea;
 	private JSpinner spinnerPrioridad;
 	private DefaultMutableTreeNode nodo_anterior;
-	private MiembroEquipo miembro_anterior;
-	private Proyecto proyecto_anterior;
-private JLabel lblFotoequipo;
+	private JLabel lblFotoequipo;
 	private JList listEquipo;
 
-	/**
-	 * Create the panel.
-	 */
 	public JPanelPrincipal() {
 
-		// setBackground((new Color(46, 47, 51)));
 		setLayout(new BorderLayout(0, 0));
-
-		// panelIZ.add(list);
 
 		JPanel panelnor = new JPanel();
 		panelnor.setBackground(Color.WHITE);
@@ -150,10 +139,9 @@ private JLabel lblFotoequipo;
 		mntmNuevoProyecto.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				////////// NUEVO PROYECTO//////////////////////////////////////////////////
-				// .setModel(GestorUsuarios.getInstancia("").getDefaultList());
+
 				GestorProyectos.getInstancia("").crearProyecto("Nuevo proyecto...", "Proyecto creado recientemente.");
-				// limpiarTodo();
+
 				listaproyectos.setSelectedIndex(listaproyectos.getModel().getSize() - 1);
 
 			}
@@ -172,9 +160,7 @@ private JLabel lblFotoequipo;
 					Object[] options = { "Borrar", "No borrar" };
 
 					int n = JOptionPane.showOptionDialog(frame, mensage, "Confirmacion", JOptionPane.YES_NO_OPTION,
-							JOptionPane.QUESTION_MESSAGE, null, // do not use a custom Icon
-							options, // the titles of buttons
-							options[1]); // default button title
+							JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 
 					if (n == JOptionPane.YES_OPTION) {
 						GestorProyectos.getInstancia("").borrarProyecto(project);
@@ -189,40 +175,33 @@ private JLabel lblFotoequipo;
 
 			}
 		});
-		mnArchivo.add(mntmEliminarProyecto);
 
+		mnArchivo.addSeparator();
 		JMenuItem mntmGuardarProyecto = new JMenuItem("Guardar todo");
 		mntmGuardarProyecto.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				Proyecto project = (Proyecto) listaproyectos.getSelectedValue();
-				int index = 0;
-				// SI NO HAY PROYECTO SELECCIONADO GUARDAR EL RESTO DE COSAS
-
 				if (project != null) {
 
-					// Guardar proyecto visible
-					index = listaproyectos.getSelectedIndex();
+					listaproyectos.getSelectedIndex();
 					project.setNombre(txtTitulo.getText());
 					project.setDescripcion(dtrpnEditordescripcion.getText());
 					GestorProyectos.getInstancia("").editarProyecto(project);
 
-					// Guardar tarea visible
 					DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeTareas.getLastSelectedPathComponent();
 					Tarea task;
 					try {
 						task = (Tarea) node.getUserObject();
 						if (task != null) {
-							// editarTarea(String uuid, String uuid_tarea_padre, String nombre, Date
-							// fecha_creacion, Date fecha_fin,
-							// String etiquetas, String comentarios, int prioridad, int estado)
+
 							GestorTareas.getInstancia("").editarTarea(task.getUuid(), txtTareanombre.getText(),
 									pickerInicio.getDate(), pickerFinal.getDate(), txtTags.getText(),
 									descripcionTarea.getText(), (int) spinnerPrioridad.getValue(),
 									comboBoxEstadoTarea.getSelectedIndex());
 
 						}
-					} catch (java.lang.ClassCastException ey) {
+					} catch (java.lang.ClassCastException | java.lang.NullPointerException ey) {
 
 					}
 				} else {
@@ -232,21 +211,29 @@ private JLabel lblFotoequipo;
 				}
 				GestorProyectos.getInstancia("").guardarProyectos();
 				GestorTareas.getInstancia("").guardarTareas();
-				// listaproyectos.setModel(GestorProyectos.getInstancia("").getDefaultList());
-				// listaproyectos.setSelectedIndex(index);
-				/*
-				 * if(project!=null) {
-				 * treeTareas.setModel(GestorTareas.getInstancia("").getTree("Tareas",
-				 * project.getUuid())); }
-				 */
+				GestorEquipo.getInstancia("").guardarEquipos();
+				GestorMensajes.getInstancia("").guardarmensajes();
+				GestorMiembrosTareas.getInstancia("").guardarTareas();
 
 			}
 
 		});
 		mnArchivo.add(mntmGuardarProyecto);
+		mnArchivo.addSeparator();
+		mnArchivo.add(mntmEliminarProyecto);
 
-		JMenu mnEditar = new JMenu("Editar");
-		menuBar.add(mnEditar);
+		JMenu mnInsertar = new JMenu("Insertar");
+		menuBar.add(mnInsertar);
+
+		JMenuItem mntmInsertarImagen = new JMenuItem("Insertar imagen");
+		mntmInsertarImagen.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				insertActionPerformed();
+
+			}
+		});
+		mnInsertar.add(mntmInsertarImagen);
 
 		JMenu mnTareas = new JMenu("Tareas");
 		menuBar.add(mnTareas);
@@ -256,10 +243,9 @@ private JLabel lblFotoequipo;
 			@Override
 			public void mousePressed(MouseEvent e) {
 				JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panelnor);
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeTareas.getLastSelectedPathComponent();
+				treeTareas.getLastSelectedPathComponent();
 				Tarea task;
 
-				// borrar tarea
 				try {
 					task = (Tarea) nodo_anterior.getUserObject();
 
@@ -268,9 +254,7 @@ private JLabel lblFotoequipo;
 					Object[] options = { "Borrar", "No borrar" };
 
 					int n = JOptionPane.showOptionDialog(topFrame, mensage, "Confirmacion", JOptionPane.YES_NO_OPTION,
-							JOptionPane.QUESTION_MESSAGE, null, // do not use a custom Icon
-							options, // the titles of buttons
-							options[1]); // default button title
+							JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 
 					if (n == JOptionPane.YES_OPTION) {
 						GestorTareas.getInstancia("").borrarTarea(task);
@@ -296,29 +280,22 @@ private JLabel lblFotoequipo;
 
 				Proyecto project = (Proyecto) listaproyectos.getSelectedValue();
 				if (project != null) {
-					// crearTarea(String uuid_tarea_padre, String uuid_proyecto, String nombre, Date
-					// fecha_creacion,
-					// Date fecha_fin, String etiquetas, String comentarios, int prioridad, int
-					// estado)
+
 					DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeTareas.getLastSelectedPathComponent();
 					Tarea task;
 					try {
 						task = (Tarea) node.getUserObject();
 						String uuid_padre = task.getUuid();
 
-						// System.out.println("----"+task.getNombre());
 						System.out.println(uuid_padre);
 						GestorTareas.getInstancia("").crearTarea(uuid_padre, project.getUuid(), "Nueva tarea",
 								Calendar.getInstance().getTime(), Calendar.getInstance().getTime(), "Nueva tarea",
 								"Tarea creada recientemente...", 0, 0);
-						// System.out.println("----"+task.getNombre());
-						// limpiarTareas();
-						System.out.println("----" + task.getNombre() + "--" + task.getUuid());
-						// GestorTareas.getInstancia("").imprimirHash();
-						treeTareas.setModel(GestorTareas.getInstancia("").actualizarTree("Tareas", project.getUuid()));
-						GestorTareas.getInstancia("").imprimirHash();
 
-						// System.out.println("----"+task.getNombre());
+						System.out.println("----" + task.getNombre() + "--" + task.getUuid());
+
+						treeTareas.setModel(GestorTareas.getInstancia("").actualizarTree("Tareas", project.getUuid()));
+
 					} catch (java.lang.ClassCastException | java.lang.NullPointerException ee) {
 
 						GestorTareas.getInstancia("").crearTarea(project.getUuid(), "Nueva tarea",
@@ -335,6 +312,7 @@ private JLabel lblFotoequipo;
 			}
 		});
 		mnTareas.add(mntmAadirTarea);
+		mnTareas.addSeparator();
 		mnTareas.add(mntmBorrarTarea);
 
 		JMenu mnPersonas = new JMenu("Personas");
@@ -345,29 +323,48 @@ private JLabel lblFotoequipo;
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				////////////////////// Lanza un gestor de personas//////////
+
 				Proyecto project = (Proyecto) listaproyectos.getSelectedValue();
 				JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panelnor);
-				PersonasFrame pers;
+				JFramePersonas pers;
 				if (project != null) {
-					pers = new PersonasFrame(topFrame, true, listEquipo, project.getUuid());
+					pers = new JFramePersonas(topFrame, true, listEquipo, project.getUuid());
 					limpiarEquipo();
 				} else {
-					pers = new PersonasFrame(topFrame, true, listEquipo, null);
+					pers = new JFramePersonas(topFrame, true, listEquipo, null);
 				}
 
-				JDialog jd = new JDialog(pers, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL);
+				new JDialog(pers, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL);
 
 				pers.setVisible(true);
 			}
 		});
 		mnPersonas.add(mntmListarPersonas);
+		mnPersonas.addSeparator();
+		JMenuItem mntmMensajes = new JMenuItem("Enviar mensajes");
+		mntmMensajes.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panelnor);
+				JFrameEnviarMensaje msg = new JFrameEnviarMensaje(topFrame, true);
+				new JDialog(msg, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL);
+				msg.setVisible(true);
 
-		JMenu mnVer = new JMenu("Ver");
-		menuBar.add(mnVer);
+			}
+		});
+		mnPersonas.add(mntmMensajes);
 
-		JMenu mnSesin = new JMenu("Sesión");
-		menuBar.add(mnSesin);
+		JMenuItem mntmBandejaDeEntrada = new JMenuItem("Bandeja de entrada");
+		mntmBandejaDeEntrada.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panelnor);
+				JFrameBandejaDeEntrada msg = new JFrameBandejaDeEntrada(topFrame, true);
+				new JDialog(msg, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL);
+				msg.setVisible(true);
+			}
+		});
+		mnPersonas.add(mntmBandejaDeEntrada);
 
 		JMenu mnAyuda = new JMenu("Ayuda");
 		menuBar.add(mnAyuda);
@@ -399,6 +396,7 @@ private JLabel lblFotoequipo;
 		split_izq.setLayout(new BorderLayout(0, 0));
 		listaproyectos = new JList(GestorProyectos.getInstancia("").getDefaultList());
 		listaproyectos.addListSelectionListener(new ListSelectionListener() {
+			@Override
 			public void valueChanged(ListSelectionEvent e) {
 
 				Proyecto project = (Proyecto) listaproyectos.getSelectedValue();
@@ -408,18 +406,17 @@ private JLabel lblFotoequipo;
 					dtrpnEditordescripcion.setText(project.getDescripcion());
 					treeTareas.setModel(GestorTareas.getInstancia("").actualizarTree("Tareas", project.getUuid()));
 					listEquipo.setModel(GestorEquipo.getInstancia("").getMiembrosEquipoProyecto(project.getUuid()));
-					// Reset tarea
+
 					limpiarTareas();
 					limpiarEquipo();
 				}
 
 			}
 		});
-		// listaproyectos.setForeground(Color.BLACK);
+
 		listaproyectos.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		// listaproyectos.setBackground(Color.WHITE);
+
 		listaproyectos.setFixedCellHeight(40);
-		// list.setFixedCellWidth(150);
 		listaproyectos.setCellRenderer(getRenderer());
 
 		listaproyectos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -433,23 +430,18 @@ private JLabel lblFotoequipo;
 
 		split_der.setOneTouchExpandable(true);
 		split_der.setResizeWeight(0.6);
-		// splitPane_1.setDividerLocation(200);
-		// splitPane_1.setResizeWeight(.5d);
+
 		mainSplit.setRightComponent(split_der);
 
 		JSplitPane splitPane_2 = new JSplitPane();
 		splitPane_2.setOneTouchExpandable(true);
 		splitPane_2.setResizeWeight(0.001);
 		splitPane_2.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		//
-		// splitPane_2.setResizeWeight(.5d);
 
-		// splitPane_2.setDividerLocation(150);
 		split_der.setRightComponent(splitPane_2);
 
 		JPanel panelEquipo = new JPanel();
 		panelEquipo.setMaximumSize(new Dimension(600, 600));
-		// panelEquipo.setMinimumSize(new Dimension(500,200));
 		splitPane_2.setLeftComponent(panelEquipo);
 		panelEquipo.setLayout(new BorderLayout(0, 0));
 
@@ -470,6 +462,7 @@ private JLabel lblFotoequipo;
 
 		listEquipo = new JList();
 		listEquipo.addListSelectionListener(new ListSelectionListener() {
+			@Override
 			public void valueChanged(ListSelectionEvent e) {
 
 				MiembroEquipo miem = (MiembroEquipo) listEquipo.getSelectedValue();
@@ -479,12 +472,11 @@ private JLabel lblFotoequipo;
 					nombreMiembro.setText(user.getNombre());
 					apellidosMiembro.setText(user.getApellidos());
 					try {
-						lblFotoequipo.setIcon(
-								new ImageIcon(new javax.swing.ImageIcon(user.getFoto())
-										.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
-					}catch(Exception ex) {
-						lblFotoequipo.setIcon(
-								new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/logo.png"))
+						lblFotoequipo.setIcon(new ImageIcon(new javax.swing.ImageIcon(user.getFoto()).getImage()
+								.getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+					} catch (Exception ex) {
+						lblFotoequipo.setIcon(new ImageIcon(
+								new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/logo.png"))
 										.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
 					}
 					rolMiembro.setText(miem.getRol());
@@ -505,8 +497,9 @@ private JLabel lblFotoequipo;
 		Component horizontalStrut_10 = Box.createHorizontalStrut(20);
 		panel_separador.add(horizontalStrut_10);
 
-		JButton btnEliminarPersona = new JButton("Eliminar persona");
-		btnEliminarPersona.addActionListener(new ActionListener() {
+		JButton btnExpulsarPersona = new JButton("Expulsar persona");
+		btnExpulsarPersona.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				MiembroEquipo miembro = (MiembroEquipo) listEquipo.getSelectedValue();
@@ -516,9 +509,7 @@ private JLabel lblFotoequipo;
 					Object[] options = { "Expulsar", "No expulsar" };
 
 					int n = JOptionPane.showOptionDialog(null, mensage, "Confirmacion", JOptionPane.YES_NO_OPTION,
-							JOptionPane.QUESTION_MESSAGE, null, // do not use a custom Icon
-							options, // the titles of buttons
-							options[1]); // default button title
+							JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 
 					if (n == JOptionPane.YES_OPTION) {
 						GestorEquipo.getInstancia("").eliminarAsociacion(miembro);
@@ -533,21 +524,22 @@ private JLabel lblFotoequipo;
 
 			}
 		});
-		panel_separador.add(btnEliminarPersona);
+		panel_separador.add(btnExpulsarPersona);
 
 		JButton btnAddEquipo = new JButton("Añadir personas");
 		panel_separador.add(btnAddEquipo);
 		btnAddEquipo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		btnAddEquipo.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				Proyecto project = (Proyecto) listaproyectos.getSelectedValue();
 				if (project != null) {
 					JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panelnor);
-					GestionarEquipoFrame ff = new GestionarEquipoFrame(topFrame, true, project.getUuid(), listEquipo);
+					JFrameGestionarEquipo ff = new JFrameGestionarEquipo(topFrame, true, project.getUuid(), listEquipo);
 
-					JDialog jd = new JDialog(ff, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL);
+					new JDialog(ff, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL);
 					ff.setVisible(true);
 				} else {
 					JOptionPane.showMessageDialog(null, "Primero tienes que seleccionar un proyecto.", "Error",
@@ -628,7 +620,7 @@ private JLabel lblFotoequipo;
 		panel_7.add(panel_8, BorderLayout.CENTER);
 		panel_8.setLayout(new BorderLayout(0, 0));
 
-	    lblFotoequipo = new JLabel("");
+		lblFotoequipo = new JLabel("");
 		lblFotoequipo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFotoequipo.setIcon(
 				new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/logo.png"))
@@ -662,8 +654,7 @@ private JLabel lblFotoequipo;
 		panel_1.add(pickerInicio);
 
 		comboBoxEstadoTarea = new JComboBox();
-		// ((JLabel)
-		// comboBoxEstadoTarea.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
+
 		comboBoxEstadoTarea.setModel(new DefaultComboBoxModel(new String[] { "Activa", "Completa", "Tardia" }));
 		panel_1.add(comboBoxEstadoTarea);
 
@@ -673,11 +664,10 @@ private JLabel lblFotoequipo;
 		panel_1.setMinimumSize(new Dimension(1, 50));
 		JButton btnNewButton_2 = new JButton("Personas");
 		btnNewButton_2.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				Proyecto project = (Proyecto) listaproyectos.getSelectedValue();
-				// public GestionarPersonasTarea(javax.swing.JFrame parent, boolean modal,String
-				// uuid_proyecto,String uuid_tarea,JList lista) {
 
 				if (project != null) {
 					DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeTareas.getLastSelectedPathComponent();
@@ -688,10 +678,10 @@ private JLabel lblFotoequipo;
 						if (task != null) {
 
 							JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panelnor);
-							GestionarPersonasTarea ff = new GestionarPersonasTarea(topFrame, true, project.getUuid(),
-									task.getUuid());
+							JFrameGestionarPersonasTarea ff = new JFrameGestionarPersonasTarea(topFrame, true,
+									project.getUuid(), task.getUuid());
 
-							JDialog jd = new JDialog(ff, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL);
+							new JDialog(ff, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL);
 							ff.setVisible(true);
 
 						}
@@ -720,6 +710,7 @@ private JLabel lblFotoequipo;
 
 		JButton btnNewButton = new JButton("Calendario");
 		btnNewButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 
 			}
@@ -727,6 +718,39 @@ private JLabel lblFotoequipo;
 		panel_1.add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("Eliminar");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panelnor);
+				treeTareas.getLastSelectedPathComponent();
+				Tarea task;
+
+				try {
+					task = (Tarea) nodo_anterior.getUserObject();
+
+					String mensage = "¿Seguro que quieres eliminar la tarea " + task.getNombre()
+							+ " y todas sus tareas hijas?";
+					Object[] options = { "Borrar", "No borrar" };
+
+					int n = JOptionPane.showOptionDialog(topFrame, mensage, "Confirmacion", JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+
+					if (n == JOptionPane.YES_OPTION) {
+						GestorTareas.getInstancia("").borrarTarea(task);
+						treeTareas.setModel(
+								GestorTareas.getInstancia("").actualizarTree("Tareas", task.getUuid_proyecto()));
+						limpiarTareas();
+
+					}
+
+				} catch (java.lang.ClassCastException | java.lang.NullPointerException ee) {
+
+					JOptionPane.showMessageDialog(topFrame, "No hay ninguna tarea seleccionada.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+
+			}
+		});
 		panel_1.add(btnNewButton_1);
 
 		Component horizontalStrut_5 = Box.createHorizontalStrut(20);
@@ -743,21 +767,10 @@ private JLabel lblFotoequipo;
 		treeTareas = new JTree();
 		treeTareas.setModel(null);
 		treeTareas.addTreeSelectionListener(new TreeSelectionListener() {
+			@Override
 			public void valueChanged(TreeSelectionEvent e) {
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeTareas.getLastSelectedPathComponent();
 				Tarea task;
-
-				// guardar tarea anterior
-				/*
-				 * /try { task = (Tarea) nodo_anterior.getUserObject(); if (task != null) {
-				 * GestorTareas.getInstancia("").editarTarea(task.getUuid(),
-				 * txtTareanombre.getText(), pickerInicio.getDate(), pickerFinal.getDate(),
-				 * txtTags.getText(), descripcionTarea.getText(), (int)
-				 * spinnerPrioridad.getValue(), comboBoxEstadoTarea.getSelectedIndex()); } }
-				 * catch (java.lang.ClassCastException | java.lang.NullPointerException ee) {
-				 * 
-				 * }
-				 */
 
 				guardar_tarea_anterior();
 
@@ -779,10 +792,7 @@ private JLabel lblFotoequipo;
 				nodo_anterior = node;
 			}
 		});
-		/*
-		 * tree.setModel(new DefaultTreeModel( new DefaultMutableTreeNode("JTree") { { }
-		 * } ));
-		 */
+
 		scrollPane_2.setViewportView(treeTareas);
 
 		JScrollPane scrollPane_4 = new JScrollPane();
@@ -792,9 +802,8 @@ private JLabel lblFotoequipo;
 		scrollPane_4.setViewportView(panel_4);
 		panel_4.setLayout(new BorderLayout(0, 0));
 
-		descripcionTarea = new JTextArea();
-		descripcionTarea.setLineWrap(true); // Makes the text wrap to the next line
-		descripcionTarea.setWrapStyleWord(true); // Makes the text wrap full words, not just letters
+		descripcionTarea = new JTextPane();
+
 		panel_4.add(descripcionTarea, BorderLayout.CENTER);
 
 		JPanel panel_5 = new JPanel();
@@ -846,7 +855,7 @@ private JLabel lblFotoequipo;
 
 		JPanel panelNor = new JPanel();
 		panel_2.add(panelNor);
-		// panelNor.setBackground(Color.WHITE);
+
 		panelNor.setMaximumSize(new Dimension(10000, 100));
 		panelNor.setLayout(new BoxLayout(panelNor, BoxLayout.X_AXIS));
 
@@ -854,15 +863,14 @@ private JLabel lblFotoequipo;
 		panelNor.add(horizontalStrut_2);
 
 		JLabel lblTitulo = new JLabel("Titulo: ");
-		// lblTitulo.setForeground(Color.BLACK);
+
 		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panelNor.add(lblTitulo);
 
 		txtTitulo = new JTextField();
 
 		txtTitulo.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		// txtTitulo.setForeground(Color.BLACK);
-		// txtTitulo.setBackground(Color.WHITE);
+
 		panelNor.add(txtTitulo);
 		txtTitulo.setColumns(10);
 
@@ -871,40 +879,19 @@ private JLabel lblFotoequipo;
 
 		JLabel lblCreacion = new JLabel("Creacion: ");
 		lblCreacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		// lblCreacion.setForeground(Color.BLACK);
+
 		panelNor.add(lblCreacion);
 
 		txtFechacreacion = new JTextField();
 		txtFechacreacion.setEditable(false);
 		txtFechacreacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		// txtFechacreacion.setForeground(Color.BLACK);
+
 		txtFechacreacion.setText("                   ");
 
-		// txtFechacreacion.setMinimumSize(new Dimension(150,25));
 		txtFechacreacion.setMaximumSize(new Dimension(200, 25));
 		panelNor.add(txtFechacreacion);
 
-		Component horizontalStrut_3 = Box.createHorizontalStrut(3);
-		// txtDescripcin.setColumns(10);
-		/*
-		 * dtrpnEditordescripcion = new JTextArea(); dtrpnEditordescripcion.setFont(new
-		 * Font("Tahoma", Font.BOLD, 11)); dtrpnEditordescripcion.setLineWrap(true);
-		 * //Makes the text wrap to the next line
-		 * dtrpnEditordescripcion.setWrapStyleWord(true); //Makes the text wrap full
-		 * words, not just letters // dtrpnEditordescripcion.setText(gettysburgAddress);
-		 * //dtrpnEditordescripcion.setWrapStyleWord(true);
-		 * dtrpnEditordescripcion.setForeground(VERDEGUAY); Color bgColor =new Color(46,
-		 * 47, 51);
-		 * 
-		 * 
-		 * UIDefaults defaults = new UIDefaults();
-		 * defaults.put("EditorPane[Enabled].backgroundPainter", bgColor);
-		 * dtrpnEditordescripcion.putClientProperty("Nimbus.Overrides", defaults);
-		 * dtrpnEditordescripcion.putClientProperty("Nimbus.Overrides.InheritDefaults",
-		 * true); dtrpnEditordescripcion.setBackground(bgColor);
-		 */
-
-		// panelGeneral.add(dtrpnEditordescripcion);
+		Box.createHorizontalStrut(3);
 
 		JScrollPane scrollPane = new JScrollPane();
 		panelGeneral.add(scrollPane, BorderLayout.CENTER);
@@ -912,26 +899,12 @@ private JLabel lblFotoequipo;
 		dtrpnEditordescripcion = new JTextArea();
 		dtrpnEditordescripcion = new JTextArea();
 		dtrpnEditordescripcion.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		dtrpnEditordescripcion.setLineWrap(true); // Makes the text wrap to the next line
-		dtrpnEditordescripcion.setWrapStyleWord(true); // Makes the text wrap full words, not just letters
-		// dtrpnEditordescripcion.setText(gettysburgAddress);
-		// dtrpnEditordescripcion.setWrapStyleWord(true);
-		// dtrpnEditordescripcion.setForeground(Color.BLACK);
-		/*
-		 * Color bgColor = new Color(46, 47, 51);
-		 * 
-		 * UIDefaults defaults = new UIDefaults();
-		 * defaults.put("EditorPane[Enabled].backgroundPainter", bgColor);
-		 */
-		// dtrpnEditordescripcion.putClientProperty("Nimbus.Overrides", defaults);
-		// dtrpnEditordescripcion.putClientProperty("Nimbus.Overrides.InheritDefaults",
-		// true);
-		// dtrpnEditordescripcion.setBackground(Color.WHITE);
-		scrollPane.setViewportView(dtrpnEditordescripcion);
-		Dimension maximumSize = new Dimension(9999999, 25);
-		Dimension maximumSizeDate = new Dimension(100, 100);
+		dtrpnEditordescripcion.setLineWrap(true);
+		dtrpnEditordescripcion.setWrapStyleWord(true);
 
-		// tabbedPane.addTab("New tab", null, table, null);
+		scrollPane.setViewportView(dtrpnEditordescripcion);
+		new Dimension(9999999, 25);
+		new Dimension(100, 100);
 
 	}
 
@@ -966,11 +939,9 @@ private JLabel lblFotoequipo;
 	}
 
 	public void limpiarEquipoList() {
-		 DefaultListModel listModel = (DefaultListModel) listEquipo.getModel();
-	        listModel.removeAllElements();
-		
-		
-		
+		DefaultListModel listModel = (DefaultListModel) listEquipo.getModel();
+		listModel.removeAllElements();
+
 	}
 
 	public void limpiarDetalles() {
@@ -992,7 +963,6 @@ private JLabel lblFotoequipo;
 	private void guardar_tarea_anterior() {
 		Tarea task;
 
-		// guardar tarea anterior
 		try {
 			task = (Tarea) nodo_anterior.getUserObject();
 			if (task != null) {
@@ -1006,27 +976,35 @@ private JLabel lblFotoequipo;
 
 	}
 
+	private void insertActionPerformed() {
+		JFileChooser jf = new JFileChooser();
+
+		int option = jf.showOpenDialog(this);
+
+		if (option == JFileChooser.APPROVE_OPTION) {
+			File file = jf.getSelectedFile();
+			if (isImage(file)) {
+
+				descripcionTarea.insertIcon(new ImageIcon(file.getAbsolutePath()));
+			} else {
+				JOptionPane.showMessageDialog(this, "El archivo no es una imagen.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+
+	private boolean isImage(File file) {
+		String name = file.getName();
+		return name.endsWith(".jpg") || name.endsWith(".png") || name.endsWith(".jpeg") || name.endsWith(".gif");
+	}
+
 	class ResizeListener extends ComponentAdapter {
+		@Override
 		public void componentResized(ComponentEvent e) {
 			if (CurrentSession.getInstancia().getUser() != null) {
 				lblUsuariobottombar.setText("Bienvenido, " + CurrentSession.getInstancia().getUser().getNombre());
 				lblLogintimebottombar.setText("Ultimo login: " + CurrentSession.getInstancia().getLogin_time());
 			}
 
-			/*
-			 * System.out.println("Cambio de tamaño"); if(panelsur!=null) {
-			 * 
-			 * if( panelsur.getWidth()>700&& panelsur.getHeight()>700) {
-			 * lblUsuariobottombar.setFont(new Font("Tahoma", Font.BOLD, 14));
-			 * lblLogintimebottombar.setFont(new Font("Tahoma", Font.BOLD, 14)); }else {
-			 * lblLogintimebottombar.setFont(new Font("Tahoma", Font.BOLD, 11));
-			 * lblUsuariobottombar.setFont(new Font("Tahoma", Font.BOLD, 11)); }
-			 * 
-			 * 
-			 * 
-			 * 
-			 * }
-			 */
 		}
 	}
 }

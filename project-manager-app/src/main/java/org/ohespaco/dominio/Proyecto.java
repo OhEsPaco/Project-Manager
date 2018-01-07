@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2017 
+Copyright (c) 2017
 Francisco Manuel Garcia Sanchez-Belmonte
 Adrian Bustos Marin
 
@@ -27,110 +27,64 @@ package org.ohespaco.dominio;
 import java.sql.Date;
 
 public class Proyecto {
-	
+
 	private String uuid;
 	private String nombre;
 	private String descripcion;
 	private Date fecha_creacion;
 	private String responsable;
-	
+
 	public Proyecto(String uuid, String nombre, String descripcion, Date fecha_creacion, String responsable) {
 		this.uuid = uuid;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.fecha_creacion = fecha_creacion;
-		this.responsable = responsable;		
+		this.responsable = responsable;
 	}
 
-	
-	/**
-	 * @return the id
-	 */
 	public String getUuid() {
 		return uuid;
 	}
-	
-	/**
-	 * @param id
-	 *            the id to set
-	 */
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
-	
-	/**
-	 * @return the nombre
-	 */
 
 	public String getNombre() {
 		return nombre;
 	}
-		
-	/**
-	 * @param nombre
-	 *            the nombre to set
-	 */
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
-	/**
-	 * @return the descripcion
-	 */
 
 	public String getDescripcion() {
 		return descripcion;
 	}
-	
-	/**
-	 * @param descripcion
-	 *            the descripcion to set
-	 */
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	
-	/**
-	 * @return the fecha_creacion
-	 */
 
 	public Date getFecha_creacion() {
 		return fecha_creacion;
 	}
-	
-	/**
-	 * @param fecha_creacion
-	 *            the fecha_creacion to set
-	 */
 
 	public void setFecha_creacion(Date fecha_creacion) {
 		this.fecha_creacion = fecha_creacion;
-		//long currentDateTime = System.currentTimeMillis();
-		//login_time=new Date(currentDateTime);
-	}	
-	
-	/**
-	 * @return the responsable
-	 */
+	}
 
 	public String getResponsable() {
 		return responsable;
 	}
-	
-	/**
-	 * @param responsable
-	 *            the responsable to set
-	 */
 
 	public void setResponsable(String responsable) {
 		this.responsable = responsable;
 	}
+
 	@Override
 	public String toString() {
 		return nombre;
 	}
-	
+
 }

@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2017 
+Copyright (c) 2017
 Francisco Manuel Garcia Sanchez-Belmonte
 Adrian Bustos Marin
 
@@ -24,79 +24,51 @@ SOFTWARE.
 
 package org.ohespaco.persistencia;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import org.ohespaco.dominio.Usuario;
 
 public class CurrentSession {
-	private static Usuario user=null;
-	private static boolean logged=false;
-	private static CurrentSession instancia=null;
-	private static String pathCsvUsers;
+	private static Usuario user = null;
+	private static boolean logged = false;
+	private static CurrentSession instancia = null;
 	private static Date login_time;
 
-
 	private CurrentSession() {
-		
+
 	}
-	
+
 	public static CurrentSession getInstancia() {
-		if(instancia==null) {
-			instancia=new CurrentSession();
+		if (instancia == null) {
+			instancia = new CurrentSession();
 		}
 		return instancia;
 	}
 
-	/**
-	 * @return the user
-	 */
 	public Usuario getUser() {
 		return user;
 	}
 
-	/**
-	 * @param user the user to set
-	 */
 	public void setUser(Usuario user) {
-		this.user = user;
+		CurrentSession.user = user;
 	}
 
-	/**
-	 * @return the logged
-	 */
 	public boolean isLogged() {
 		return logged;
 	}
+
 	public Date getLogin_time() {
 		return login_time;
 	}
 
 	public void setLogin_time() {
 		long currentDateTime = System.currentTimeMillis();
-		login_time=new Date(currentDateTime);
-		
+		login_time = new Date(currentDateTime);
+
 	}
 
-	/**
-	 * @param logged the logged to set
-	 */
 	public void setLogged(boolean logged) {
-		this.logged = logged;
-	}
-	
-	/**
-	 * @return the pathCsvUsers
-	 */
-	public String getPathCsvUsers() {
-		return pathCsvUsers;
-	}
-
-	/**
-	 * @param pathCsvUsers the pathCsvUsers to set
-	 */
-	public void setPathCsvUsers(String pathCsvUsers) {
-		this.pathCsvUsers = pathCsvUsers;
+		CurrentSession.logged = logged;
 	}
 
 }
