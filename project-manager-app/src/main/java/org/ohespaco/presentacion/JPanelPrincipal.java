@@ -3,8 +3,6 @@ package org.ohespaco.presentacion;
 import javax.swing.JPanel;
 import java.awt.Color;
 
-
-
 import java.awt.BorderLayout;
 import javax.swing.JToolBar;
 import javax.swing.ListCellRenderer;
@@ -18,9 +16,12 @@ import org.ohespaco.dominio.Proyecto;
 import org.ohespaco.dominio.Tarea;
 import org.ohespaco.dominio.Usuario;
 import org.jdesktop.swingx.JXDatePicker;
+import org.ohespaco.dominio.GestorEquipo;
+import org.ohespaco.dominio.GestorMiembrosTareas;
 import org.ohespaco.dominio.GestorProyectos;
 import org.ohespaco.dominio.GestorTareas;
 import org.ohespaco.dominio.GestorUsuarios;
+import org.ohespaco.dominio.MiembroEquipo;
 
 import java.awt.FlowLayout;
 import javax.swing.JMenuBar;
@@ -57,6 +58,7 @@ import java.awt.Image;
 import javax.swing.SwingConstants;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.JTabbedPane;
@@ -88,6 +90,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SpinnerDateModel;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class JPanelPrincipal extends JPanel {
 	private JPanel panelsur = null;
@@ -104,15 +108,19 @@ public class JPanelPrincipal extends JPanel {
 	private JTextArea descripcionTarea;
 	private JTextField txtTags;
 	private JTextField txtEquipo;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField nombreMiembro;
+	private JTextField rolMiembro;
+	private JTextField apellidosMiembro;
 	private JTextField txtTareanombre;
 	private JXDatePicker pickerInicio;
 	private JXDatePicker pickerFinal;
 	private JComboBox comboBoxEstadoTarea;
 	private JSpinner spinnerPrioridad;
 	private DefaultMutableTreeNode nodo_anterior;
+	private MiembroEquipo miembro_anterior;
+	private Proyecto proyecto_anterior;
+private JLabel lblFotoequipo;
+	private JList listEquipo;
 
 	/**
 	 * Create the panel.
@@ -145,9 +153,9 @@ public class JPanelPrincipal extends JPanel {
 				////////// NUEVO PROYECTO//////////////////////////////////////////////////
 				// .setModel(GestorUsuarios.getInstancia("").getDefaultList());
 				GestorProyectos.getInstancia("").crearProyecto("Nuevo proyecto...", "Proyecto creado recientemente.");
-				//limpiarTodo();
-				listaproyectos.setSelectedIndex(listaproyectos.getModel().getSize()-1);
-				
+				// limpiarTodo();
+				listaproyectos.setSelectedIndex(listaproyectos.getModel().getSize() - 1);
+
 			}
 		});
 		mnArchivo.add(mntmNuevoProyecto);
@@ -190,7 +198,7 @@ public class JPanelPrincipal extends JPanel {
 				Proyecto project = (Proyecto) listaproyectos.getSelectedValue();
 				int index = 0;
 				// SI NO HAY PROYECTO SELECCIONADO GUARDAR EL RESTO DE COSAS
-				
+
 				if (project != null) {
 
 					// Guardar proyecto visible
@@ -242,7 +250,7 @@ public class JPanelPrincipal extends JPanel {
 
 		JMenu mnTareas = new JMenu("Tareas");
 		menuBar.add(mnTareas);
-		
+
 		JMenuItem mntmBorrarTarea = new JMenuItem("Borrar tarea");
 		mntmBorrarTarea.addMouseListener(new MouseAdapter() {
 			@Override
@@ -251,12 +259,12 @@ public class JPanelPrincipal extends JPanel {
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeTareas.getLastSelectedPathComponent();
 				Tarea task;
 
-				//borrar tarea
+				// borrar tarea
 				try {
 					task = (Tarea) nodo_anterior.getUserObject();
-					
-					
-					String mensage = "¿Seguro que quieres eliminar la tarea " + task.getNombre() + " y todas sus tareas hijas?";
+
+					String mensage = "¿Seguro que quieres eliminar la tarea " + task.getNombre()
+							+ " y todas sus tareas hijas?";
 					Object[] options = { "Borrar", "No borrar" };
 
 					int n = JOptionPane.showOptionDialog(topFrame, mensage, "Confirmacion", JOptionPane.YES_NO_OPTION,
@@ -266,68 +274,64 @@ public class JPanelPrincipal extends JPanel {
 
 					if (n == JOptionPane.YES_OPTION) {
 						GestorTareas.getInstancia("").borrarTarea(task);
-						treeTareas.setModel(GestorTareas.getInstancia("").actualizarTree("Tareas", task.getUuid_proyecto()));
+						treeTareas.setModel(
+								GestorTareas.getInstancia("").actualizarTree("Tareas", task.getUuid_proyecto()));
 						limpiarTareas();
-						
+
 					}
-					
-					
+
 				} catch (java.lang.ClassCastException | java.lang.NullPointerException ee) {
-				
+
 					JOptionPane.showMessageDialog(topFrame, "No hay ninguna tarea seleccionada.", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
-				
-				
-				
-				
+
 			}
 		});
-		
+
 		JMenuItem mntmAadirTarea = new JMenuItem("Añadir tarea");
 		mntmAadirTarea.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				
+
 				Proyecto project = (Proyecto) listaproyectos.getSelectedValue();
-				if(project!=null) {
-				//	crearTarea(String uuid_tarea_padre, String uuid_proyecto, String nombre, Date fecha_creacion,
-					//Date fecha_fin, String etiquetas, String comentarios, int prioridad, int estado) 
+				if (project != null) {
+					// crearTarea(String uuid_tarea_padre, String uuid_proyecto, String nombre, Date
+					// fecha_creacion,
+					// Date fecha_fin, String etiquetas, String comentarios, int prioridad, int
+					// estado)
 					DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeTareas.getLastSelectedPathComponent();
 					Tarea task;
 					try {
 						task = (Tarea) node.getUserObject();
-						String uuid_padre=task.getUuid();
-						
-						//System.out.println("----"+task.getNombre());
+						String uuid_padre = task.getUuid();
+
+						// System.out.println("----"+task.getNombre());
 						System.out.println(uuid_padre);
-						GestorTareas.getInstancia("").crearTarea(uuid_padre,project.getUuid(), "Nueva tarea", Calendar.getInstance().getTime(), Calendar.getInstance().getTime(), "Nueva tarea", "Tarea creada recientemente...", 0, 0);
-						//System.out.println("----"+task.getNombre());
-						//limpiarTareas();
-						System.out.println("----"+task.getNombre()+"--"+task.getUuid());
-						//GestorTareas.getInstancia("").imprimirHash();
-						treeTareas.setModel(GestorTareas.getInstancia("").actualizarTree("Tareas",project.getUuid()));
+						GestorTareas.getInstancia("").crearTarea(uuid_padre, project.getUuid(), "Nueva tarea",
+								Calendar.getInstance().getTime(), Calendar.getInstance().getTime(), "Nueva tarea",
+								"Tarea creada recientemente...", 0, 0);
+						// System.out.println("----"+task.getNombre());
+						// limpiarTareas();
+						System.out.println("----" + task.getNombre() + "--" + task.getUuid());
+						// GestorTareas.getInstancia("").imprimirHash();
+						treeTareas.setModel(GestorTareas.getInstancia("").actualizarTree("Tareas", project.getUuid()));
 						GestorTareas.getInstancia("").imprimirHash();
-						
-						
-						//System.out.println("----"+task.getNombre());
+
+						// System.out.println("----"+task.getNombre());
 					} catch (java.lang.ClassCastException | java.lang.NullPointerException ee) {
-					
-						
-						GestorTareas.getInstancia("").crearTarea(project.getUuid(), "Nueva tarea", Calendar.getInstance().getTime(), Calendar.getInstance().getTime(), "", "Tarea creada recientemente...", 0, 0);
+
+						GestorTareas.getInstancia("").crearTarea(project.getUuid(), "Nueva tarea",
+								Calendar.getInstance().getTime(), Calendar.getInstance().getTime(), "",
+								"Tarea creada recientemente...", 0, 0);
 						limpiarTareas();
 						treeTareas.setModel(GestorTareas.getInstancia("").actualizarTree("Tareas", project.getUuid()));
 					}
-					
-					
-			}else {
-					
+
+				} else {
+
 				}
-				
-				
-				
-				
-				
+
 			}
 		});
 		mnTareas.add(mntmAadirTarea);
@@ -342,9 +346,16 @@ public class JPanelPrincipal extends JPanel {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				////////////////////// Lanza un gestor de personas//////////
+				Proyecto project = (Proyecto) listaproyectos.getSelectedValue();
 				JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panelnor);
+				PersonasFrame pers;
+				if (project != null) {
+					pers = new PersonasFrame(topFrame, true, listEquipo, project.getUuid());
+					limpiarEquipo();
+				} else {
+					pers = new PersonasFrame(topFrame, true, listEquipo, null);
+				}
 
-				PersonasFrame pers = new PersonasFrame(topFrame, true);
 				JDialog jd = new JDialog(pers, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL);
 
 				pers.setVisible(true);
@@ -362,7 +373,7 @@ public class JPanelPrincipal extends JPanel {
 		menuBar.add(mnAyuda);
 
 		panelsur = new JPanel();
-		panelsur.setBackground(new Color(112, 154, 208));
+		panelsur.setBackground(new Color(181, 181, 181));
 		panelsur.setForeground(Color.BLACK);
 		add(panelsur, BorderLayout.SOUTH);
 		panelsur.addComponentListener(new ResizeListener());
@@ -396,15 +407,17 @@ public class JPanelPrincipal extends JPanel {
 					txtFechacreacion.setText("" + project.getFecha_creacion());
 					dtrpnEditordescripcion.setText(project.getDescripcion());
 					treeTareas.setModel(GestorTareas.getInstancia("").actualizarTree("Tareas", project.getUuid()));
-					//Reset tarea
+					listEquipo.setModel(GestorEquipo.getInstancia("").getMiembrosEquipoProyecto(project.getUuid()));
+					// Reset tarea
 					limpiarTareas();
+					limpiarEquipo();
 				}
 
 			}
 		});
-		listaproyectos.setForeground(Color.BLACK);
+		// listaproyectos.setForeground(Color.BLACK);
 		listaproyectos.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		listaproyectos.setBackground(Color.WHITE);
+		// listaproyectos.setBackground(Color.WHITE);
 		listaproyectos.setFixedCellHeight(40);
 		// list.setFixedCellWidth(150);
 		listaproyectos.setCellRenderer(getRenderer());
@@ -455,27 +468,97 @@ public class JPanelPrincipal extends JPanel {
 		JScrollPane scrollPane_5 = new JScrollPane();
 		splitPane_4.setLeftComponent(scrollPane_5);
 
-		JList list = new JList();
-		scrollPane_5.setViewportView(list);
+		listEquipo = new JList();
+		listEquipo.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+
+				MiembroEquipo miem = (MiembroEquipo) listEquipo.getSelectedValue();
+
+				if (miem != null) {
+					Usuario user = GestorUsuarios.getInstancia("").getUserByUuid(miem.getUuid_usuario());
+					nombreMiembro.setText(user.getNombre());
+					apellidosMiembro.setText(user.getApellidos());
+					try {
+						lblFotoequipo.setIcon(
+								new ImageIcon(new javax.swing.ImageIcon(user.getFoto())
+										.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+					}catch(Exception ex) {
+						lblFotoequipo.setIcon(
+								new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/logo.png"))
+										.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+					}
+					rolMiembro.setText(miem.getRol());
+				}
+
+			}
+		});
+		scrollPane_5.setViewportView(listEquipo);
 
 		JPanel panel_3 = new JPanel();
-		panel_3.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(112, 154, 208)));
 		splitPane_4.setRightComponent(panel_3);
 		panel_3.setLayout(new BorderLayout(0, 0));
 
 		JPanel panel_separador = new JPanel();
 		panel_3.add(panel_separador, BorderLayout.SOUTH);
-		panel_separador.setLayout(new BoxLayout(panel_separador, BoxLayout.Y_AXIS));
+		panel_separador.setLayout(new GridLayout(1, 4, 0, 0));
 
-		Component rigidArea = Box.createRigidArea(new Dimension(3, 3));
-		panel_separador.add(rigidArea);
+		Component horizontalStrut_10 = Box.createHorizontalStrut(20);
+		panel_separador.add(horizontalStrut_10);
 
-		JButton btnExpulsar = new JButton("Expulsar");
-		btnExpulsar.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panel_separador.add(btnExpulsar);
+		JButton btnEliminarPersona = new JButton("Eliminar persona");
+		btnEliminarPersona.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 
-		Component rigidArea_1 = Box.createRigidArea(new Dimension(3, 3));
-		panel_separador.add(rigidArea_1);
+				MiembroEquipo miembro = (MiembroEquipo) listEquipo.getSelectedValue();
+				if (miembro != null) {
+
+					String mensage = "¿Seguro que quieres eliminar al miembro del equipo?";
+					Object[] options = { "Expulsar", "No expulsar" };
+
+					int n = JOptionPane.showOptionDialog(null, mensage, "Confirmacion", JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE, null, // do not use a custom Icon
+							options, // the titles of buttons
+							options[1]); // default button title
+
+					if (n == JOptionPane.YES_OPTION) {
+						GestorEquipo.getInstancia("").eliminarAsociacion(miembro);
+						Proyecto project = (Proyecto) listaproyectos.getSelectedValue();
+						listEquipo.setModel(GestorEquipo.getInstancia("").getMiembrosEquipoProyecto(project.getUuid()));
+						limpiarEquipo();
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Primero tienes que seleccionar una persona.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+
+			}
+		});
+		panel_separador.add(btnEliminarPersona);
+
+		JButton btnAddEquipo = new JButton("Añadir personas");
+		panel_separador.add(btnAddEquipo);
+		btnAddEquipo.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		btnAddEquipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				Proyecto project = (Proyecto) listaproyectos.getSelectedValue();
+				if (project != null) {
+					JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panelnor);
+					GestionarEquipoFrame ff = new GestionarEquipoFrame(topFrame, true, project.getUuid(), listEquipo);
+
+					JDialog jd = new JDialog(ff, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL);
+					ff.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(null, "Primero tienes que seleccionar un proyecto.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+
+			}
+		});
+
+		Component horizontalStrut_9 = Box.createHorizontalStrut(20);
+		panel_separador.add(horizontalStrut_9);
 
 		JPanel panel_7 = new JPanel();
 		panel_3.add(panel_7, BorderLayout.CENTER);
@@ -483,16 +566,16 @@ public class JPanelPrincipal extends JPanel {
 
 		JPanel panel_6 = new JPanel();
 		panel_7.add(panel_6, BorderLayout.SOUTH);
-		panel_6.setLayout(new GridLayout(3, 3, 5, 3));
+		panel_6.setLayout(new GridLayout(4, 3, 3, 3));
 
 		JLabel lblNewLabel_3 = new JLabel("Nombre");
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_6.add(lblNewLabel_3);
 
-		textField = new JTextField();
-		textField.setEditable(false);
-		panel_6.add(textField);
-		textField.setColumns(10);
+		nombreMiembro = new JTextField();
+		nombreMiembro.setEditable(false);
+		panel_6.add(nombreMiembro);
+		nombreMiembro.setColumns(10);
 
 		Component horizontalStrut_8 = Box.createHorizontalStrut(20);
 		panel_6.add(horizontalStrut_8);
@@ -501,10 +584,10 @@ public class JPanelPrincipal extends JPanel {
 		lblNewLabel_5.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_6.add(lblNewLabel_5);
 
-		textField_2 = new JTextField();
-		textField_2.setEditable(false);
-		panel_6.add(textField_2);
-		textField_2.setColumns(10);
+		apellidosMiembro = new JTextField();
+		apellidosMiembro.setEditable(false);
+		panel_6.add(apellidosMiembro);
+		apellidosMiembro.setColumns(10);
 
 		Component horizontalStrut_6 = Box.createHorizontalStrut(20);
 		panel_6.add(horizontalStrut_6);
@@ -513,19 +596,39 @@ public class JPanelPrincipal extends JPanel {
 		lblNewLabel_4.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_6.add(lblNewLabel_4);
 
-		textField_1 = new JTextField();
-		panel_6.add(textField_1);
-		textField_1.setColumns(10);
+		rolMiembro = new JTextField();
+		rolMiembro.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				MiembroEquipo miembro = (MiembroEquipo) listEquipo.getSelectedValue();
+				if (miembro != null) {
+					miembro.setRol(rolMiembro.getText());
+					GestorEquipo.getInstancia("").editarAsociacion(miembro);
+				}
+
+			}
+		});
+		panel_6.add(rolMiembro);
+		rolMiembro.setColumns(10);
+
+		Component horizontalStrut_11 = Box.createHorizontalStrut(20);
+		panel_6.add(horizontalStrut_11);
 
 		Component horizontalStrut_7 = Box.createHorizontalStrut(20);
 		panel_6.add(horizontalStrut_7);
+
+		Component horizontalStrut_13 = Box.createHorizontalStrut(20);
+		panel_6.add(horizontalStrut_13);
+
+		Component horizontalStrut_12 = Box.createHorizontalStrut(20);
+		panel_6.add(horizontalStrut_12);
 
 		JPanel panel_8 = new JPanel();
 
 		panel_7.add(panel_8, BorderLayout.CENTER);
 		panel_8.setLayout(new BorderLayout(0, 0));
 
-		JLabel lblFotoequipo = new JLabel("");
+	    lblFotoequipo = new JLabel("");
 		lblFotoequipo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFotoequipo.setIcon(
 				new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/logo.png"))
@@ -559,7 +662,8 @@ public class JPanelPrincipal extends JPanel {
 		panel_1.add(pickerInicio);
 
 		comboBoxEstadoTarea = new JComboBox();
-		((JLabel) comboBoxEstadoTarea.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
+		// ((JLabel)
+		// comboBoxEstadoTarea.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
 		comboBoxEstadoTarea.setModel(new DefaultComboBoxModel(new String[] { "Activa", "Completa", "Tardia" }));
 		panel_1.add(comboBoxEstadoTarea);
 
@@ -568,6 +672,40 @@ public class JPanelPrincipal extends JPanel {
 		panel_1.setLayout(new GridLayout(2, 5));
 		panel_1.setMinimumSize(new Dimension(1, 50));
 		JButton btnNewButton_2 = new JButton("Personas");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				Proyecto project = (Proyecto) listaproyectos.getSelectedValue();
+				// public GestionarPersonasTarea(javax.swing.JFrame parent, boolean modal,String
+				// uuid_proyecto,String uuid_tarea,JList lista) {
+
+				if (project != null) {
+					DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeTareas.getLastSelectedPathComponent();
+					Tarea task;
+
+					try {
+						task = (Tarea) node.getUserObject();
+						if (task != null) {
+
+							JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panelnor);
+							GestionarPersonasTarea ff = new GestionarPersonasTarea(topFrame, true, project.getUuid(),
+									task.getUuid());
+
+							JDialog jd = new JDialog(ff, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL);
+							ff.setVisible(true);
+
+						}
+					} catch (java.lang.ClassCastException | java.lang.NullPointerException ee) {
+
+					}
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Primero tienes que seleccionar un proyecto.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+
+			}
+		});
 		panel_1.add(btnNewButton_2);
 
 		Component horizontalStrut_4 = Box.createHorizontalStrut(20);
@@ -583,10 +721,7 @@ public class JPanelPrincipal extends JPanel {
 		JButton btnNewButton = new JButton("Calendario");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
-				
-				
+
 			}
 		});
 		panel_1.add(btnNewButton);
@@ -613,17 +748,18 @@ public class JPanelPrincipal extends JPanel {
 				Tarea task;
 
 				// guardar tarea anterior
-				try {
-					task = (Tarea) nodo_anterior.getUserObject();
-					if (task != null) {
-						GestorTareas.getInstancia("").editarTarea(task.getUuid(), txtTareanombre.getText(),
-								pickerInicio.getDate(), pickerFinal.getDate(), txtTags.getText(),
-								descripcionTarea.getText(), (int) spinnerPrioridad.getValue(),
-								comboBoxEstadoTarea.getSelectedIndex());
-					}
-				} catch (java.lang.ClassCastException | java.lang.NullPointerException ee) {
+				/*
+				 * /try { task = (Tarea) nodo_anterior.getUserObject(); if (task != null) {
+				 * GestorTareas.getInstancia("").editarTarea(task.getUuid(),
+				 * txtTareanombre.getText(), pickerInicio.getDate(), pickerFinal.getDate(),
+				 * txtTags.getText(), descripcionTarea.getText(), (int)
+				 * spinnerPrioridad.getValue(), comboBoxEstadoTarea.getSelectedIndex()); } }
+				 * catch (java.lang.ClassCastException | java.lang.NullPointerException ee) {
+				 * 
+				 * }
+				 */
 
-				}
+				guardar_tarea_anterior();
 
 				try {
 					task = (Tarea) node.getUserObject();
@@ -657,6 +793,8 @@ public class JPanelPrincipal extends JPanel {
 		panel_4.setLayout(new BorderLayout(0, 0));
 
 		descripcionTarea = new JTextArea();
+		descripcionTarea.setLineWrap(true); // Makes the text wrap to the next line
+		descripcionTarea.setWrapStyleWord(true); // Makes the text wrap full words, not just letters
 		panel_4.add(descripcionTarea, BorderLayout.CENTER);
 
 		JPanel panel_5 = new JPanel();
@@ -716,15 +854,15 @@ public class JPanelPrincipal extends JPanel {
 		panelNor.add(horizontalStrut_2);
 
 		JLabel lblTitulo = new JLabel("Titulo: ");
-		lblTitulo.setForeground(Color.BLACK);
+		// lblTitulo.setForeground(Color.BLACK);
 		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panelNor.add(lblTitulo);
 
 		txtTitulo = new JTextField();
 
 		txtTitulo.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtTitulo.setForeground(Color.BLACK);
-		txtTitulo.setBackground(Color.WHITE);
+		// txtTitulo.setForeground(Color.BLACK);
+		// txtTitulo.setBackground(Color.WHITE);
 		panelNor.add(txtTitulo);
 		txtTitulo.setColumns(10);
 
@@ -733,14 +871,14 @@ public class JPanelPrincipal extends JPanel {
 
 		JLabel lblCreacion = new JLabel("Creacion: ");
 		lblCreacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblCreacion.setForeground(Color.BLACK);
+		// lblCreacion.setForeground(Color.BLACK);
 		panelNor.add(lblCreacion);
 
 		txtFechacreacion = new JTextField();
 		txtFechacreacion.setEditable(false);
 		txtFechacreacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtFechacreacion.setForeground(Color.BLACK);
-		txtFechacreacion.setText("                  ");
+		// txtFechacreacion.setForeground(Color.BLACK);
+		txtFechacreacion.setText("                   ");
 
 		// txtFechacreacion.setMinimumSize(new Dimension(150,25));
 		txtFechacreacion.setMaximumSize(new Dimension(200, 25));
@@ -778,14 +916,17 @@ public class JPanelPrincipal extends JPanel {
 		dtrpnEditordescripcion.setWrapStyleWord(true); // Makes the text wrap full words, not just letters
 		// dtrpnEditordescripcion.setText(gettysburgAddress);
 		// dtrpnEditordescripcion.setWrapStyleWord(true);
-		dtrpnEditordescripcion.setForeground(Color.BLACK);
-		Color bgColor = new Color(46, 47, 51);
-
-		UIDefaults defaults = new UIDefaults();
-		defaults.put("EditorPane[Enabled].backgroundPainter", bgColor);
-		dtrpnEditordescripcion.putClientProperty("Nimbus.Overrides", defaults);
-		dtrpnEditordescripcion.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
-		dtrpnEditordescripcion.setBackground(Color.WHITE);
+		// dtrpnEditordescripcion.setForeground(Color.BLACK);
+		/*
+		 * Color bgColor = new Color(46, 47, 51);
+		 * 
+		 * UIDefaults defaults = new UIDefaults();
+		 * defaults.put("EditorPane[Enabled].backgroundPainter", bgColor);
+		 */
+		// dtrpnEditordescripcion.putClientProperty("Nimbus.Overrides", defaults);
+		// dtrpnEditordescripcion.putClientProperty("Nimbus.Overrides.InheritDefaults",
+		// true);
+		// dtrpnEditordescripcion.setBackground(Color.WHITE);
 		scrollPane.setViewportView(dtrpnEditordescripcion);
 		Dimension maximumSize = new Dimension(9999999, 25);
 		Dimension maximumSizeDate = new Dimension(100, 100);
@@ -802,20 +943,42 @@ public class JPanelPrincipal extends JPanel {
 				JLabel listCellRendererComponent = (JLabel) super.getListCellRendererComponent(list, value, index,
 						isSelected, cellHasFocus);
 				listCellRendererComponent
-						.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(112, 154, 208)));
+						.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(181, 181, 181)));
 				return listCellRendererComponent;
 			}
 		};
 	}
+
 	public void limpiarTodo() {
 		limpiarDetalles();
 		limpiarTareas();
+		limpiarEquipo();
+		limpiarEquipoList();
 	}
+
+	public void limpiarEquipo() {
+		rolMiembro.setText("");
+		nombreMiembro.setText("");
+		apellidosMiembro.setText("");
+		lblFotoequipo.setIcon(
+				new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/logo.png"))
+						.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+	}
+
+	public void limpiarEquipoList() {
+		 DefaultListModel listModel = (DefaultListModel) listEquipo.getModel();
+	        listModel.removeAllElements();
+		
+		
+		
+	}
+
 	public void limpiarDetalles() {
 		txtTitulo.setText("");
 		txtFechacreacion.setText("");
 		dtrpnEditordescripcion.setText("");
 	}
+
 	public void limpiarTareas() {
 		txtTareanombre.setText("");
 		spinnerPrioridad.setValue(0);
@@ -824,6 +987,23 @@ public class JPanelPrincipal extends JPanel {
 		descripcionTarea.setText("");
 		comboBoxEstadoTarea.setSelectedIndex(0);
 		txtTags.setText("");
+	}
+
+	private void guardar_tarea_anterior() {
+		Tarea task;
+
+		// guardar tarea anterior
+		try {
+			task = (Tarea) nodo_anterior.getUserObject();
+			if (task != null) {
+				GestorTareas.getInstancia("").editarTarea(task.getUuid(), txtTareanombre.getText(),
+						pickerInicio.getDate(), pickerFinal.getDate(), txtTags.getText(), descripcionTarea.getText(),
+						(int) spinnerPrioridad.getValue(), comboBoxEstadoTarea.getSelectedIndex());
+			}
+		} catch (java.lang.ClassCastException | java.lang.NullPointerException ee) {
+
+		}
+
 	}
 
 	class ResizeListener extends ComponentAdapter {

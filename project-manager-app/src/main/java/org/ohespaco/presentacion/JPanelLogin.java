@@ -83,7 +83,7 @@ public class JPanelLogin extends JPanel {
 		loginPane.setLayout(null);
 
 		btnEntrar = new JButton("Entrar");
-		btnEntrar.setForeground(Color.DARK_GRAY);
+		//btnEntrar.setForeground(Color.DARK_GRAY);
 		btnEntrar.setFont(new Font("Tahoma", Font.BOLD, 11));
 	
 		btnEntrar.addActionListener(new ActionListener() {
@@ -148,14 +148,14 @@ public class JPanelLogin extends JPanel {
 		lblEmail = new JLabel("Email");
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEmail.setForeground(Color.DARK_GRAY);
+		//lblEmail.setForeground(Color.DARK_GRAY);
 		lblEmail.setBounds(23, 195, 258, 14);
 		loginPane.add(lblEmail);
 
 		lblContrasea = new JLabel("Contraseña");
 		lblContrasea.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblContrasea.setHorizontalAlignment(SwingConstants.CENTER);
-		lblContrasea.setForeground(Color.DARK_GRAY);
+		//lblContrasea.setForeground(Color.DARK_GRAY);
 		lblContrasea.setBounds(23, 261, 258, 14);
 		loginPane.add(lblContrasea);
 		lblNewLabel = new JLabel("New label");
@@ -167,8 +167,8 @@ public class JPanelLogin extends JPanel {
 		loginPane.add(lblNewLabel);
 
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBackground(Color.GRAY);
-		comboBox.setForeground(Color.DARK_GRAY);
+		//comboBox.setBackground(Color.GRAY);
+		//comboBox.setForeground(Color.DARK_GRAY);
 		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Castellano", "Inglés" }));
 		comboBox.setBounds(142, 11, 139, 24);
 		loginPane.add(comboBox);

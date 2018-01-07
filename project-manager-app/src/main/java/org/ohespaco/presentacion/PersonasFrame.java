@@ -40,6 +40,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.commons.validator.routines.EmailValidator;
+import org.ohespaco.dominio.GestorEquipo;
 import org.ohespaco.dominio.GestorUsuarios;
 import org.ohespaco.dominio.Usuario;
 import org.ohespaco.persistencia.CurrentSession;
@@ -49,6 +50,8 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.JScrollPane;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class PersonasFrame extends JDialog {
 
@@ -76,8 +79,18 @@ public class PersonasFrame extends JDialog {
 	/**
 	 * Create the frame.
 	 */
-	public PersonasFrame(javax.swing.JFrame parent, boolean modal) {
+	public PersonasFrame(javax.swing.JFrame parent, boolean modal, JList listEquipo, String project_uuid) {
 		super(parent,modal);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				if(project_uuid!=null) {
+					listEquipo.setModel(GestorEquipo.getInstancia("").getMiembrosEquipoProyecto(project_uuid));
+				}
+				
+				
+			}
+		});
 		
 		setTitle("Gestionar personas");
 		setResizable(false);

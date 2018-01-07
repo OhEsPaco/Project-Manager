@@ -47,6 +47,14 @@
     <artifactId>seaglasslookandfeel</artifactId>
     <version>0.2.1</version>
 </dependency>
+<!-- https://mvnrepository.com/artifact/com.github.insubstantial/substance -->
+<dependency>
+    <groupId>com.github.insubstantial</groupId>
+    <artifactId>substance</artifactId>
+    <version>7.3</version>
+</dependency>
+
+
 			
 	</dependencies>
 </project>

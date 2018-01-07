@@ -39,17 +39,16 @@ import org.ohespaco.exceptions.EscrituraErronea;
 import org.ohespaco.persistencia.CSVAgent;
 import org.ohespaco.persistencia.CurrentSession;
 
-
 public class GestorUsuarios {
-	//Camino al csv de usuarios
+	// Camino al csv de usuarios
 	private static String path;
-	//Hashmap de usuarios
+	// Hashmap de usuarios
 	private static HashMap<String, Usuario> usuarios = new HashMap<String, Usuario>();
-	//Cabecero del csv
+	// Cabecero del csv
 	private static final String HEADER_CSV = "uuid,email,pass_hash,nombre,apellidos,rol,contacto,descripcion,foto\n";
-	//Instancia global del gestor
+	// Instancia global del gestor
 	private static GestorUsuarios instancia = null;
-	//List para mostrar en la interfaz
+	// List para mostrar en la interfaz
 	private static DefaultListModel<Usuario> listaUsuarios = new DefaultListModel<Usuario>();
 
 	/**
@@ -137,7 +136,6 @@ public class GestorUsuarios {
 			String contacto, String descripcion, String foto) {
 		Usuario user = new Usuario(UUID.randomUUID().toString(), email, Hash.md5(pass), nombre, apellidos, rol,
 				contacto, descripcion, foto);
-		
 
 		escribirUsuario(user);
 		usuarios.put(user.getUuid(), user);
@@ -203,8 +201,6 @@ public class GestorUsuarios {
 				CurrentSession.getInstancia().setUser(usuarios.get(uuid));
 			}
 
-			
-
 		}
 	}
 
@@ -216,27 +212,28 @@ public class GestorUsuarios {
 	public void borrarUsuario(Usuario user) {
 		Usuario user_aux;
 		if (usuarios.get(user.getUuid()) != null) {
-
+			GestorEquipo.getInstancia("").usuarioEliminado(user.getUuid());
 			usuarios.remove(user.getUuid());
 			listaUsuarios = new DefaultListModel<Usuario>();
-
+			// GestorMiembrosTareas.getInstancia("").miembroEquipoEliminado(user.getUuid());
 			if (!usuarios.isEmpty()) {
 
 				for (String key : usuarios.keySet()) {
 					user_aux = usuarios.get(key);
 					listaUsuarios.addElement(user_aux);
-					
+
 				}
-			} 
+			}
 
 		}
 	}
 
 	/**
 	 * Añade un usuario al csv
+	 * 
 	 * @param user
 	 */
-  public void escribirUsuario(Usuario user) {
+	public void escribirUsuario(Usuario user) {
 		CSVAgent agente = new CSVAgent();
 		try {
 
@@ -296,6 +293,19 @@ public class GestorUsuarios {
 		return usuarios;
 	}
 
+	public Usuario getUserByUuid(String uuid) {
+		Usuario user = null;
+		if (!usuarios.isEmpty()) {
+			for (String key : usuarios.keySet()) {
+				user = usuarios.get(key);
+				if (user.getUuid().equals(uuid)) {
+					break;
+				}
+			}
+		}
+		return user;
+	}
+
 	/**
 	 * Retorna true si existe el email dado
 	 * 
@@ -321,7 +331,6 @@ public class GestorUsuarios {
 		return existe;
 	}
 
-	
 	/**
 	 * 
 	 * @param txt
@@ -335,7 +344,6 @@ public class GestorUsuarios {
 		return matcher.find();
 	}
 
-	
 	/**
 	 * @param txt
 	 * @return
@@ -347,8 +355,6 @@ public class GestorUsuarios {
 		Matcher matcher = pattern.matcher(txt);
 		return matcher.find();
 	}
-
-	
 
 	/**
 	 * @param email

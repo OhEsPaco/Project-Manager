@@ -31,6 +31,7 @@ import javax.swing.JPanel;
 
 import org.ohespaco.dominio.GestorUsuarios;
 import org.ohespaco.persistencia.CurrentSession;
+import org.pushingpixels.substance.api.skin.SubstanceGraphiteLookAndFeel;
 
 import static javax.swing.UIManager.getInstalledLookAndFeels;
 import static javax.swing.UIManager.setLookAndFeel;
@@ -40,6 +41,7 @@ import static java.util.logging.Level.SEVERE;
 import static java.util.logging.Logger.getLogger;
 
 import java.awt.CardLayout;
+import java.awt.EventQueue;
 import java.awt.Toolkit;
 
 public class MainFrame extends JFrame {
@@ -52,15 +54,27 @@ public class MainFrame extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-
+public static void launch(){
+	EventQueue.invokeLater(new Runnable() {
+		public void run() {
+			try {
+				MainFrame frame = new MainFrame();
+				frame.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	});
+}
 	/**
 	 * Create the frame.
 	 */
 	public MainFrame() {
-
+		
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/org/ohespaco/recursos/noicon.png")));
-	/*	try {
+		//WebLookAndFeel.install();
+		/*	try {
 			for (javax.swing.UIManager.LookAndFeelInfo info : getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
 					setLookAndFeel(info.getClassName());
@@ -74,8 +88,14 @@ public class MainFrame extends JFrame {
 				| javax.swing.UnsupportedLookAndFeelException ex) {
 			getLogger(MainFrame.class.getName()).log(SEVERE, null, ex);
 		}*/
-		try {
+	
+		/*try {
 		    setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}*/
+		try{
+		    setLookAndFeel(new SubstanceGraphiteLookAndFeel());
 		} catch (Exception e) {
 		    e.printStackTrace();
 		}
