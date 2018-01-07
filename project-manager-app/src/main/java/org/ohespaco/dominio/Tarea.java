@@ -24,6 +24,7 @@ SOFTWARE.
 
 package org.ohespaco.dominio;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.DefaultListModel;

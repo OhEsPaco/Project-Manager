@@ -119,8 +119,9 @@ public class JPanelPrincipal extends JPanel {
 	private DefaultMutableTreeNode nodo_anterior;
 	private MiembroEquipo miembro_anterior;
 	private Proyecto proyecto_anterior;
-private JLabel lblFotoequipo;
+	private JLabel lblFotoequipo;
 	private JList listEquipo;
+	private DefaultListModel<Tarea> lista_calendario;
 
 	/**
 	 * Create the panel.
@@ -720,24 +721,23 @@ private JLabel lblFotoequipo;
 
 		JButton btnNewButton = new JButton("Calendario");
 		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				 String[] meses = {
+			public void actionPerformed(ActionEvent e) {				
+				int year, month;				
+				String[] meses = {
 				            "Enero", "Febrero", "Marzo", "Abril", "Mayo",
 				            "Junio","Julio","Agosto","Septiembre",
 				            "Octubre", "Noviembre", "Diciembre"
 				        };				        
 				        String resp = (String) JOptionPane.showInputDialog(null, "Seleccione un mes para ver las tareas correspondientes",
-				        		"mes", JOptionPane.DEFAULT_OPTION, null, meses, meses[0]);
-				        
-				        
+				        		"mes", JOptionPane.DEFAULT_OPTION, null, meses, meses[0]);				        
 				        String anio = JOptionPane.showInputDialog(null, "Escriba el año del que desa mostrar las tareas", "Seleccione el año", JOptionPane.INFORMATION_MESSAGE);
-				        
+				        month = pos(meses, resp);
+				        year = Integer.parseInt(anio);
+				        lista_calendario = GestorTareas.getInstancia("").tareasCalendario(month, year);
+				        //Lkjhgfds l = new Lkjhgfds();
 				        VistaCalendario vc = new VistaCalendario();
-				        
-
-				
-			}
+				        vc.setVisible(true);
+				        }
 		});
 		panel_1.add(btnNewButton);
 
@@ -980,6 +980,8 @@ private JLabel lblFotoequipo;
 						.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
 	}
 
+	
+	
 	public void limpiarEquipoList() {
 		 DefaultListModel listModel = (DefaultListModel) listEquipo.getModel();
 	        listModel.removeAllElements();
@@ -1003,7 +1005,21 @@ private JLabel lblFotoequipo;
 		comboBoxEstadoTarea.setSelectedIndex(0);
 		txtTags.setText("");
 	}
-
+	
+	public int pos (String[] meses, String mes) {
+		int p = 0;
+		for (int i = 0; i < meses.length; i++ ) {
+			if (mes == meses[i]) {
+				p = i;
+			}
+		}
+		return p;
+	}
+	
+	public DefaultListModel<Tarea> retornarLista() {
+		return lista_calendario;
+	}
+	
 	private void guardar_tarea_anterior() {
 		Tarea task;
 

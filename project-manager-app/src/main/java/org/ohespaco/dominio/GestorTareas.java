@@ -402,5 +402,20 @@ public class GestorTareas {
 
 		}
 	}
+	
+	@SuppressWarnings("deprecation")
+	public DefaultListModel<Tarea> tareasCalendario(int month, int year) {
+		Tarea t;
+		DefaultListModel<Tarea> lista_aux = new DefaultListModel<Tarea>();
+		for (int i = 0; i < tareas.size(); i++) {
+			t = listaTareas.get(i);	
+			if (year == t.getFecha_creacion().getYear()|| year == t.getFecha_fin().getYear()) {
+				if(month == t.getFecha_creacion().getMonth() ||  month == t.getFecha_fin().getMonth()) {
+					lista_aux.addElement(t);					
+				}				
+			}			
+		}
+		return lista_aux;
+	}
 
 }
