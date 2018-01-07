@@ -8,7 +8,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Iterator;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,7 +31,6 @@ public class VistaCalendario extends JFrame {
 	private JTable calendario;
 	private int year, month;
 	private DefaultListModel<Tarea> lista_calendario;
-	private JPanelPrincipal jp = new JPanelPrincipal();
 	int day;
 	Tarea task = null;
 
@@ -76,40 +83,171 @@ public class VistaCalendario extends JFrame {
 				"New column", "New column", "New column", "New column", "New column", "New column", "New column"
 			}
 		));
+		
 		calendario.getColumnModel().getColumn(3).setMinWidth(24);
 		calendario.getColumnModel().getColumn(5).setMinWidth(75);
 		contentPane.add(calendario, BorderLayout.CENTER);
-		rellenoTabla();
+		Noseque();
+
 	}
 	
 	
-	public void rellenoTabla() {
-		lista_calendario = jp.retornarLista();
-		for (int i = 0; i<lista_calendario.size();i++) {
-			day = task.getFecha_creacion().getDay();
-			if (day <= 7) {
-				calendario.setValueAt(task.getNombre(), 3, day -1);
-				//tabl[3][day-1] = task.getNombre();				
-			}else if (day <= 14) {
-				calendario.setValueAt(task.getNombre(), 4, day-1);
-				//tabl[4][day-1] = task.getNombre();
-			}else if (day <= 21) {
-				calendario.setValueAt(task.getNombre(), 5, day-1);
+	/*public void rellenoTabla() {
+		JOptionPane.showMessageDialog(null, "LLEGO AQUI " + lista_calendario.getSize());				
 
-				//tabl[5][day-1] = task.getNombre();
-			}else if (day<= 28) {
-				calendario.setValueAt(task.getNombre(), 6, day-1);
+		Calendar cal;
+		cal = DateToCalendar(task.getFecha_creacion());
+		
 
-				//tabl[6][day-1] = task.getNombre();
-			}else {
-				calendario.setValueAt(task.getNombre(), 7, day-1);
+		//Iterator<Tarea> it =  lista_calendario.iterator();
+		
+		if(lista_calendario.getSize() == 0) {
+			JOptionPane.showMessageDialog(null, "No hay tareas Disponibles para esta fecha");
+		}else {
 
-				//tabl[7][day-1] = task.getNombre();
+			for (int i = 0; i<lista_calendario.getSize();i++) {
+				JOptionPane.showMessageDialog(null, "LLEGO AQUI");				
+				day = cal.DAY_OF_MONTH;
+				JOptionPane.showMessageDialog(null, "Operación realizada correctamente");
 
+				if (day <= 7) {
+					calendario.setValueAt(("tarea "+ i), 3, day -1);
+					//tabl[3][day-1] = task.getNombre();	
+					JOptionPane.showMessageDialog(null, "Operación realizada correctamente");
+
+				}else if (day <= 14) {
+					calendario.setValueAt(("tarea "+ i), 4, day -1);
+
+					//calendario.setValueAt(task.getNombre(), 4, day-1);
+					//tabl[4][day-1] = task.getNombre();
+					JOptionPane.showMessageDialog(null, "Operación realizada correctamente");
+
+				}else if (day <= 21) {
+					calendario.setValueAt(("tarea "+ i), 5, day -1);
+
+					//calendario.setValueAt(task.getNombre(), 5, day-1);
+
+					//tabl[5][day-1] = task.getNombre();
+					JOptionPane.showMessageDialog(null, "Operación realizada correctamente");
+
+				}else if (day<= 28) {
+					calendario.setValueAt(("tarea "+ i), 6, day -1);
+
+					//calendario.setValueAt(task.getNombre(), 6, day-1);
+					JOptionPane.showMessageDialog(null, "Operación realizada correctamente");
+
+
+					//tabl[6][day-1] = task.getNombre();
+				}else {
+					calendario.setValueAt(("tarea "+ i), 3, day -1);
+
+					//calendario.setValueAt(task.getNombre(), 7, day-1);
+					JOptionPane.showMessageDialog(null, "Operación realizada correctamente");
+
+
+					//tabl[7][day-1] = task.getNombre();
+
+				}
 			}
 		}
-		
-	}
+	}*/
+			
+	public void Noseque() {
+
+		Calendar cal;
+	String[] meses = {
+            "Enero", "Febrero", "Marzo", "Abril", "Mayo",
+            "Junio","Julio","Agosto","Septiembre",
+            "Octubre", "Noviembre", "Diciembre"
+        };				        
+        String resp = (String) JOptionPane.showInputDialog(null, "Seleccione un mes para ver las tareas correspondientes",
+        		"mes", JOptionPane.DEFAULT_OPTION, null, meses, meses[0]);				        
+        String anio = JOptionPane.showInputDialog(null, "Escriba el año del que desa mostrar las tareas", "Seleccione el año", JOptionPane.INFORMATION_MESSAGE);
+        month = (pos(meses, resp))+1;
+        year = Integer.parseInt(anio);
+        lista_calendario = GestorTareas.getInstancia("").tareasCalendario(month, year);
+        
+        
+        
+        if(lista_calendario.getSize() == 0) {
+			JOptionPane.showMessageDialog(null, "No hay tareas Disponibles para esta fecha");
+		}else {
+
+			for (int i = 0; i<lista_calendario.getSize();i++) {
+				task = lista_calendario.getElementAt(i);
+				cal =  dateToCalendar(task.getFecha_creacion());
+				JOptionPane.showMessageDialog(null, "LLEGO AQUI");				
+				day = cal.DAY_OF_MONTH;
+				JOptionPane.showMessageDialog(null, "Operación realizada correctamente");
+
+				if (day <= 7) {
+					calendario.setValueAt(task.getNombre(), 3, day -1);
+					//tabl[3][day-1] = task.getNombre();	
+					JOptionPane.showMessageDialog(null, "Operación realizada correctamente");
+
+				}else if (day <= 14) {
+					calendario.setValueAt(task.getNombre(), 4, day -1);
+
+					//calendario.setValueAt(task.getNombre(), 4, day-1);
+					//tabl[4][day-1] = task.getNombre();
+				}else if (day <= 21) {
+					calendario.setValueAt(task.getNombre(), 5, day -1);
+
+					//calendario.setValueAt(task.getNombre(), 5, day-1);
+
+					//tabl[5][day-1] = task.getNombre();
+
+				}else if (day<= 28) {
+					calendario.setValueAt(task.getNombre(), 6, day -1);
+
+					//calendario.setValueAt(task.getNombre(), 6, day-1);
+
+
+					//tabl[6][day-1] = task.getNombre();
+				}else {
+					calendario.setValueAt(("tarea "+ i), 3, day -1);
+
+					//calendario.setValueAt(task.getNombre(), 7, day-1);
+					JOptionPane.showMessageDialog(null, "Operación realizada correctamente");
+
+
+					//tabl[7][day-1] = task.getNombre();
+
+				}
+			}
+		}
+        
+        
+        }
+	
+	
+	public static Calendar dateToCalendar(java.util.Date date ) 
+	{ 
+	 Calendar cal = null;
+	 try {   
+	  DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+	  date = (Date)formatter.parse(date.toString()); 
+	  cal=Calendar.getInstance();
+	  cal.setTime(date);
+	  }
+	  catch (ParseException e)
+	  {
+	      System.out.println("Exception :"+e);  
+	  }  
+	  return cal;
+	 }
+        
+        
+        
+        public int pos (String[] meses, String mes) {
+    		int p = 0;
+    		for (int i = 0; i < meses.length; i++ ) {
+    			if (mes == meses[i]) {
+    				p = i;
+    			}
+    		}
+    		return p;
+    	}
 		
 	
 	

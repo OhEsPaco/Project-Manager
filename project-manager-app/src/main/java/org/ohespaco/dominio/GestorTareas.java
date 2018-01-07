@@ -26,8 +26,12 @@ package org.ohespaco.dominio;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -403,19 +407,42 @@ public class GestorTareas {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
+
 	public DefaultListModel<Tarea> tareasCalendario(int month, int year) {
 		Tarea t;
+		Calendar c;
+		DefaultListModel<Calendar> lista_calendario = null;
 		DefaultListModel<Tarea> lista_aux = new DefaultListModel<Tarea>();
+		DefaultListModel<String> lista_Texto = new DefaultListModel<String>();
+
 		for (int i = 0; i < tareas.size(); i++) {
-			t = listaTareas.get(i);	
-			if (year == t.getFecha_creacion().getYear()|| year == t.getFecha_fin().getYear()) {
-				if(month == t.getFecha_creacion().getMonth() ||  month == t.getFecha_fin().getMonth()) {
-					lista_aux.addElement(t);					
+			t = listaTareas.get(i);
+			c = dateToCalendar(t.getFecha_creacion());
+			
+			if (year == c.YEAR) {
+				if(month == c.MONTH) {
+					lista_aux.addElement(t);		
 				}				
 			}			
 		}
 		return lista_aux;
 	}
+	
+	public static Calendar dateToCalendar(Date t ) 
+	{ 
+	 Calendar cal = null;
+	 try {   
+	  DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+	  t = (Date)formatter.parse(t.toString()); 
+	  cal=Calendar.getInstance();
+	  cal.setTime(t);
+	  }
+	  catch (ParseException e)
+	  {
+	      System.out.println("Exception :"+e);  
+	  }  
+	  return cal;
+	 }
+        
 
 }

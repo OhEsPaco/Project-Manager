@@ -694,6 +694,8 @@ public class JPanelPrincipal extends JPanel {
 
 							JDialog jd = new JDialog(ff, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL);
 							ff.setVisible(true);
+							JOptionPane.showMessageDialog(null, "Operación");
+
 
 						}
 					} catch (java.lang.ClassCastException | java.lang.NullPointerException ee) {
@@ -722,19 +724,7 @@ public class JPanelPrincipal extends JPanel {
 		JButton btnNewButton = new JButton("Calendario");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {				
-				int year, month;				
-				String[] meses = {
-				            "Enero", "Febrero", "Marzo", "Abril", "Mayo",
-				            "Junio","Julio","Agosto","Septiembre",
-				            "Octubre", "Noviembre", "Diciembre"
-				        };				        
-				        String resp = (String) JOptionPane.showInputDialog(null, "Seleccione un mes para ver las tareas correspondientes",
-				        		"mes", JOptionPane.DEFAULT_OPTION, null, meses, meses[0]);				        
-				        String anio = JOptionPane.showInputDialog(null, "Escriba el año del que desa mostrar las tareas", "Seleccione el año", JOptionPane.INFORMATION_MESSAGE);
-				        month = pos(meses, resp);
-				        year = Integer.parseInt(anio);
-				        lista_calendario = GestorTareas.getInstancia("").tareasCalendario(month, year);
-				        //Lkjhgfds l = new Lkjhgfds();
+				
 				        VistaCalendario vc = new VistaCalendario();
 				        vc.setVisible(true);
 				        }
@@ -1018,6 +1008,7 @@ public class JPanelPrincipal extends JPanel {
 	
 	public DefaultListModel<Tarea> retornarLista() {
 		return lista_calendario;
+
 	}
 	
 	private void guardar_tarea_anterior() {
