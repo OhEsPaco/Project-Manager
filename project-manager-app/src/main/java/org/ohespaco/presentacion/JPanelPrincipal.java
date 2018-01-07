@@ -568,9 +568,9 @@ private JLabel lblFotoequipo;
 		panel_7.add(panel_6, BorderLayout.SOUTH);
 		panel_6.setLayout(new GridLayout(4, 3, 3, 3));
 
-		JLabel lblNewLabel_3 = new JLabel("Nombre");
-		lblNewLabel_3.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel_6.add(lblNewLabel_3);
+		JLabel lblnombre = new JLabel("Nombre");
+		lblnombre.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_6.add(lblnombre);
 
 		nombreMiembro = new JTextField();
 		nombreMiembro.setEditable(false);
@@ -580,9 +580,9 @@ private JLabel lblFotoequipo;
 		Component horizontalStrut_8 = Box.createHorizontalStrut(20);
 		panel_6.add(horizontalStrut_8);
 
-		JLabel lblNewLabel_5 = new JLabel("Apellidos");
-		lblNewLabel_5.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel_6.add(lblNewLabel_5);
+		JLabel lblApellidos = new JLabel("Apellidos");
+		lblApellidos.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_6.add(lblApellidos);
 
 		apellidosMiembro = new JTextField();
 		apellidosMiembro.setEditable(false);
@@ -592,9 +592,9 @@ private JLabel lblFotoequipo;
 		Component horizontalStrut_6 = Box.createHorizontalStrut(20);
 		panel_6.add(horizontalStrut_6);
 
-		JLabel lblNewLabel_4 = new JLabel("Rol");
-		lblNewLabel_4.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel_6.add(lblNewLabel_4);
+		JLabel lblRol = new JLabel("Rol");
+		lblRol.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_6.add(lblRol);
 
 		rolMiembro = new JTextField();
 		rolMiembro.addFocusListener(new FocusAdapter() {
@@ -722,6 +722,21 @@ private JLabel lblFotoequipo;
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				 String[] meses = {
+				            "Enero", "Febrero", "Marzo", "Abril", "Mayo",
+				            "Junio","Julio","Agosto","Septiembre",
+				            "Octubre", "Noviembre", "Diciembre"
+				        };				        
+				        String resp = (String) JOptionPane.showInputDialog(null, "Seleccione un mes para ver las tareas correspondientes",
+				        		"mes", JOptionPane.DEFAULT_OPTION, null, meses, meses[0]);
+				        
+				        
+				        String anio = JOptionPane.showInputDialog(null, "Escriba el año del que desa mostrar las tareas", "Seleccione el año", JOptionPane.INFORMATION_MESSAGE);
+				        
+				        VistaCalendario vc = new VistaCalendario();
+				        
+
+				
 			}
 		});
 		panel_1.add(btnNewButton);
