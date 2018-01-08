@@ -301,7 +301,7 @@ public class JPanelPrincipal extends JPanel {
 		mntmAadirTarea.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-
+		
 				Proyecto project = (Proyecto) listaproyectos.getSelectedValue();
 				if (project != null) {
 
@@ -332,7 +332,9 @@ public class JPanelPrincipal extends JPanel {
 					}
 
 				} else {
-
+					JOptionPane.showMessageDialog(null, Messages.getString("JPanelPrincipal.107"), //$NON-NLS-1$
+							Messages.getString("JPanelPrincipal.108"), //$NON-NLS-1$
+							JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
@@ -446,7 +448,6 @@ public class JPanelPrincipal extends JPanel {
 					} catch (Exception ee) {
 
 					}
-					
 					txtTitulo.setText(project.getNombre());
 					txtFechacreacion.setText("" + project.getFecha_creacion()); //$NON-NLS-1$
 					dtrpnEditordescripcion.setText(project.getDescripcion());
