@@ -3,6 +3,7 @@ package org.ohespaco.presentacion;
 import static javax.swing.UIManager.setLookAndFeel;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -23,8 +24,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.JScrollPane;
 import java.awt.Component;
+import java.awt.Dimension;
+
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
@@ -52,7 +56,7 @@ public class JFrameVistaCalendario extends JFrame {
 			@Override
 			public void run() {
 				try {
-					JFrameVistaCalendario frame = new JFrameVistaCalendario("");
+					JFrameVistaCalendario frame = new JFrameVistaCalendario(""); //$NON-NLS-1$
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -71,8 +75,7 @@ public class JFrameVistaCalendario extends JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		GestorTareas.getInstancia("tasks.csv");
-		// System.out.println(mes_selected);
+	
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 695, 547);
 		contentPane = new JPanel();
@@ -84,31 +87,31 @@ public class JFrameVistaCalendario extends JFrame {
 		contentPane.add(panel, BorderLayout.NORTH);
 		panel.setLayout(new GridLayout(1, 0, 0, 0));
 
-		JLabel lblLunes = new JLabel("Lunes");
+		JLabel lblLunes = new JLabel(Messages.getString("JFrameVistaCalendario.1")); //$NON-NLS-1$
 		lblLunes.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lblLunes);
 
-		JLabel lblMartes = new JLabel("Martes");
+		JLabel lblMartes = new JLabel(Messages.getString("JFrameVistaCalendario.2")); //$NON-NLS-1$
 		lblMartes.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lblMartes);
 
-		JLabel lblMiercoles = new JLabel("Miercoles");
+		JLabel lblMiercoles = new JLabel(Messages.getString("JFrameVistaCalendario.3")); //$NON-NLS-1$
 		lblMiercoles.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lblMiercoles);
 
-		JLabel lblJueves = new JLabel("Jueves");
+		JLabel lblJueves = new JLabel(Messages.getString("JFrameVistaCalendario.4")); //$NON-NLS-1$
 		lblJueves.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lblJueves);
 
-		JLabel lblViernes = new JLabel("Viernes");
+		JLabel lblViernes = new JLabel(Messages.getString("JFrameVistaCalendario.5")); //$NON-NLS-1$
 		lblViernes.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lblViernes);
 
-		JLabel lblSabado = new JLabel("Sabado");
+		JLabel lblSabado = new JLabel(Messages.getString("JFrameVistaCalendario.6")); //$NON-NLS-1$
 		lblSabado.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lblSabado);
 
-		JLabel lblDomingo = new JLabel("Domingo");
+		JLabel lblDomingo = new JLabel(Messages.getString("JFrameVistaCalendario.7")); //$NON-NLS-1$
 		lblDomingo.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lblDomingo);
 
@@ -119,7 +122,7 @@ public class JFrameVistaCalendario extends JFrame {
 		JPanel panel_2 = new JPanel();
 		contentPane.add(panel_2, BorderLayout.SOUTH);
 
-		JButton btnAnterior = new JButton("Anterior");
+		JButton btnAnterior = new JButton(Messages.getString("JFrameVistaCalendario.8")); //$NON-NLS-1$
 		btnAnterior.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				limpiar();
@@ -128,19 +131,28 @@ public class JFrameVistaCalendario extends JFrame {
 					mes_selected = 12;
 					year_selected--;
 				}
-
+				if(mes_selected<10) {
+					lblLblmes.setText("0"+mes_selected + "-" + year_selected); //$NON-NLS-1$
+				}else {
+					lblLblmes.setText(mes_selected + "-" + year_selected); //$NON-NLS-1$
+				}
 				cargarCalendario(year_selected, mes_selected);
-				lblLblmes.setText(mes_selected + "-" + year_selected);
+				
 			}
 		});
 		panel_2.add(btnAnterior);
 
-		lblLblmes = new JLabel("");
-		lblLblmes.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblLblmes = new JLabel(""); //$NON-NLS-1$
+		
+		lblLblmes.setFont(new Font("Tahoma", Font.BOLD, 17)); //$NON-NLS-1$
 		panel_2.add(lblLblmes);
-		lblLblmes.setText(mes_selected + "-" + year_selected);
+		if(mes_selected<10) {
+			lblLblmes.setText("0"+mes_selected + "-" + year_selected); //$NON-NLS-1$
+		}else {
+			lblLblmes.setText(mes_selected + "-" + year_selected); //$NON-NLS-1$
+		}
 
-		JButton btnSiguiente = new JButton("Siguiente");
+		JButton btnSiguiente = new JButton(Messages.getString("JFrameVistaCalendario.13")); //$NON-NLS-1$
 		btnSiguiente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				limpiar();
@@ -149,9 +161,13 @@ public class JFrameVistaCalendario extends JFrame {
 					mes_selected = 1;
 					year_selected++;
 				}
-
+				if(mes_selected<10) {
+					lblLblmes.setText("0"+mes_selected + "-" + year_selected); //$NON-NLS-1$
+				}else {
+					lblLblmes.setText(mes_selected + "-" + year_selected); //$NON-NLS-1$
+				}
 				cargarCalendario(year_selected, mes_selected);
-				lblLblmes.setText(mes_selected + "-" + year_selected);
+				
 			}
 		});
 		panel_2.add(btnSiguiente);
@@ -177,11 +193,13 @@ public class JFrameVistaCalendario extends JFrame {
 
 	private void limpiar() {
 		for (int i = 0; i < 35; i++) {
-
+			Color color = UIManager.getColor ( "Panel.background" );
+			
 			JTextArea aux = dias.get(i);
-			aux.setText("");
+			aux.setText(""); //$NON-NLS-1$
+			aux.setBackground(color);
 		}
-		lblLblmes.setText("");
+		lblLblmes.setText(""); //$NON-NLS-1$
 	}
 
 	private void cargarCalendario(int year, int mes) {
@@ -194,17 +212,17 @@ public class JFrameVistaCalendario extends JFrame {
 		int inicio = diaSemana(c.get(Calendar.DAY_OF_WEEK));
 		int diaSemana = inicio + 1;
 
-		ConcurrentHashMap<String, Tarea> ht_tareas = GestorTareas.getInstancia("").getTareas();
+		ConcurrentHashMap<String, Tarea> ht_tareas = GestorTareas.getInstancia("").getTareas(); //$NON-NLS-1$
 
 		Tarea task;
 		int j = 0;
 		for (int i = inicio; i < 35; i++, j++) {
 			JTextArea Dia = dias.get(i);
-
+			boolean color=false;
 			if (j < c.getActualMaximum(Calendar.DAY_OF_MONTH)) {
 				String salida;
 
-				salida = Integer.toString(j + 1) + "\n";
+				salida = Integer.toString(j + 1) + "\n"; //$NON-NLS-1$
 
 				if (!ht_tareas.isEmpty()) {
 
@@ -219,18 +237,25 @@ public class JFrameVistaCalendario extends JFrame {
 						int t_year = localDate.getYear();
 
 						if (day == j + 1 && month == mes && year == t_year && task.getUuid_proyecto().equals(project)) {
-							salida = salida + "Inicio: " + task.getNombre() + "\n";
+							salida = salida + Messages.getString("JFrameVistaCalendario.19") + task.getNombre() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
+							color=true;
 						}
 						date = task.getFecha_fin();
 						localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 						day = localDate.getDayOfMonth();
 						month = localDate.getMonth().getValue();
 						if (day == j + 1 && month == mes && year == t_year && task.getUuid_proyecto().equals(project)) {
-							salida = salida + "Fin: " + task.getNombre() + "\n";
+							salida = salida + Messages.getString("JFrameVistaCalendario.21") + task.getNombre() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
+							color=true;
 						}
 					}
 				}
 				Dia.setText(salida);
+				if(color==true) {
+					color=false;
+					Dia.setBackground(new Color(60,179,113));
+				}
+				
 				diaSemana++;
 				if (diaSemana > 7) {
 					diaSemana = 1;

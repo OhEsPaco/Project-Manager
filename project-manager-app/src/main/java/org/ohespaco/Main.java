@@ -32,23 +32,15 @@ import org.ohespaco.dominio.GestorTareas;
 import org.ohespaco.dominio.GestorUsuarios;
 import org.ohespaco.persistencia.CurrentSession;
 import org.ohespaco.presentacion.JFrameVistaCalendario;
+import org.ohespaco.presentacion.JFrameIdioma;
 import org.ohespaco.presentacion.JFrameMain;
 
 public class Main {
 
 	public static void main(String[] args) {
-
-		// Inicializa la sesion actual y los gestores
-		CurrentSession.getInstancia();
-		GestorUsuarios.getInstancia("users.csv");
-		GestorProyectos.getInstancia("projects.csv");
-		GestorTareas.getInstancia("tasks.csv");
-		GestorEquipo.getInstancia("equipo.csv");
-		GestorMiembrosTareas.getInstancia("members.csv");
-		GestorMensajes.getInstancia("mensajes.csv");
-		// Crea y lanza un JFrameMain
-		JFrameMain.launch();
-		
+	
+		JFrameIdioma j=new JFrameIdioma();
+		j.setVisible(true);
 		
 	}
 

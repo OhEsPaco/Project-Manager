@@ -128,19 +128,19 @@ public class JPanelPrincipal extends JPanel {
 
 		JMenuBar menuBar = new JMenuBar();
 
-		menuBar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		menuBar.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		panelnor.add(menuBar);
 
-		JMenu mnArchivo = new JMenu("Archivo");
-		mnArchivo.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		JMenu mnArchivo = new JMenu(Messages.getString("JPanelPrincipal.1")); //$NON-NLS-1$
+		mnArchivo.setFont(new Font("Segoe UI", Font.PLAIN, 12)); //$NON-NLS-1$
 		menuBar.add(mnArchivo);
 
-		JMenuItem mntmNuevoProyecto = new JMenuItem("Nuevo proyecto");
+		JMenuItem mntmNuevoProyecto = new JMenuItem(Messages.getString("JPanelPrincipal.3")); //$NON-NLS-1$
 		mntmNuevoProyecto.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 
-				GestorProyectos.getInstancia("").crearProyecto("Nuevo proyecto...", "Proyecto creado recientemente.");
+				GestorProyectos.getInstancia("").crearProyecto(Messages.getString("JPanelPrincipal.5"), Messages.getString("JPanelPrincipal.6")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 				listaproyectos.setSelectedIndex(listaproyectos.getModel().getSize() - 1);
 
@@ -148,7 +148,7 @@ public class JPanelPrincipal extends JPanel {
 		});
 		mnArchivo.add(mntmNuevoProyecto);
 
-		JMenuItem mntmEliminarProyecto = new JMenuItem("Eliminar proyecto");
+		JMenuItem mntmEliminarProyecto = new JMenuItem(Messages.getString("JPanelPrincipal.7")); //$NON-NLS-1$
 		mntmEliminarProyecto.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -156,20 +156,20 @@ public class JPanelPrincipal extends JPanel {
 
 				Component frame = null;
 				if (project != null) {
-					String mensage = "¿Seguro que quieres eliminar el proyecto " + project.getNombre() + "?";
-					Object[] options = { "Borrar", "No borrar" };
+					String mensage = Messages.getString("JPanelPrincipal.8") + project.getNombre() + Messages.getString("JPanelPrincipal.9"); //$NON-NLS-1$ //$NON-NLS-2$
+					Object[] options = { Messages.getString("JPanelPrincipal.10"), Messages.getString("JPanelPrincipal.11") }; //$NON-NLS-1$ //$NON-NLS-2$
 
-					int n = JOptionPane.showOptionDialog(frame, mensage, "Confirmacion", JOptionPane.YES_NO_OPTION,
+					int n = JOptionPane.showOptionDialog(frame, mensage, Messages.getString("JPanelPrincipal.12"), JOptionPane.YES_NO_OPTION, //$NON-NLS-1$
 							JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 
 					if (n == JOptionPane.YES_OPTION) {
-						GestorProyectos.getInstancia("").borrarProyecto(project);
-						listaproyectos.setModel(GestorProyectos.getInstancia("").getDefaultList());
+						GestorProyectos.getInstancia("").borrarProyecto(project); //$NON-NLS-1$
+						listaproyectos.setModel(GestorProyectos.getInstancia("").getDefaultList()); //$NON-NLS-1$
 						limpiarTodo();
 					}
 
 				} else {
-					JOptionPane.showMessageDialog(frame, "Primero tienes que seleccionar un proyecto.", "Error",
+					JOptionPane.showMessageDialog(frame, Messages.getString("JPanelPrincipal.15"), Messages.getString("JPanelPrincipal.16"), //$NON-NLS-1$ //$NON-NLS-2$
 							JOptionPane.ERROR_MESSAGE);
 				}
 
@@ -177,7 +177,7 @@ public class JPanelPrincipal extends JPanel {
 		});
 
 		mnArchivo.addSeparator();
-		JMenuItem mntmGuardarProyecto = new JMenuItem("Guardar todo");
+		JMenuItem mntmGuardarProyecto = new JMenuItem(Messages.getString("JPanelPrincipal.17")); //$NON-NLS-1$
 		mntmGuardarProyecto.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -187,7 +187,7 @@ public class JPanelPrincipal extends JPanel {
 					listaproyectos.getSelectedIndex();
 					project.setNombre(txtTitulo.getText());
 					project.setDescripcion(dtrpnEditordescripcion.getText());
-					GestorProyectos.getInstancia("").editarProyecto(project);
+					GestorProyectos.getInstancia("").editarProyecto(project); //$NON-NLS-1$
 
 					DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeTareas.getLastSelectedPathComponent();
 					Tarea task;
@@ -195,7 +195,7 @@ public class JPanelPrincipal extends JPanel {
 						task = (Tarea) node.getUserObject();
 						if (task != null) {
 
-							GestorTareas.getInstancia("").editarTarea(task.getUuid(), txtTareanombre.getText(),
+							GestorTareas.getInstancia("").editarTarea(task.getUuid(), txtTareanombre.getText(), //$NON-NLS-1$
 									pickerInicio.getDate(), pickerFinal.getDate(), txtTags.getText(),
 									descripcionTarea.getText(), (int) spinnerPrioridad.getValue(),
 									comboBoxEstadoTarea.getSelectedIndex());
@@ -206,14 +206,14 @@ public class JPanelPrincipal extends JPanel {
 					}
 				} else {
 					JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(panelnor);
-					JOptionPane.showMessageDialog(frame, "No hay proyecto seleccionado.", "Seleccionar proyecto.",
+					JOptionPane.showMessageDialog(frame, Messages.getString("JPanelPrincipal.20"), Messages.getString("JPanelPrincipal.21"), //$NON-NLS-1$ //$NON-NLS-2$
 							JOptionPane.ERROR_MESSAGE);
 				}
-				GestorProyectos.getInstancia("").guardarProyectos();
-				GestorTareas.getInstancia("").guardarTareas();
-				GestorEquipo.getInstancia("").guardarEquipos();
-				GestorMensajes.getInstancia("").guardarmensajes();
-				GestorMiembrosTareas.getInstancia("").guardarTareas();
+				GestorProyectos.getInstancia("").guardarProyectos(); //$NON-NLS-1$
+				GestorTareas.getInstancia("").guardarTareas(); //$NON-NLS-1$
+				GestorEquipo.getInstancia("").guardarEquipos(); //$NON-NLS-1$
+				GestorMensajes.getInstancia("").guardarmensajes(); //$NON-NLS-1$
+				GestorMiembrosTareas.getInstancia("").guardarTareas(); //$NON-NLS-1$
 
 			}
 
@@ -222,10 +222,10 @@ public class JPanelPrincipal extends JPanel {
 		mnArchivo.addSeparator();
 		mnArchivo.add(mntmEliminarProyecto);
 
-		JMenu mnInsertar = new JMenu("Insertar");
+		JMenu mnInsertar = new JMenu(Messages.getString("JPanelPrincipal.27")); //$NON-NLS-1$
 		menuBar.add(mnInsertar);
 
-		JMenuItem mntmInsertarImagen = new JMenuItem("Insertar imagen");
+		JMenuItem mntmInsertarImagen = new JMenuItem(Messages.getString("JPanelPrincipal.28")); //$NON-NLS-1$
 		mntmInsertarImagen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -235,10 +235,10 @@ public class JPanelPrincipal extends JPanel {
 		});
 		mnInsertar.add(mntmInsertarImagen);
 
-		JMenu mnTareas = new JMenu("Tareas");
+		JMenu mnTareas = new JMenu(Messages.getString("JPanelPrincipal.29")); //$NON-NLS-1$
 		menuBar.add(mnTareas);
 
-		JMenuItem mntmBorrarTarea = new JMenuItem("Borrar tarea");
+		JMenuItem mntmBorrarTarea = new JMenuItem(Messages.getString("JPanelPrincipal.30")); //$NON-NLS-1$
 		mntmBorrarTarea.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -249,31 +249,31 @@ public class JPanelPrincipal extends JPanel {
 				try {
 					task = (Tarea) nodo_anterior.getUserObject();
 
-					String mensage = "¿Seguro que quieres eliminar la tarea " + task.getNombre()
-							+ " y todas sus tareas hijas?";
-					Object[] options = { "Borrar", "No borrar" };
+					String mensage = Messages.getString("JPanelPrincipal.31") + task.getNombre() //$NON-NLS-1$
+							+ Messages.getString("JPanelPrincipal.32"); //$NON-NLS-1$
+					Object[] options = { Messages.getString("JPanelPrincipal.33"), Messages.getString("JPanelPrincipal.34") }; //$NON-NLS-1$ //$NON-NLS-2$
 
-					int n = JOptionPane.showOptionDialog(topFrame, mensage, "Confirmacion", JOptionPane.YES_NO_OPTION,
+					int n = JOptionPane.showOptionDialog(topFrame, mensage, Messages.getString("JPanelPrincipal.35"), JOptionPane.YES_NO_OPTION, //$NON-NLS-1$
 							JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 
 					if (n == JOptionPane.YES_OPTION) {
-						GestorTareas.getInstancia("").borrarTarea(task);
+						GestorTareas.getInstancia("").borrarTarea(task); //$NON-NLS-1$
 						treeTareas.setModel(
-								GestorTareas.getInstancia("").actualizarTree("Tareas", task.getUuid_proyecto()));
+								GestorTareas.getInstancia("").actualizarTree(Messages.getString("JPanelPrincipal.38"), task.getUuid_proyecto())); //$NON-NLS-1$ //$NON-NLS-2$
 						limpiarTareas();
 
 					}
 
 				} catch (java.lang.ClassCastException | java.lang.NullPointerException ee) {
 
-					JOptionPane.showMessageDialog(topFrame, "No hay ninguna tarea seleccionada.", "Error",
+					JOptionPane.showMessageDialog(topFrame, Messages.getString("JPanelPrincipal.39"), Messages.getString("JPanelPrincipal.40"), //$NON-NLS-1$ //$NON-NLS-2$
 							JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
 		});
 
-		JMenuItem mntmAadirTarea = new JMenuItem("Añadir tarea");
+		JMenuItem mntmAadirTarea = new JMenuItem(Messages.getString("JPanelPrincipal.41")); //$NON-NLS-1$
 		mntmAadirTarea.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -288,21 +288,21 @@ public class JPanelPrincipal extends JPanel {
 						String uuid_padre = task.getUuid();
 
 						System.out.println(uuid_padre);
-						GestorTareas.getInstancia("").crearTarea(uuid_padre, project.getUuid(), "Nueva tarea",
-								Calendar.getInstance().getTime(), Calendar.getInstance().getTime(), "Nueva tarea",
-								"Tarea creada recientemente...", 0, 0);
+						GestorTareas.getInstancia("").crearTarea(uuid_padre, project.getUuid(), Messages.getString("JPanelPrincipal.43"), //$NON-NLS-1$ //$NON-NLS-2$
+								Calendar.getInstance().getTime(), Calendar.getInstance().getTime(), Messages.getString("JPanelPrincipal.44"), //$NON-NLS-1$
+								Messages.getString("JPanelPrincipal.45"), 0, 0); //$NON-NLS-1$
 
-						System.out.println("----" + task.getNombre() + "--" + task.getUuid());
+						System.out.println("----" + task.getNombre() + "--" + task.getUuid()); //$NON-NLS-1$ //$NON-NLS-2$
 
-						treeTareas.setModel(GestorTareas.getInstancia("").actualizarTree("Tareas", project.getUuid()));
+						treeTareas.setModel(GestorTareas.getInstancia("").actualizarTree(Messages.getString("JPanelPrincipal.49"), project.getUuid())); //$NON-NLS-1$ //$NON-NLS-2$
 
 					} catch (java.lang.ClassCastException | java.lang.NullPointerException ee) {
 
-						GestorTareas.getInstancia("").crearTarea(project.getUuid(), "Nueva tarea",
-								Calendar.getInstance().getTime(), Calendar.getInstance().getTime(), "",
-								"Tarea creada recientemente...", 0, 0);
+						GestorTareas.getInstancia("").crearTarea(project.getUuid(), Messages.getString("JPanelPrincipal.51"), //$NON-NLS-1$ //$NON-NLS-2$
+								Calendar.getInstance().getTime(), Calendar.getInstance().getTime(), "", //$NON-NLS-1$
+								Messages.getString("JPanelPrincipal.53"), 0, 0); //$NON-NLS-1$
 						limpiarTareas();
-						treeTareas.setModel(GestorTareas.getInstancia("").actualizarTree("Tareas", project.getUuid()));
+						treeTareas.setModel(GestorTareas.getInstancia("").actualizarTree(Messages.getString("JPanelPrincipal.55"), project.getUuid())); //$NON-NLS-1$ //$NON-NLS-2$
 					}
 
 				} else {
@@ -315,10 +315,10 @@ public class JPanelPrincipal extends JPanel {
 		mnTareas.addSeparator();
 		mnTareas.add(mntmBorrarTarea);
 
-		JMenu mnPersonas = new JMenu("Personas");
+		JMenu mnPersonas = new JMenu(Messages.getString("JPanelPrincipal.56")); //$NON-NLS-1$
 		menuBar.add(mnPersonas);
 
-		JMenuItem mntmListarPersonas = new JMenuItem("Gestionar personas");
+		JMenuItem mntmListarPersonas = new JMenuItem(Messages.getString("JPanelPrincipal.57")); //$NON-NLS-1$
 		mntmListarPersonas.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -334,39 +334,39 @@ public class JPanelPrincipal extends JPanel {
 					pers = new JFramePersonas(topFrame, true, listEquipo, null);
 				}
 
-				new JDialog(pers, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL);
+				new JDialog(pers, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL); //$NON-NLS-1$
 
 				pers.setVisible(true);
 			}
 		});
 		mnPersonas.add(mntmListarPersonas);
 		mnPersonas.addSeparator();
-		JMenuItem mntmMensajes = new JMenuItem("Enviar mensajes");
+		JMenuItem mntmMensajes = new JMenuItem(Messages.getString("JPanelPrincipal.59")); //$NON-NLS-1$
 		mntmMensajes.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panelnor);
 				JFrameEnviarMensaje msg = new JFrameEnviarMensaje(topFrame, true);
-				new JDialog(msg, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL);
+				new JDialog(msg, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL); //$NON-NLS-1$
 				msg.setVisible(true);
 
 			}
 		});
 		mnPersonas.add(mntmMensajes);
 
-		JMenuItem mntmBandejaDeEntrada = new JMenuItem("Bandeja de entrada");
+		JMenuItem mntmBandejaDeEntrada = new JMenuItem(Messages.getString("JPanelPrincipal.61")); //$NON-NLS-1$
 		mntmBandejaDeEntrada.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panelnor);
 				JFrameBandejaDeEntrada msg = new JFrameBandejaDeEntrada(topFrame, true);
-				new JDialog(msg, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL);
+				new JDialog(msg, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL); //$NON-NLS-1$
 				msg.setVisible(true);
 			}
 		});
 		mnPersonas.add(mntmBandejaDeEntrada);
 
-		JMenu mnAyuda = new JMenu("Ayuda");
+		JMenu mnAyuda = new JMenu(Messages.getString("JPanelPrincipal.63")); //$NON-NLS-1$
 		menuBar.add(mnAyuda);
 
 		panelsur = new JPanel();
@@ -375,15 +375,15 @@ public class JPanelPrincipal extends JPanel {
 		add(panelsur, BorderLayout.SOUTH);
 		panelsur.addComponentListener(new ResizeListener());
 		panelsur.setLayout(new GridLayout(0, 2, 0, 0));
-		lblUsuariobottombar = new JLabel("Usuario_bottombar");
+		lblUsuariobottombar = new JLabel("Usuario_bottombar"); //$NON-NLS-1$
 		lblUsuariobottombar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblUsuariobottombar.setForeground(Color.WHITE);
-		lblUsuariobottombar.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblUsuariobottombar.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 		panelsur.add(lblUsuariobottombar);
 
-		lblLogintimebottombar = new JLabel("Logintime_bottombar");
+		lblLogintimebottombar = new JLabel("Logintime_bottombar"); //$NON-NLS-1$
 		lblLogintimebottombar.setForeground(Color.WHITE);
-		lblLogintimebottombar.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblLogintimebottombar.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 		lblLogintimebottombar.setHorizontalAlignment(SwingConstants.CENTER);
 		panelsur.add(lblLogintimebottombar);
 
@@ -394,7 +394,7 @@ public class JPanelPrincipal extends JPanel {
 		JPanel split_izq = new JPanel();
 		mainSplit.setLeftComponent(split_izq);
 		split_izq.setLayout(new BorderLayout(0, 0));
-		listaproyectos = new JList(GestorProyectos.getInstancia("").getDefaultList());
+		listaproyectos = new JList(GestorProyectos.getInstancia("").getDefaultList()); //$NON-NLS-1$
 		listaproyectos.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -402,10 +402,10 @@ public class JPanelPrincipal extends JPanel {
 				Proyecto project = (Proyecto) listaproyectos.getSelectedValue();
 				if (project != null) {
 					txtTitulo.setText(project.getNombre());
-					txtFechacreacion.setText("" + project.getFecha_creacion());
+					txtFechacreacion.setText("" + project.getFecha_creacion()); //$NON-NLS-1$
 					dtrpnEditordescripcion.setText(project.getDescripcion());
-					treeTareas.setModel(GestorTareas.getInstancia("").actualizarTree("Tareas", project.getUuid()));
-					listEquipo.setModel(GestorEquipo.getInstancia("").getMiembrosEquipoProyecto(project.getUuid()));
+					treeTareas.setModel(GestorTareas.getInstancia("").actualizarTree(Messages.getString("JPanelPrincipal.0"), project.getUuid())); //$NON-NLS-1$ //$NON-NLS-2$
+					listEquipo.setModel(GestorEquipo.getInstancia("").getMiembrosEquipoProyecto(project.getUuid())); //$NON-NLS-1$
 
 					limpiarTareas();
 					limpiarEquipo();
@@ -414,7 +414,7 @@ public class JPanelPrincipal extends JPanel {
 			}
 		});
 
-		listaproyectos.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		listaproyectos.setFont(new Font("Tahoma", Font.PLAIN, 11)); //$NON-NLS-1$
 
 		listaproyectos.setFixedCellHeight(40);
 		listaproyectos.setCellRenderer(getRenderer());
@@ -448,7 +448,7 @@ public class JPanelPrincipal extends JPanel {
 		txtEquipo = new JTextField();
 		txtEquipo.setHorizontalAlignment(SwingConstants.CENTER);
 		txtEquipo.setEditable(false);
-		txtEquipo.setText("Equipo");
+		txtEquipo.setText(Messages.getString("JPanelPrincipal.74")); //$NON-NLS-1$
 		panelEquipo.add(txtEquipo, BorderLayout.NORTH);
 		txtEquipo.setColumns(10);
 
@@ -468,7 +468,7 @@ public class JPanelPrincipal extends JPanel {
 				MiembroEquipo miem = (MiembroEquipo) listEquipo.getSelectedValue();
 
 				if (miem != null) {
-					Usuario user = GestorUsuarios.getInstancia("").getUserByUuid(miem.getUuid_usuario());
+					Usuario user = GestorUsuarios.getInstancia("").getUserByUuid(miem.getUuid_usuario()); //$NON-NLS-1$
 					nombreMiembro.setText(user.getNombre());
 					apellidosMiembro.setText(user.getApellidos());
 					try {
@@ -476,7 +476,7 @@ public class JPanelPrincipal extends JPanel {
 								.getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
 					} catch (Exception ex) {
 						lblFotoequipo.setIcon(new ImageIcon(
-								new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/logo.png"))
+								new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/logo.png")) //$NON-NLS-1$
 										.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
 					}
 					rolMiembro.setText(miem.getRol());
@@ -497,7 +497,7 @@ public class JPanelPrincipal extends JPanel {
 		Component horizontalStrut_10 = Box.createHorizontalStrut(20);
 		panel_separador.add(horizontalStrut_10);
 
-		JButton btnExpulsarPersona = new JButton("Expulsar persona");
+		JButton btnExpulsarPersona = new JButton(Messages.getString("JPanelPrincipal.77")); //$NON-NLS-1$
 		btnExpulsarPersona.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -505,20 +505,20 @@ public class JPanelPrincipal extends JPanel {
 				MiembroEquipo miembro = (MiembroEquipo) listEquipo.getSelectedValue();
 				if (miembro != null) {
 
-					String mensage = "¿Seguro que quieres eliminar al miembro del equipo?";
-					Object[] options = { "Expulsar", "No expulsar" };
+					String mensage = Messages.getString("JPanelPrincipal.78"); //$NON-NLS-1$
+					Object[] options = { Messages.getString("JPanelPrincipal.79"), Messages.getString("JPanelPrincipal.80") }; //$NON-NLS-1$ //$NON-NLS-2$
 
-					int n = JOptionPane.showOptionDialog(null, mensage, "Confirmacion", JOptionPane.YES_NO_OPTION,
+					int n = JOptionPane.showOptionDialog(null, mensage, Messages.getString("JPanelPrincipal.81"), JOptionPane.YES_NO_OPTION, //$NON-NLS-1$
 							JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 
 					if (n == JOptionPane.YES_OPTION) {
-						GestorEquipo.getInstancia("").eliminarAsociacion(miembro);
+						GestorEquipo.getInstancia("").eliminarAsociacion(miembro); //$NON-NLS-1$
 						Proyecto project = (Proyecto) listaproyectos.getSelectedValue();
-						listEquipo.setModel(GestorEquipo.getInstancia("").getMiembrosEquipoProyecto(project.getUuid()));
+						listEquipo.setModel(GestorEquipo.getInstancia("").getMiembrosEquipoProyecto(project.getUuid())); //$NON-NLS-1$
 						limpiarEquipo();
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Primero tienes que seleccionar una persona.", "Error",
+					JOptionPane.showMessageDialog(null, Messages.getString("JPanelPrincipal.84"), Messages.getString("JPanelPrincipal.85"), //$NON-NLS-1$ //$NON-NLS-2$
 							JOptionPane.ERROR_MESSAGE);
 				}
 
@@ -526,7 +526,7 @@ public class JPanelPrincipal extends JPanel {
 		});
 		panel_separador.add(btnExpulsarPersona);
 
-		JButton btnAddEquipo = new JButton("Añadir personas");
+		JButton btnAddEquipo = new JButton(Messages.getString("JPanelPrincipal.86")); //$NON-NLS-1$
 		panel_separador.add(btnAddEquipo);
 		btnAddEquipo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -539,10 +539,10 @@ public class JPanelPrincipal extends JPanel {
 					JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panelnor);
 					JFrameGestionarEquipo ff = new JFrameGestionarEquipo(topFrame, true, project.getUuid(), listEquipo);
 
-					new JDialog(ff, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL);
+					new JDialog(ff, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL); //$NON-NLS-1$
 					ff.setVisible(true);
 				} else {
-					JOptionPane.showMessageDialog(null, "Primero tienes que seleccionar un proyecto.", "Error",
+					JOptionPane.showMessageDialog(null, Messages.getString("JPanelPrincipal.88"), Messages.getString("JPanelPrincipal.89"), //$NON-NLS-1$ //$NON-NLS-2$
 							JOptionPane.ERROR_MESSAGE);
 				}
 
@@ -560,7 +560,7 @@ public class JPanelPrincipal extends JPanel {
 		panel_7.add(panel_6, BorderLayout.SOUTH);
 		panel_6.setLayout(new GridLayout(4, 3, 3, 3));
 
-		JLabel lblNewLabel_3 = new JLabel("Nombre");
+		JLabel lblNewLabel_3 = new JLabel(Messages.getString("JPanelPrincipal.90")); //$NON-NLS-1$
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_6.add(lblNewLabel_3);
 
@@ -572,7 +572,7 @@ public class JPanelPrincipal extends JPanel {
 		Component horizontalStrut_8 = Box.createHorizontalStrut(20);
 		panel_6.add(horizontalStrut_8);
 
-		JLabel lblNewLabel_5 = new JLabel("Apellidos");
+		JLabel lblNewLabel_5 = new JLabel(Messages.getString("JPanelPrincipal.91")); //$NON-NLS-1$
 		lblNewLabel_5.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_6.add(lblNewLabel_5);
 
@@ -584,7 +584,7 @@ public class JPanelPrincipal extends JPanel {
 		Component horizontalStrut_6 = Box.createHorizontalStrut(20);
 		panel_6.add(horizontalStrut_6);
 
-		JLabel lblNewLabel_4 = new JLabel("Rol");
+		JLabel lblNewLabel_4 = new JLabel(Messages.getString("JPanelPrincipal.92")); //$NON-NLS-1$
 		lblNewLabel_4.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_6.add(lblNewLabel_4);
 
@@ -595,7 +595,7 @@ public class JPanelPrincipal extends JPanel {
 				MiembroEquipo miembro = (MiembroEquipo) listEquipo.getSelectedValue();
 				if (miembro != null) {
 					miembro.setRol(rolMiembro.getText());
-					GestorEquipo.getInstancia("").editarAsociacion(miembro);
+					GestorEquipo.getInstancia("").editarAsociacion(miembro); //$NON-NLS-1$
 				}
 
 			}
@@ -620,10 +620,10 @@ public class JPanelPrincipal extends JPanel {
 		panel_7.add(panel_8, BorderLayout.CENTER);
 		panel_8.setLayout(new BorderLayout(0, 0));
 
-		lblFotoequipo = new JLabel("");
+		lblFotoequipo = new JLabel(""); //$NON-NLS-1$
 		lblFotoequipo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFotoequipo.setIcon(
-				new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/logo.png"))
+				new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/logo.png")) //$NON-NLS-1$
 						.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
 		panel_8.add(lblFotoequipo, BorderLayout.CENTER);
 		JPanel panelTareas = new JPanel();
@@ -637,7 +637,7 @@ public class JPanelPrincipal extends JPanel {
 		txtNombretarea = new JTextField();
 		txtNombretarea.setEditable(false);
 		txtNombretarea.setHorizontalAlignment(SwingConstants.CENTER);
-		txtNombretarea.setText("Tareas");
+		txtNombretarea.setText(Messages.getString("JPanelPrincipal.96")); //$NON-NLS-1$
 		panel.add(txtNombretarea, BorderLayout.NORTH);
 		txtNombretarea.setColumns(10);
 		txtNombretarea.setMaximumSize(new Dimension(Integer.MAX_VALUE, 25));
@@ -645,7 +645,7 @@ public class JPanelPrincipal extends JPanel {
 		JPanel panel_1 = new JPanel();
 
 		panel_1.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
-		JLabel lblNewLabel = new JLabel("Inicio");
+		JLabel lblNewLabel = new JLabel(Messages.getString("JPanelPrincipal.97")); //$NON-NLS-1$
 		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_1.add(lblNewLabel);
 
@@ -655,14 +655,14 @@ public class JPanelPrincipal extends JPanel {
 
 		comboBoxEstadoTarea = new JComboBox();
 
-		comboBoxEstadoTarea.setModel(new DefaultComboBoxModel(new String[] { "Activa", "Completa", "Tardia" }));
+		comboBoxEstadoTarea.setModel(new DefaultComboBoxModel(new String[] { Messages.getString("JPanelPrincipal.98"), Messages.getString("JPanelPrincipal.99"), Messages.getString("JPanelPrincipal.100") })); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		panel_1.add(comboBoxEstadoTarea);
 
 		panel.add(panel_1, BorderLayout.SOUTH);
 
 		panel_1.setLayout(new GridLayout(2, 5));
 		panel_1.setMinimumSize(new Dimension(1, 50));
-		JButton btnNewButton_2 = new JButton("Personas");
+		JButton btnNewButton_2 = new JButton(Messages.getString("JPanelPrincipal.101")); //$NON-NLS-1$
 		btnNewButton_2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -681,7 +681,7 @@ public class JPanelPrincipal extends JPanel {
 							JFrameGestionarPersonasTarea ff = new JFrameGestionarPersonasTarea(topFrame, true,
 									project.getUuid(), task.getUuid());
 
-							new JDialog(ff, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL);
+							new JDialog(ff, "Dialogo modal", Dialog.ModalityType.DOCUMENT_MODAL); //$NON-NLS-1$
 							ff.setVisible(true);
 
 						}
@@ -690,7 +690,7 @@ public class JPanelPrincipal extends JPanel {
 					}
 
 				} else {
-					JOptionPane.showMessageDialog(null, "Primero tienes que seleccionar un proyecto.", "Error",
+					JOptionPane.showMessageDialog(null, Messages.getString("JPanelPrincipal.103"), Messages.getString("JPanelPrincipal.104"), //$NON-NLS-1$ //$NON-NLS-2$
 							JOptionPane.ERROR_MESSAGE);
 				}
 
@@ -701,14 +701,14 @@ public class JPanelPrincipal extends JPanel {
 		Component horizontalStrut_4 = Box.createHorizontalStrut(20);
 		panel_1.add(horizontalStrut_4);
 
-		JLabel lblNewLabel_1 = new JLabel("Final");
+		JLabel lblNewLabel_1 = new JLabel(Messages.getString("JPanelPrincipal.105")); //$NON-NLS-1$
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_1.add(lblNewLabel_1);
 		pickerFinal = new JXDatePicker();
 		pickerFinal.setDate(Calendar.getInstance().getTime());
 		panel_1.add(pickerFinal);
 
-		JButton btnNewButton = new JButton("Calendario");
+		JButton btnNewButton = new JButton(Messages.getString("JPanelPrincipal.106")); //$NON-NLS-1$
 		btnNewButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -717,7 +717,7 @@ public class JPanelPrincipal extends JPanel {
 					JFrameVistaCalendario cal=new JFrameVistaCalendario(project.getUuid());
 					cal.setVisible(true);
 				} else {
-					JOptionPane.showMessageDialog(null, "Primero tienes que seleccionar un proyecto.", "Error",
+					JOptionPane.showMessageDialog(null, Messages.getString("JPanelPrincipal.107"), Messages.getString("JPanelPrincipal.108"), //$NON-NLS-1$ //$NON-NLS-2$
 							JOptionPane.ERROR_MESSAGE);
 				}
 				
@@ -726,7 +726,7 @@ public class JPanelPrincipal extends JPanel {
 		});
 		panel_1.add(btnNewButton);
 
-		JButton btnNewButton_1 = new JButton("Eliminar");
+		JButton btnNewButton_1 = new JButton(Messages.getString("JPanelPrincipal.109")); //$NON-NLS-1$
 		btnNewButton_1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -737,24 +737,24 @@ public class JPanelPrincipal extends JPanel {
 				try {
 					task = (Tarea) nodo_anterior.getUserObject();
 
-					String mensage = "¿Seguro que quieres eliminar la tarea " + task.getNombre()
-							+ " y todas sus tareas hijas?";
-					Object[] options = { "Borrar", "No borrar" };
+					String mensage = Messages.getString("JPanelPrincipal.110") + task.getNombre() //$NON-NLS-1$
+							+ Messages.getString("JPanelPrincipal.111"); //$NON-NLS-1$
+					Object[] options = { Messages.getString("JPanelPrincipal.112"), Messages.getString("JPanelPrincipal.113") }; //$NON-NLS-1$ //$NON-NLS-2$
 
-					int n = JOptionPane.showOptionDialog(topFrame, mensage, "Confirmacion", JOptionPane.YES_NO_OPTION,
+					int n = JOptionPane.showOptionDialog(topFrame, mensage, Messages.getString("JPanelPrincipal.114"), JOptionPane.YES_NO_OPTION, //$NON-NLS-1$
 							JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 
 					if (n == JOptionPane.YES_OPTION) {
-						GestorTareas.getInstancia("").borrarTarea(task);
+						GestorTareas.getInstancia("").borrarTarea(task); //$NON-NLS-1$
 						treeTareas.setModel(
-								GestorTareas.getInstancia("").actualizarTree("Tareas", task.getUuid_proyecto()));
+								GestorTareas.getInstancia("").actualizarTree(Messages.getString("JPanelPrincipal.117"), task.getUuid_proyecto())); //$NON-NLS-1$ //$NON-NLS-2$
 						limpiarTareas();
 
 					}
 
 				} catch (java.lang.ClassCastException | java.lang.NullPointerException ee) {
 
-					JOptionPane.showMessageDialog(topFrame, "No hay ninguna tarea seleccionada.", "Error",
+					JOptionPane.showMessageDialog(topFrame, Messages.getString("JPanelPrincipal.118"), Messages.getString("JPanelPrincipal.119"), //$NON-NLS-1$ //$NON-NLS-2$
 							JOptionPane.ERROR_MESSAGE);
 				}
 
@@ -819,14 +819,14 @@ public class JPanelPrincipal extends JPanel {
 		panel_4.add(panel_5, BorderLayout.SOUTH);
 		panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.X_AXIS));
 
-		JLabel lblTags = new JLabel("  Tags");
+		JLabel lblTags = new JLabel(Messages.getString("JPanelPrincipal.120")); //$NON-NLS-1$
 		panel_5.add(lblTags);
 
 		txtTags = new JTextField();
 		panel_5.add(txtTags);
 		txtTags.setColumns(10);
 
-		JLabel lblPrioridad = new JLabel("Prioridad: ");
+		JLabel lblPrioridad = new JLabel(Messages.getString("JPanelPrincipal.121")); //$NON-NLS-1$
 		panel_5.add(lblPrioridad);
 
 		spinnerPrioridad = new JSpinner();
@@ -837,7 +837,7 @@ public class JPanelPrincipal extends JPanel {
 		panel_4.add(panel_9, BorderLayout.NORTH);
 		panel_9.setLayout(new BoxLayout(panel_9, BoxLayout.X_AXIS));
 
-		JLabel lblNombre = new JLabel("Nombre: ");
+		JLabel lblNombre = new JLabel(Messages.getString("JPanelPrincipal.122")); //$NON-NLS-1$
 		panel_9.add(lblNombre);
 
 		txtTareanombre = new JTextField();
@@ -857,7 +857,7 @@ public class JPanelPrincipal extends JPanel {
 		panel_2.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
 		panel_2.setLayout(new GridLayout(2, 1, 0, 0));
 
-		JTextField lblNewLabel_2 = new JTextField("Descripción del proyecto");
+		JTextField lblNewLabel_2 = new JTextField(Messages.getString("JPanelPrincipal.123")); //$NON-NLS-1$
 		lblNewLabel_2.setEditable(false);
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_2.add(lblNewLabel_2);
@@ -871,14 +871,14 @@ public class JPanelPrincipal extends JPanel {
 		Component horizontalStrut_2 = Box.createHorizontalStrut(3);
 		panelNor.add(horizontalStrut_2);
 
-		JLabel lblTitulo = new JLabel("Titulo: ");
+		JLabel lblTitulo = new JLabel(Messages.getString("JPanelPrincipal.124")); //$NON-NLS-1$
 
-		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 14)); //$NON-NLS-1$
 		panelNor.add(lblTitulo);
 
 		txtTitulo = new JTextField();
 
-		txtTitulo.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtTitulo.setFont(new Font("Tahoma", Font.PLAIN, 14)); //$NON-NLS-1$
 
 		panelNor.add(txtTitulo);
 		txtTitulo.setColumns(10);
@@ -886,16 +886,16 @@ public class JPanelPrincipal extends JPanel {
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
 		panelNor.add(horizontalStrut_1);
 
-		JLabel lblCreacion = new JLabel("Creacion: ");
-		lblCreacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JLabel lblCreacion = new JLabel(Messages.getString("JPanelPrincipal.127")); //$NON-NLS-1$
+		lblCreacion.setFont(new Font("Tahoma", Font.PLAIN, 14)); //$NON-NLS-1$
 
 		panelNor.add(lblCreacion);
 
 		txtFechacreacion = new JTextField();
 		txtFechacreacion.setEditable(false);
-		txtFechacreacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtFechacreacion.setFont(new Font("Tahoma", Font.PLAIN, 14)); //$NON-NLS-1$
 
-		txtFechacreacion.setText("                   ");
+		txtFechacreacion.setText("                   "); //$NON-NLS-1$
 
 		txtFechacreacion.setMaximumSize(new Dimension(200, 25));
 		panelNor.add(txtFechacreacion);
@@ -907,7 +907,7 @@ public class JPanelPrincipal extends JPanel {
 
 		dtrpnEditordescripcion = new JTextArea();
 		dtrpnEditordescripcion = new JTextArea();
-		dtrpnEditordescripcion.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		dtrpnEditordescripcion.setFont(new Font("Tahoma", Font.PLAIN, 11)); //$NON-NLS-1$
 		dtrpnEditordescripcion.setLineWrap(true);
 		dtrpnEditordescripcion.setWrapStyleWord(true);
 
@@ -939,11 +939,11 @@ public class JPanelPrincipal extends JPanel {
 	}
 
 	public void limpiarEquipo() {
-		rolMiembro.setText("");
-		nombreMiembro.setText("");
-		apellidosMiembro.setText("");
+		rolMiembro.setText(""); //$NON-NLS-1$
+		nombreMiembro.setText(""); //$NON-NLS-1$
+		apellidosMiembro.setText(""); //$NON-NLS-1$
 		lblFotoequipo.setIcon(
-				new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/logo.png"))
+				new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/logo.png")) //$NON-NLS-1$
 						.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
 	}
 
@@ -954,19 +954,19 @@ public class JPanelPrincipal extends JPanel {
 	}
 
 	public void limpiarDetalles() {
-		txtTitulo.setText("");
-		txtFechacreacion.setText("");
-		dtrpnEditordescripcion.setText("");
+		txtTitulo.setText(""); //$NON-NLS-1$
+		txtFechacreacion.setText(""); //$NON-NLS-1$
+		dtrpnEditordescripcion.setText(""); //$NON-NLS-1$
 	}
 
 	public void limpiarTareas() {
-		txtTareanombre.setText("");
+		txtTareanombre.setText(""); //$NON-NLS-1$
 		spinnerPrioridad.setValue(0);
 		pickerInicio.setDate(Calendar.getInstance().getTime());
 		pickerFinal.setDate(Calendar.getInstance().getTime());
-		descripcionTarea.setText("");
+		descripcionTarea.setText(""); //$NON-NLS-1$
 		comboBoxEstadoTarea.setSelectedIndex(0);
-		txtTags.setText("");
+		txtTags.setText(""); //$NON-NLS-1$
 	}
 
 	private void guardar_tarea_anterior() {
@@ -975,7 +975,7 @@ public class JPanelPrincipal extends JPanel {
 		try {
 			task = (Tarea) nodo_anterior.getUserObject();
 			if (task != null) {
-				GestorTareas.getInstancia("").editarTarea(task.getUuid(), txtTareanombre.getText(),
+				GestorTareas.getInstancia("").editarTarea(task.getUuid(), txtTareanombre.getText(), //$NON-NLS-1$
 						pickerInicio.getDate(), pickerFinal.getDate(), txtTags.getText(), descripcionTarea.getText(),
 						(int) spinnerPrioridad.getValue(), comboBoxEstadoTarea.getSelectedIndex());
 			}
@@ -996,22 +996,22 @@ public class JPanelPrincipal extends JPanel {
 
 				descripcionTarea.insertIcon(new ImageIcon(file.getAbsolutePath()));
 			} else {
-				JOptionPane.showMessageDialog(this, "El archivo no es una imagen.", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, Messages.getString("JPanelPrincipal.143"), Messages.getString("JPanelPrincipal.144"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 	}
 
 	private boolean isImage(File file) {
 		String name = file.getName();
-		return name.endsWith(".jpg") || name.endsWith(".png") || name.endsWith(".jpeg") || name.endsWith(".gif");
+		return name.endsWith(".jpg") || name.endsWith(".png") || name.endsWith(".jpeg") || name.endsWith(".gif"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
 
 	class ResizeListener extends ComponentAdapter {
 		@Override
 		public void componentResized(ComponentEvent e) {
 			if (CurrentSession.getInstancia().getUser() != null) {
-				lblUsuariobottombar.setText("Bienvenido, " + CurrentSession.getInstancia().getUser().getNombre());
-				lblLogintimebottombar.setText("Ultimo login: " + CurrentSession.getInstancia().getLogin_time());
+				lblUsuariobottombar.setText(Messages.getString("JPanelPrincipal.149") + CurrentSession.getInstancia().getUser().getNombre()); //$NON-NLS-1$
+				lblLogintimebottombar.setText(Messages.getString("JPanelPrincipal.150") + CurrentSession.getInstancia().getLogin_time()); //$NON-NLS-1$
 			}
 
 		}

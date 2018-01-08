@@ -69,9 +69,9 @@ public class JPanelRegistro extends JPanel {
 	private JTextField rolField;
 	private JTextField contactoField;
 	private JPasswordField passwordField_2;
-	private String foto_path = "/org/ohespaco/recursos/user_icon.png";
+	private String foto_path = "/org/ohespaco/recursos/user_icon.png"; //$NON-NLS-1$
 	private JTextArea textDescripcion;
-	private final String DEFAULT_FOTO_PATH = "/org/ohespaco/recursos/user_icon.png";
+	private final String DEFAULT_FOTO_PATH = "/org/ohespaco/recursos/user_icon.png"; //$NON-NLS-1$
 
 	public JPanelRegistro(JPanel cards) {
 		this.cards = cards;
@@ -89,49 +89,49 @@ public class JPanelRegistro extends JPanel {
 		registroPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		registroPane.setLayout(null);
 
-		btnRegistrarse = new JButton("Registro");
+		btnRegistrarse = new JButton(Messages.getString("JPanelRegistro.0")); //$NON-NLS-1$
 
-		btnRegistrarse.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnRegistrarse.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 
 		btnRegistrarse.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				lblAviso.setVisible(false);
 				// System.out.println();
-				if (!GestorUsuarios.getInstancia("").existeEmail(emailField.getText())
+				if (!GestorUsuarios.getInstancia("").existeEmail(emailField.getText()) //$NON-NLS-1$
 						&& EmailValidator.getInstance().isValid(emailField.getText())) {
-					if (GestorUsuarios.getInstancia("").validateString(nombreField.getText())
-							&& GestorUsuarios.getInstancia("").validateString(apellidosField.getText())) {
+					if (GestorUsuarios.getInstancia("").validateString(nombreField.getText()) //$NON-NLS-1$
+							&& GestorUsuarios.getInstancia("").validateString(apellidosField.getText())) { //$NON-NLS-1$
 						if (new String(passwordField.getPassword()).equals(new String(passwordField_2.getPassword()))) {
-							if (GestorUsuarios.getInstancia("").validatePass(new String(passwordField.getPassword()))) {
-								if (rolField.getText().matches(".*\\w.*") && contactoField.getText().matches(".*\\w.*")
-										&& textDescripcion.getText().matches(".*\\w.*")) {
+							if (GestorUsuarios.getInstancia("").validatePass(new String(passwordField.getPassword()))) { //$NON-NLS-1$
+								if (rolField.getText().matches(".*\\w.*") && contactoField.getText().matches(".*\\w.*") //$NON-NLS-1$ //$NON-NLS-2$
+										&& textDescripcion.getText().matches(".*\\w.*")) { //$NON-NLS-1$
 
-									GestorUsuarios.getInstancia("").registrarUsuario(emailField.getText(),
+									GestorUsuarios.getInstancia("").registrarUsuario(emailField.getText(), //$NON-NLS-1$
 											new String(passwordField.getPassword()), nombreField.getText(),
 											apellidosField.getText(), rolField.getText(), contactoField.getText(),
 											textDescripcion.getText(), foto_path);
-									btnRegistrarse.setText("Registrado con exito");
+									btnRegistrarse.setText(Messages.getString("JPanelRegistro.12")); //$NON-NLS-1$
 								} else {
-									lblAviso.setText("No puede haber campos vacios");
+									lblAviso.setText(Messages.getString("JPanelRegistro.13")); //$NON-NLS-1$
 									lblAviso.setVisible(true);
 								}
 							} else {
-								lblAviso.setText("Contraseña corta");
+								lblAviso.setText(Messages.getString("JPanelRegistro.14")); //$NON-NLS-1$
 								lblAviso.setVisible(true);
 							}
 						} else {
-							lblAviso.setText("Las contraseñas no concuerdan");
+							lblAviso.setText(Messages.getString("JPanelRegistro.15")); //$NON-NLS-1$
 							lblAviso.setVisible(true);
 						}
 					} else {
-						lblAviso.setText("Nombre o apellidos invalidos");
+						lblAviso.setText(Messages.getString("JPanelRegistro.16")); //$NON-NLS-1$
 						lblAviso.setVisible(true);
 					}
 
 				} else {
 
-					lblAviso.setText("Email invalido");
+					lblAviso.setText(Messages.getString("JPanelRegistro.17")); //$NON-NLS-1$
 					lblAviso.setVisible(true);
 				}
 			}
@@ -161,36 +161,30 @@ public class JPanelRegistro extends JPanel {
 		registroPane.add(emailField);
 		emailField.setColumns(10);
 
-		lblEmail = new JLabel("Email");
-		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblEmail = new JLabel(Messages.getString("JPanelRegistro.18")); //$NON-NLS-1$
+		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
 
 		lblEmail.setBounds(23, 177, 258, 14);
 		registroPane.add(lblEmail);
 
-		lblContrasea = new JLabel("Contraseña");
-		lblContrasea.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblContrasea = new JLabel(Messages.getString("JPanelRegistro.20")); //$NON-NLS-1$
+		lblContrasea.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblContrasea.setHorizontalAlignment(SwingConstants.CENTER);
 
 		lblContrasea.setBounds(309, 292, 258, 14);
 		registroPane.add(lblContrasea);
-		lblFoto = new JLabel("New label");
+		lblFoto = new JLabel("New label"); //$NON-NLS-1$
 		lblFoto.setBounds(220, 24, 120, 120);
 		lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource(foto_path)).getImage()
 				.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH)));
 
 		registroPane.add(lblFoto);
 
-		JComboBox comboBox = new JComboBox();
-
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Castellano", "Inglés" }));
-		comboBox.setBounds(428, 11, 139, 24);
-		registroPane.add(comboBox);
-
-		lblAviso = new JLabel("Email o contraseña incorrectos");
+		lblAviso = new JLabel(Messages.getString("JPanelRegistro.23")); //$NON-NLS-1$
 		lblAviso.setForeground(Color.RED);
 		lblAviso.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAviso.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblAviso.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblAviso.setBounds(309, 400, 258, 14);
 		lblAviso.setVisible(false);
 		registroPane.add(lblAviso);
@@ -206,10 +200,10 @@ public class JPanelRegistro extends JPanel {
 		nombreField.setBounds(23, 250, 258, 30);
 		registroPane.add(nombreField);
 
-		JLabel lblNombre = new JLabel("Nombre");
+		JLabel lblNombre = new JLabel(Messages.getString("JPanelRegistro.25")); //$NON-NLS-1$
 		lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
 
-		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblNombre.setBounds(23, 234, 258, 14);
 		registroPane.add(lblNombre);
 
@@ -224,10 +218,10 @@ public class JPanelRegistro extends JPanel {
 		apellidosField.setBounds(23, 307, 258, 30);
 		registroPane.add(apellidosField);
 
-		JLabel lblApellidos = new JLabel("Apellidos");
+		JLabel lblApellidos = new JLabel(Messages.getString("JPanelRegistro.27")); //$NON-NLS-1$
 		lblApellidos.setHorizontalAlignment(SwingConstants.CENTER);
 
-		lblApellidos.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblApellidos.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblApellidos.setBounds(23, 291, 258, 14);
 		registroPane.add(lblApellidos);
 
@@ -242,10 +236,10 @@ public class JPanelRegistro extends JPanel {
 		rolField.setBounds(23, 364, 258, 30);
 		registroPane.add(rolField);
 
-		JLabel lblRol = new JLabel("Rol");
+		JLabel lblRol = new JLabel(Messages.getString("JPanelRegistro.29")); //$NON-NLS-1$
 		lblRol.setHorizontalAlignment(SwingConstants.CENTER);
 
-		lblRol.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblRol.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblRol.setBounds(23, 348, 258, 14);
 		registroPane.add(lblRol);
 
@@ -260,10 +254,10 @@ public class JPanelRegistro extends JPanel {
 		contactoField.setBounds(23, 421, 258, 30);
 		registroPane.add(contactoField);
 
-		JLabel lblContacto = new JLabel("Contacto");
+		JLabel lblContacto = new JLabel(Messages.getString("JPanelRegistro.31")); //$NON-NLS-1$
 		lblContacto.setHorizontalAlignment(SwingConstants.CENTER);
 
-		lblContacto.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblContacto.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblContacto.setBounds(23, 405, 258, 14);
 		registroPane.add(lblContacto);
 
@@ -278,10 +272,10 @@ public class JPanelRegistro extends JPanel {
 		passwordField_2.setBounds(309, 364, 258, 30);
 		registroPane.add(passwordField_2);
 
-		JLabel labelPass = new JLabel("Repetir contraseña");
+		JLabel labelPass = new JLabel(Messages.getString("JPanelRegistro.33")); //$NON-NLS-1$
 		labelPass.setHorizontalAlignment(SwingConstants.CENTER);
 
-		labelPass.setFont(new Font("Tahoma", Font.BOLD, 11));
+		labelPass.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		labelPass.setBounds(309, 348, 258, 14);
 		registroPane.add(labelPass);
 
@@ -296,14 +290,14 @@ public class JPanelRegistro extends JPanel {
 		textDescripcion.setBounds(309, 193, 258, 88);
 		registroPane.add(textDescripcion);
 
-		JLabel lblHablanosDeT = new JLabel("Hablanos de tí");
+		JLabel lblHablanosDeT = new JLabel(Messages.getString("JPanelRegistro.35")); //$NON-NLS-1$
 		lblHablanosDeT.setHorizontalAlignment(SwingConstants.CENTER);
 
-		lblHablanosDeT.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblHablanosDeT.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblHablanosDeT.setBounds(309, 177, 258, 14);
 		registroPane.add(lblHablanosDeT);
 
-		JLabel lblAtras = new JLabel("Atrás");
+		JLabel lblAtras = new JLabel(Messages.getString("JPanelRegistro.37")); //$NON-NLS-1$
 		lblAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -319,7 +313,7 @@ public class JPanelRegistro extends JPanel {
 			public void mousePressed(MouseEvent e) {
 
 				CardLayout cl = (CardLayout) (cards.getLayout());
-				cl.show(cards, "login");
+				cl.show(cards, Messages.getString("JPanelRegistro.38")); //$NON-NLS-1$
 
 				JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(registroPane);
 				Point posicion = topFrame.getLocationOnScreen();
@@ -330,11 +324,11 @@ public class JPanelRegistro extends JPanel {
 		});
 		lblAtras.setHorizontalAlignment(SwingConstants.LEFT);
 		lblAtras.setForeground(new Color(112, 154, 208));
-		lblAtras.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblAtras.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblAtras.setBounds(23, 16, 74, 14);
 		registroPane.add(lblAtras);
 
-		JLabel lblCambiarFoto = new JLabel("Cambiar foto");
+		JLabel lblCambiarFoto = new JLabel(Messages.getString("JPanelRegistro.40")); //$NON-NLS-1$
 		lblCambiarFoto.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -352,7 +346,7 @@ public class JPanelRegistro extends JPanel {
 
 				JFileChooser jfch = new JFileChooser();
 				jfch.setAcceptAllFileFilterUsed(false);
-				jfch.addChoosableFileFilter(new FileNameExtensionFilter("PNG image files", "png"));
+				jfch.addChoosableFileFilter(new FileNameExtensionFilter(Messages.getString("JPanelRegistro.41"), Messages.getString("JPanelRegistro.42"))); //$NON-NLS-1$ //$NON-NLS-2$
 				try {
 					if (jfch.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 						foto_path = jfch.getSelectedFile().getAbsolutePath();
@@ -368,7 +362,7 @@ public class JPanelRegistro extends JPanel {
 		});
 		lblCambiarFoto.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCambiarFoto.setForeground(Color.LIGHT_GRAY);
-		lblCambiarFoto.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblCambiarFoto.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblCambiarFoto.setBounds(220, 152, 120, 14);
 		registroPane.add(lblCambiarFoto);
 
@@ -376,19 +370,19 @@ public class JPanelRegistro extends JPanel {
 
 	public void initComponents() {
 
-		passwordField.setText("");
-		emailField.setText("");
+		passwordField.setText(""); //$NON-NLS-1$
+		emailField.setText(""); //$NON-NLS-1$
 		foto_path = DEFAULT_FOTO_PATH;
 
 		lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource(DEFAULT_FOTO_PATH)).getImage()
 				.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH)));
-		lblAviso.setText("");
-		nombreField.setText("");
-		apellidosField.setText("");
-		rolField.setText("");
-		contactoField.setText("");
-		passwordField_2.setText("");
-		textDescripcion.setText("");
-		btnRegistrarse.setText("Registrarse");
+		lblAviso.setText(""); //$NON-NLS-1$
+		nombreField.setText(""); //$NON-NLS-1$
+		apellidosField.setText(""); //$NON-NLS-1$
+		rolField.setText(""); //$NON-NLS-1$
+		contactoField.setText(""); //$NON-NLS-1$
+		passwordField_2.setText(""); //$NON-NLS-1$
+		textDescripcion.setText(""); //$NON-NLS-1$
+		btnRegistrarse.setText(Messages.getString("JPanelRegistro.53")); //$NON-NLS-1$
 	}
 }

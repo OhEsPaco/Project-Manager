@@ -67,7 +67,7 @@ public class JFrameEnviarMensaje extends JDialog {
 		scrollPane.setBounds(0, 0, 150, 416);
 		contentPane.add(scrollPane);
 
-		JList list = new JList(GestorUsuarios.getInstancia("").getDefaultList());
+		JList list = new JList(GestorUsuarios.getInstancia("").getDefaultList()); //$NON-NLS-1$
 		list.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -80,7 +80,7 @@ public class JFrameEnviarMensaje extends JDialog {
 		});
 		scrollPane.setViewportView(list);
 
-		JLabel lblPara = new JLabel("Para: ");
+		JLabel lblPara = new JLabel(Messages.getString("JFrameEnviarMensaje.1")); //$NON-NLS-1$
 		lblPara.setBounds(160, 11, 72, 25);
 		contentPane.add(lblPara);
 
@@ -90,7 +90,7 @@ public class JFrameEnviarMensaje extends JDialog {
 		contentPane.add(receptorEmail);
 		receptorEmail.setColumns(10);
 
-		JLabel lblAsunto = new JLabel("Asunto:");
+		JLabel lblAsunto = new JLabel(Messages.getString("JFrameEnviarMensaje.2")); //$NON-NLS-1$
 		lblAsunto.setBounds(160, 57, 72, 25);
 		contentPane.add(lblAsunto);
 
@@ -102,7 +102,7 @@ public class JFrameEnviarMensaje extends JDialog {
 		txtTextoDelMensaje = new JTextField();
 		txtTextoDelMensaje.setEditable(false);
 		txtTextoDelMensaje.setHorizontalAlignment(SwingConstants.CENTER);
-		txtTextoDelMensaje.setText("Texto del mensaje");
+		txtTextoDelMensaje.setText(Messages.getString("JFrameEnviarMensaje.3")); //$NON-NLS-1$
 		txtTextoDelMensaje.setBounds(149, 102, 454, 25);
 		contentPane.add(txtTextoDelMensaje);
 		txtTextoDelMensaje.setColumns(10);
@@ -116,7 +116,7 @@ public class JFrameEnviarMensaje extends JDialog {
 		textArea.setWrapStyleWord(true);
 		scrollPane_1.setViewportView(textArea);
 
-		JButton btnEnviar = new JButton("Enviar");
+		JButton btnEnviar = new JButton(Messages.getString("JFrameEnviarMensaje.4")); //$NON-NLS-1$
 		btnEnviar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -125,24 +125,24 @@ public class JFrameEnviarMensaje extends JDialog {
 
 				if (user_dest != null) {
 					receptorEmail.setText(user_dest.getEmail());
-					if (asunto.getText().matches(".*\\w.*")) {
+					if (asunto.getText().matches(".*\\w.*")) { //$NON-NLS-1$
 						if (CurrentSession.getInstancia().getUser().getUuid().equals(user_dest.getUuid())) {
-							JOptionPane.showMessageDialog(null, "No te puedes enviar mensajes a ti mismo.", "Error",
+							JOptionPane.showMessageDialog(null, Messages.getString("JFrameEnviarMensaje.6"), Messages.getString("JFrameEnviarMensaje.7"), //$NON-NLS-1$ //$NON-NLS-2$
 									JOptionPane.ERROR_MESSAGE);
 						} else {
 
-							GestorMensajes.getInstancia("").nuevoMensaje(
+							GestorMensajes.getInstancia("").nuevoMensaje( //$NON-NLS-1$
 									CurrentSession.getInstancia().getUser().getUuid(), user_dest.getUuid(),
 									asunto.getText(), textArea.getText());
-							JOptionPane.showMessageDialog(null, "Mensaje enviado!.");
+							JOptionPane.showMessageDialog(null, Messages.getString("JFrameEnviarMensaje.9")); //$NON-NLS-1$
 						}
 
 					} else {
-						JOptionPane.showMessageDialog(null, "El asunto no puede estar vacio.", "Error",
+						JOptionPane.showMessageDialog(null, Messages.getString("JFrameEnviarMensaje.10"), Messages.getString("JFrameEnviarMensaje.11"), //$NON-NLS-1$ //$NON-NLS-2$
 								JOptionPane.ERROR_MESSAGE);
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Tienes que seleccionar un receptor.", "Error",
+					JOptionPane.showMessageDialog(null, Messages.getString("JFrameEnviarMensaje.12"), Messages.getString("JFrameEnviarMensaje.13"), //$NON-NLS-1$ //$NON-NLS-2$
 							JOptionPane.ERROR_MESSAGE);
 				}
 

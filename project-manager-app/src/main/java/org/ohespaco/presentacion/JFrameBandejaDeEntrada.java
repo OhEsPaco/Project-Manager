@@ -64,13 +64,13 @@ public class JFrameBandejaDeEntrada extends JDialog {
 		textAreaMensaje.setLineWrap(true);
 		textAreaMensaje.setWrapStyleWord(true);
 		JList lista = new JList(
-				GestorMensajes.getInstancia("").getDefaultList(CurrentSession.getInstancia().getUser().getUuid()));
+				GestorMensajes.getInstancia("").getDefaultList(CurrentSession.getInstancia().getUser().getUuid())); //$NON-NLS-1$
 		lista.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				Mensaje msg = (Mensaje) lista.getSelectedValue();
 				if (msg != null) {
-					emisorEmail.setText(GestorUsuarios.getInstancia("").getUserByUuid(msg.getUuid_emisor()).getEmail());
+					emisorEmail.setText(GestorUsuarios.getInstancia("").getUserByUuid(msg.getUuid_emisor()).getEmail()); //$NON-NLS-1$
 					asunto.setText(msg.getAsunto());
 					textAreaMensaje.setText(msg.getMensaje());
 
@@ -79,7 +79,7 @@ public class JFrameBandejaDeEntrada extends JDialog {
 		});
 		scrollPane.setViewportView(lista);
 
-		JLabel lblPara = new JLabel("De: ");
+		JLabel lblPara = new JLabel(Messages.getString("JFrameBandejaDeEntrada.de")); //$NON-NLS-1$
 		lblPara.setBounds(160, 11, 72, 25);
 		contentPane.add(lblPara);
 
@@ -89,7 +89,7 @@ public class JFrameBandejaDeEntrada extends JDialog {
 		contentPane.add(emisorEmail);
 		emisorEmail.setColumns(10);
 
-		JLabel lblAsunto = new JLabel("Asunto:");
+		JLabel lblAsunto = new JLabel(Messages.getString("JFrameBandejaDeEntrada.asunto")); //$NON-NLS-1$
 		lblAsunto.setBounds(160, 57, 72, 25);
 		contentPane.add(lblAsunto);
 
@@ -101,7 +101,7 @@ public class JFrameBandejaDeEntrada extends JDialog {
 		txtTextoDelMensaje = new JTextField();
 		txtTextoDelMensaje.setEditable(false);
 		txtTextoDelMensaje.setHorizontalAlignment(SwingConstants.CENTER);
-		txtTextoDelMensaje.setText("Texto del mensaje");
+		txtTextoDelMensaje.setText(Messages.getString("JFrameBandejaDeEntrada.texto")); //$NON-NLS-1$
 		txtTextoDelMensaje.setBounds(149, 102, 454, 25);
 		contentPane.add(txtTextoDelMensaje);
 		txtTextoDelMensaje.setColumns(10);

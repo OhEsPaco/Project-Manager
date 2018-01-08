@@ -77,8 +77,8 @@ public class JFramePersonas extends JDialog {
 	private JTextField contactoField;
 	private JPasswordField passwordField_2;
 	private JList<Usuario> listPersonas;
-	private String foto_path = "/org/ohespaco/recursos/user_icon.png";
-	private final String DEFAULT_FOTO_PATH = "/org/ohespaco/recursos/user_icon.png";
+	private String foto_path = "/org/ohespaco/recursos/user_icon.png"; //$NON-NLS-1$
+	private final String DEFAULT_FOTO_PATH = "/org/ohespaco/recursos/user_icon.png"; //$NON-NLS-1$
 	private JTextArea textDescripcion;
 	private boolean aplicar = false;
 	private JButton btnBorrar;
@@ -89,13 +89,13 @@ public class JFramePersonas extends JDialog {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				if (project_uuid != null) {
-					listEquipo.setModel(GestorEquipo.getInstancia("").getMiembrosEquipoProyecto(project_uuid));
+					listEquipo.setModel(GestorEquipo.getInstancia("").getMiembrosEquipoProyecto(project_uuid)); //$NON-NLS-1$
 				}
 
 			}
 		});
 
-		setTitle("Gestionar personas");
+		setTitle(Messages.getString("JFramePersonas.3")); //$NON-NLS-1$
 		setResizable(false);
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 779, 499);
@@ -105,9 +105,9 @@ public class JFramePersonas extends JDialog {
 		registroPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		registroPane.setLayout(null);
 		setContentPane(registroPane);
-		btnRegistrarse = new JButton("Añadir");
+		btnRegistrarse = new JButton(Messages.getString("JFramePersonas.4")); //$NON-NLS-1$
 
-		btnRegistrarse.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnRegistrarse.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 
 		btnRegistrarse.addActionListener(new ActionListener() {
 			@Override
@@ -115,106 +115,106 @@ public class JFramePersonas extends JDialog {
 				lblAviso.setVisible(false);
 
 				if (aplicar == false) {
-					if (!GestorUsuarios.getInstancia("").existeEmail(emailField.getText())
+					if (!GestorUsuarios.getInstancia("").existeEmail(emailField.getText()) //$NON-NLS-1$
 							&& EmailValidator.getInstance().isValid(emailField.getText())) {
-						if (GestorUsuarios.getInstancia("").validateString(nombreField.getText())
-								&& GestorUsuarios.getInstancia("").validateString(apellidosField.getText())) {
+						if (GestorUsuarios.getInstancia("").validateString(nombreField.getText()) //$NON-NLS-1$
+								&& GestorUsuarios.getInstancia("").validateString(apellidosField.getText())) { //$NON-NLS-1$
 							if (new String(passwordField.getPassword())
 									.equals(new String(passwordField_2.getPassword()))) {
-								if (GestorUsuarios.getInstancia("")
+								if (GestorUsuarios.getInstancia("") //$NON-NLS-1$
 										.validatePass(new String(passwordField.getPassword()))) {
-									if (rolField.getText().matches(".*\\w.*")
-											&& contactoField.getText().matches(".*\\w.*")
-											&& textDescripcion.getText().matches(".*\\w.*")) {
+									if (rolField.getText().matches(".*\\w.*") //$NON-NLS-1$
+											&& contactoField.getText().matches(".*\\w.*") //$NON-NLS-1$
+											&& textDescripcion.getText().matches(".*\\w.*")) { //$NON-NLS-1$
 
-										GestorUsuarios.getInstancia("").registrarUsuario(emailField.getText(),
+										GestorUsuarios.getInstancia("").registrarUsuario(emailField.getText(), //$NON-NLS-1$
 												new String(passwordField.getPassword()), nombreField.getText(),
 												apellidosField.getText(), rolField.getText(), contactoField.getText(),
 												textDescripcion.getText(), foto_path);
-										listPersonas.setModel(GestorUsuarios.getInstancia("").getDefaultList());
+										listPersonas.setModel(GestorUsuarios.getInstancia("").getDefaultList()); //$NON-NLS-1$
 
 									} else {
-										lblAviso.setText("No puede haber campos vacios");
+										lblAviso.setText(Messages.getString("JFramePersonas.15")); //$NON-NLS-1$
 										lblAviso.setVisible(true);
 									}
 								} else {
-									lblAviso.setText("Contraseña corta");
+									lblAviso.setText(Messages.getString("JFramePersonas.16")); //$NON-NLS-1$
 									lblAviso.setVisible(true);
 								}
 							} else {
-								lblAviso.setText("Las contraseñas no concuerdan");
+								lblAviso.setText(Messages.getString("JFramePersonas.17")); //$NON-NLS-1$
 								lblAviso.setVisible(true);
 							}
 						} else {
-							lblAviso.setText("Nombre o apellidos invalidos");
+							lblAviso.setText(Messages.getString("JFramePersonas.18")); //$NON-NLS-1$
 							lblAviso.setVisible(true);
 						}
 
 					} else {
 
-						lblAviso.setText("Email invalido");
+						lblAviso.setText(Messages.getString("JFramePersonas.19")); //$NON-NLS-1$
 						lblAviso.setVisible(true);
 					}
 				} else {
 
 					Usuario user = listPersonas.getSelectedValue();
 					if (EmailValidator.getInstance().isValid(emailField.getText())) {
-						if (GestorUsuarios.getInstancia("").validateString(nombreField.getText())
-								&& GestorUsuarios.getInstancia("").validateString(apellidosField.getText())) {
+						if (GestorUsuarios.getInstancia("").validateString(nombreField.getText()) //$NON-NLS-1$
+								&& GestorUsuarios.getInstancia("").validateString(apellidosField.getText())) { //$NON-NLS-1$
 
-							if (rolField.getText().matches(".*\\w.*") && contactoField.getText().matches(".*\\w.*")
-									&& textDescripcion.getText().matches(".*\\w.*")) {
+							if (rolField.getText().matches(".*\\w.*") && contactoField.getText().matches(".*\\w.*") //$NON-NLS-1$ //$NON-NLS-2$
+									&& textDescripcion.getText().matches(".*\\w.*")) { //$NON-NLS-1$
 
 								if (new String(passwordField.getPassword())
 										.equals(new String(passwordField_2.getPassword()))) {
-									if (GestorUsuarios.getInstancia("")
+									if (GestorUsuarios.getInstancia("") //$NON-NLS-1$
 											.validatePass(new String(passwordField.getPassword()))) {
 
 										if (new String(passwordField.getPassword()).equals(user.getPass_hash())) {
-											GestorUsuarios.getInstancia("").editarUsuario(user.getUuid(),
+											GestorUsuarios.getInstancia("").editarUsuario(user.getUuid(), //$NON-NLS-1$
 													emailField.getText(), new String(passwordField.getPassword()),
 													nombreField.getText(), apellidosField.getText(), rolField.getText(),
 													contactoField.getText(), textDescripcion.getText(), foto_path,
 													false);
 
-											listPersonas.setModel(GestorUsuarios.getInstancia("").getDefaultList());
+											listPersonas.setModel(GestorUsuarios.getInstancia("").getDefaultList()); //$NON-NLS-1$
 
 										} else {
-											GestorUsuarios.getInstancia("").editarUsuario(user.getUuid(),
+											GestorUsuarios.getInstancia("").editarUsuario(user.getUuid(), //$NON-NLS-1$
 													emailField.getText(), new String(passwordField.getPassword()),
 													nombreField.getText(), apellidosField.getText(), rolField.getText(),
 													contactoField.getText(), textDescripcion.getText(), foto_path,
 													true);
 
-											listPersonas.setModel(GestorUsuarios.getInstancia("").getDefaultList());
+											listPersonas.setModel(GestorUsuarios.getInstancia("").getDefaultList()); //$NON-NLS-1$
 
 										}
 
 										aplicar = false;
-										btnRegistrarse.setText("Añadir");
+										btnRegistrarse.setText(Messages.getString("JFramePersonas.30")); //$NON-NLS-1$
 										btnBorrar.setEnabled(false);
 									} else {
-										lblAviso.setText("Contraseña corta");
+										lblAviso.setText(Messages.getString("JFramePersonas.31")); //$NON-NLS-1$
 										lblAviso.setVisible(true);
 									}
 								} else {
-									lblAviso.setText("Las contraseñas no concuerdan");
+									lblAviso.setText(Messages.getString("JFramePersonas.32")); //$NON-NLS-1$
 									lblAviso.setVisible(true);
 								}
 
 							} else {
-								lblAviso.setText("No puede haber campos vacios");
+								lblAviso.setText(Messages.getString("JFramePersonas.33")); //$NON-NLS-1$
 								lblAviso.setVisible(true);
 							}
 
 						} else {
-							lblAviso.setText("Nombre o apellidos invalidos");
+							lblAviso.setText(Messages.getString("JFramePersonas.34")); //$NON-NLS-1$
 							lblAviso.setVisible(true);
 						}
 
 					} else {
 
-						lblAviso.setText("Email invalido");
+						lblAviso.setText(Messages.getString("JFramePersonas.35")); //$NON-NLS-1$
 						lblAviso.setVisible(true);
 					}
 				}
@@ -246,30 +246,30 @@ public class JFramePersonas extends JDialog {
 		registroPane.add(emailField);
 		emailField.setColumns(10);
 
-		lblEmail = new JLabel("Email");
-		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblEmail = new JLabel(Messages.getString("JFramePersonas.36")); //$NON-NLS-1$
+		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
 
 		lblEmail.setBounds(194, 177, 258, 14);
 		registroPane.add(lblEmail);
 
-		lblContrasea = new JLabel("Contraseña");
-		lblContrasea.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblContrasea = new JLabel(Messages.getString("JFramePersonas.38")); //$NON-NLS-1$
+		lblContrasea.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblContrasea.setHorizontalAlignment(SwingConstants.CENTER);
 
 		lblContrasea.setBounds(488, 291, 258, 14);
 		registroPane.add(lblContrasea);
-		lblFoto = new JLabel("New label");
+		lblFoto = new JLabel("New label"); //$NON-NLS-1$
 		lblFoto.setBounds(403, 33, 120, 120);
 		lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource(DEFAULT_FOTO_PATH)).getImage()
 				.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH)));
 
 		registroPane.add(lblFoto);
 
-		lblAviso = new JLabel("Email o contraseña incorrectos");
+		lblAviso = new JLabel(Messages.getString("JFramePersonas.41")); //$NON-NLS-1$
 
 		lblAviso.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAviso.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblAviso.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblAviso.setBounds(488, 405, 258, 14);
 		lblAviso.setVisible(false);
 		registroPane.add(lblAviso);
@@ -285,10 +285,10 @@ public class JFramePersonas extends JDialog {
 		nombreField.setBounds(194, 250, 258, 30);
 		registroPane.add(nombreField);
 
-		JLabel lblNombre = new JLabel("Nombre");
+		JLabel lblNombre = new JLabel(Messages.getString("JFramePersonas.43")); //$NON-NLS-1$
 		lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
 
-		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblNombre.setBounds(194, 234, 258, 14);
 		registroPane.add(lblNombre);
 
@@ -303,10 +303,10 @@ public class JFramePersonas extends JDialog {
 		apellidosField.setBounds(194, 307, 258, 30);
 		registroPane.add(apellidosField);
 
-		JLabel lblApellidos = new JLabel("Apellidos");
+		JLabel lblApellidos = new JLabel(Messages.getString("JFramePersonas.45")); //$NON-NLS-1$
 		lblApellidos.setHorizontalAlignment(SwingConstants.CENTER);
 
-		lblApellidos.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblApellidos.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblApellidos.setBounds(194, 291, 258, 14);
 		registroPane.add(lblApellidos);
 
@@ -321,10 +321,10 @@ public class JFramePersonas extends JDialog {
 		rolField.setBounds(194, 364, 258, 30);
 		registroPane.add(rolField);
 
-		JLabel lblRol = new JLabel("Rol");
+		JLabel lblRol = new JLabel(Messages.getString("JFramePersonas.47")); //$NON-NLS-1$
 		lblRol.setHorizontalAlignment(SwingConstants.CENTER);
 
-		lblRol.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblRol.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblRol.setBounds(194, 348, 258, 14);
 		registroPane.add(lblRol);
 
@@ -339,10 +339,10 @@ public class JFramePersonas extends JDialog {
 		contactoField.setBounds(194, 421, 258, 30);
 		registroPane.add(contactoField);
 
-		JLabel lblContacto = new JLabel("Contacto");
+		JLabel lblContacto = new JLabel(Messages.getString("JFramePersonas.49")); //$NON-NLS-1$
 		lblContacto.setHorizontalAlignment(SwingConstants.CENTER);
 
-		lblContacto.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblContacto.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblContacto.setBounds(194, 405, 258, 14);
 		registroPane.add(lblContacto);
 
@@ -357,10 +357,10 @@ public class JFramePersonas extends JDialog {
 		passwordField_2.setBounds(488, 364, 258, 30);
 		registroPane.add(passwordField_2);
 
-		JLabel labelPass = new JLabel("Repetir contraseña");
+		JLabel labelPass = new JLabel(Messages.getString("JFramePersonas.51")); //$NON-NLS-1$
 		labelPass.setHorizontalAlignment(SwingConstants.CENTER);
 
-		labelPass.setFont(new Font("Tahoma", Font.BOLD, 11));
+		labelPass.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		labelPass.setBounds(488, 348, 258, 14);
 		registroPane.add(labelPass);
 
@@ -375,14 +375,14 @@ public class JFramePersonas extends JDialog {
 		textDescripcion.setBounds(488, 196, 258, 88);
 		registroPane.add(textDescripcion);
 
-		JLabel lblHablanosDeT = new JLabel("Descripción");
+		JLabel lblHablanosDeT = new JLabel(Messages.getString("JFramePersonas.53")); //$NON-NLS-1$
 		lblHablanosDeT.setHorizontalAlignment(SwingConstants.CENTER);
 
-		lblHablanosDeT.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblHablanosDeT.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblHablanosDeT.setBounds(488, 177, 258, 14);
 		registroPane.add(lblHablanosDeT);
 
-		JLabel lblAtras = new JLabel("Limpiar campos");
+		JLabel lblAtras = new JLabel(Messages.getString("JFramePersonas.55")); //$NON-NLS-1$
 		lblAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -403,11 +403,11 @@ public class JFramePersonas extends JDialog {
 		});
 		lblAtras.setHorizontalAlignment(SwingConstants.LEFT);
 		lblAtras.setForeground(Color.DARK_GRAY);
-		lblAtras.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblAtras.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblAtras.setBounds(194, 11, 110, 14);
 		registroPane.add(lblAtras);
 
-		JLabel lblCambiarFoto = new JLabel("Cambiar foto");
+		JLabel lblCambiarFoto = new JLabel("Cambiar foto"); //$NON-NLS-1$
 		lblCambiarFoto.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -425,7 +425,7 @@ public class JFramePersonas extends JDialog {
 
 				JFileChooser jfch = new JFileChooser();
 				jfch.setAcceptAllFileFilterUsed(false);
-				jfch.addChoosableFileFilter(new FileNameExtensionFilter("PNG image files", "png"));
+				jfch.addChoosableFileFilter(new FileNameExtensionFilter(Messages.getString("JFramePersonas.58"), "png")); //$NON-NLS-1$ //$NON-NLS-2$
 				try {
 					if (jfch.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 						foto_path = jfch.getSelectedFile().getAbsolutePath();
@@ -445,11 +445,11 @@ public class JFramePersonas extends JDialog {
 		});
 		lblCambiarFoto.setHorizontalAlignment(SwingConstants.CENTER);
 
-		lblCambiarFoto.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblCambiarFoto.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblCambiarFoto.setBounds(413, 152, 110, 14);
 		registroPane.add(lblCambiarFoto);
 
-		btnBorrar = new JButton("Borrar");
+		btnBorrar = new JButton(Messages.getString("JFramePersonas.61")); //$NON-NLS-1$
 		btnBorrar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -459,19 +459,19 @@ public class JFramePersonas extends JDialog {
 				if (user != null) {
 					if (user.getUuid().equals(CurrentSession.getInstancia().getUser().getUuid())) {
 
-						JOptionPane.showMessageDialog(frame, "No se puede eliminar al usuario actual.",
-								"Usuario en uso", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(frame, Messages.getString("JFramePersonas.62"), //$NON-NLS-1$
+								Messages.getString("JFramePersonas.63"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 
 					} else {
-						String mensage = "¿Seguro que quieres eliminar a " + user.getEmail() + "?";
-						Object[] options = { "Borrar", "No borrar" };
+						String mensage = Messages.getString("JFramePersonas.64") + user.getEmail() + Messages.getString("JFramePersonas.65"); //$NON-NLS-1$ //$NON-NLS-2$
+						Object[] options = { Messages.getString("JFramePersonas.66"), Messages.getString("JFramePersonas.67") }; //$NON-NLS-1$ //$NON-NLS-2$
 
-						int n = JOptionPane.showOptionDialog(frame, mensage, "Confirmacion", JOptionPane.YES_NO_OPTION,
+						int n = JOptionPane.showOptionDialog(frame, mensage, Messages.getString("JFramePersonas.68"), JOptionPane.YES_NO_OPTION, //$NON-NLS-1$
 								JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 
 						if (n == JOptionPane.YES_OPTION) {
-							GestorUsuarios.getInstancia("").borrarUsuario(user);
-							listPersonas.setModel(GestorUsuarios.getInstancia("").getDefaultList());
+							GestorUsuarios.getInstancia("").borrarUsuario(user); //$NON-NLS-1$
+							listPersonas.setModel(GestorUsuarios.getInstancia("").getDefaultList()); //$NON-NLS-1$
 							limpiar();
 						}
 
@@ -483,14 +483,14 @@ public class JFramePersonas extends JDialog {
 		});
 		btnBorrar.setEnabled(false);
 
-		btnBorrar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnBorrar.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 
 		btnBorrar.setBounds(488, 421, 129, 30);
 		registroPane.add(btnBorrar);
 
-		listPersonas = new JList(GestorUsuarios.getInstancia("").getDefaultList());
+		listPersonas = new JList(GestorUsuarios.getInstancia("").getDefaultList()); //$NON-NLS-1$
 
-		listPersonas.setFont(new Font("Tahoma", Font.BOLD, 11));
+		listPersonas.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 
 		listPersonas.addListSelectionListener(new ListSelectionListener() {
 			@Override
@@ -522,7 +522,7 @@ public class JFramePersonas extends JDialog {
 					foto_path = user.getFoto();
 					textDescripcion.setText(user.getDescripcion());
 					aplicar = true;
-					btnRegistrarse.setText("Aplicar");
+					btnRegistrarse.setText(Messages.getString("JFramePersonas.74")); //$NON-NLS-1$
 					btnBorrar.setEnabled(true);
 				}
 
@@ -540,22 +540,22 @@ public class JFramePersonas extends JDialog {
 	public void limpiar() {
 
 		aplicar = false;
-		btnRegistrarse.setText("Añadir");
+		btnRegistrarse.setText(Messages.getString("JFramePersonas.75")); //$NON-NLS-1$
 		btnBorrar.setEnabled(false);
-		passwordField.setText("");
-		passwordField_2.setText("");
-		emailField.setText("");
+		passwordField.setText(""); //$NON-NLS-1$
+		passwordField_2.setText(""); //$NON-NLS-1$
+		emailField.setText(""); //$NON-NLS-1$
 		foto_path = DEFAULT_FOTO_PATH;
 		lblFoto.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource(foto_path)).getImage()
 				.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH)));
 
-		nombreField.setText("");
-		apellidosField.setText("");
-		rolField.setText("");
+		nombreField.setText(""); //$NON-NLS-1$
+		apellidosField.setText(""); //$NON-NLS-1$
+		rolField.setText(""); //$NON-NLS-1$
 
-		contactoField.setText("");
+		contactoField.setText(""); //$NON-NLS-1$
 
-		textDescripcion.setText("");
+		textDescripcion.setText(""); //$NON-NLS-1$
 		listPersonas.clearSelection();
 	}
 }

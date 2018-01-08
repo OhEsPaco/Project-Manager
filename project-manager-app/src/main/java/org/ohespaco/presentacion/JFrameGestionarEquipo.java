@@ -55,14 +55,14 @@ public class JFrameGestionarEquipo extends JDialog {
 	private JTextField txtNombre;
 	private JTextField apellidosField;
 	private JTextField emailField;
-	private final String DEFAULT_FOTO_PATH = "/org/ohespaco/recursos/user_icon.png";
+	private final String DEFAULT_FOTO_PATH = "/org/ohespaco/recursos/user_icon.png"; //$NON-NLS-1$
 
 	public JFrameGestionarEquipo(javax.swing.JFrame parent, boolean modal, String uuid_proyecto, JList lista) {
 		super(parent, modal);
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				lista.setModel(GestorEquipo.getInstancia("").getMiembrosEquipoProyecto(uuid_proyecto));
+				lista.setModel(GestorEquipo.getInstancia("").getMiembrosEquipoProyecto(uuid_proyecto)); //$NON-NLS-1$
 			}
 		});
 		setResizable(false);
@@ -77,8 +77,8 @@ public class JFrameGestionarEquipo extends JDialog {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 0, 166, 366);
 		contentPane.add(scrollPane);
-		JLabel lblFoto = new JLabel("");
-		JList list = new JList(GestorUsuarios.getInstancia("").getDefaultList());
+		JLabel lblFoto = new JLabel(""); //$NON-NLS-1$
+		JList list = new JList(GestorUsuarios.getInstancia("").getDefaultList()); //$NON-NLS-1$
 		list.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -112,12 +112,12 @@ public class JFrameGestionarEquipo extends JDialog {
 		scrollPane.setViewportView(list);
 
 		lblFoto.setIcon(
-				new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/user_icon.png"))
+				new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/user_icon.png")) //$NON-NLS-1$
 						.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH)));
 		lblFoto.setBounds(231, 11, 150, 150);
 		contentPane.add(lblFoto);
 
-		JLabel lblNombre = new JLabel("Nombre");
+		JLabel lblNombre = new JLabel(Messages.getString("JFrameGestionarEquipo.5")); //$NON-NLS-1$
 		lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNombre.setBounds(186, 180, 252, 14);
 		contentPane.add(lblNombre);
@@ -129,7 +129,7 @@ public class JFrameGestionarEquipo extends JDialog {
 		contentPane.add(txtNombre);
 		txtNombre.setColumns(10);
 
-		JLabel apellidosLabel = new JLabel("Apellidos");
+		JLabel apellidosLabel = new JLabel(Messages.getString("JFrameGestionarEquipo.6")); //$NON-NLS-1$
 		apellidosLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		apellidosLabel.setBounds(186, 228, 252, 14);
 		contentPane.add(apellidosLabel);
@@ -141,7 +141,7 @@ public class JFrameGestionarEquipo extends JDialog {
 		apellidosField.setBounds(186, 241, 252, 25);
 		contentPane.add(apellidosField);
 
-		JLabel lblEmail = new JLabel("Email");
+		JLabel lblEmail = new JLabel(Messages.getString("JFrameGestionarEquipo.7")); //$NON-NLS-1$
 		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEmail.setBounds(186, 274, 252, 14);
 		contentPane.add(lblEmail);
@@ -153,18 +153,18 @@ public class JFrameGestionarEquipo extends JDialog {
 		emailField.setBounds(186, 287, 252, 25);
 		contentPane.add(emailField);
 
-		JButton btnAadirPersonaA = new JButton("Añadir persona a proyecto");
+		JButton btnAadirPersonaA = new JButton(Messages.getString("JFrameGestionarEquipo.8")); //$NON-NLS-1$
 		btnAadirPersonaA.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Usuario user = (Usuario) list.getSelectedValue();
 				if (user != null) {
-					if (!GestorEquipo.getInstancia("").estaEnProyecto(uuid_proyecto, user.getUuid())) {
-						GestorEquipo.getInstancia("").addMiembro(uuid_proyecto, user.getUuid(), "Rol en el equipo");
-						JOptionPane.showMessageDialog(null, "Persona añadida con exito.");
+					if (!GestorEquipo.getInstancia("").estaEnProyecto(uuid_proyecto, user.getUuid())) { //$NON-NLS-1$
+						GestorEquipo.getInstancia("").addMiembro(uuid_proyecto, user.getUuid(), Messages.getString("JFrameGestionarEquipo.11")); //$NON-NLS-1$ //$NON-NLS-2$
+						JOptionPane.showMessageDialog(null, Messages.getString("JFrameGestionarEquipo.12")); //$NON-NLS-1$
 					} else {
 
-						JOptionPane.showMessageDialog(null, "Este usuario ya está en este proyecto.", "Error",
+						JOptionPane.showMessageDialog(null, Messages.getString("JFrameGestionarEquipo.13"), Messages.getString("JFrameGestionarEquipo.14"), //$NON-NLS-1$ //$NON-NLS-2$
 								JOptionPane.ERROR_MESSAGE);
 
 					}

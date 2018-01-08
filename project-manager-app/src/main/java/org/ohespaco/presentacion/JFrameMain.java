@@ -79,7 +79,7 @@ public class JFrameMain extends JFrame {
 		reg = new JPanelRegistro(cards);
 		princ = new JPanelPrincipal();
 
-		setResizable(true);
+		
 
 		cards.add(log.getLoginPane(), "login");
 		cards.add(reg.getRegistroPane(), "registro");

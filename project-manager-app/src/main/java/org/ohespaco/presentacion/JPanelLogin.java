@@ -34,6 +34,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -49,6 +51,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import org.ohespaco.dominio.GestorUsuarios;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class JPanelLogin extends JPanel {
 	private JPanel loginPane;
@@ -60,7 +64,6 @@ public class JPanelLogin extends JPanel {
 	private JLabel lblNewLabel;
 	private JLabel lblAviso;
 	private JPanel cards;
-
 	public JPanelLogin(JPanel cards) {
 
 		this.cards = cards;
@@ -77,20 +80,20 @@ public class JPanelLogin extends JPanel {
 		loginPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		loginPane.setLayout(null);
 
-		btnEntrar = new JButton("Entrar");
-		btnEntrar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnEntrar = new JButton(Messages.getString("JPanelLogin.entrar")); //$NON-NLS-1$
+		btnEntrar.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 
 		btnEntrar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				try {
-					GestorUsuarios.getInstancia("").cargarUsuarios();
-					if (GestorUsuarios.getInstancia("").login(emailField.getText(),
+					GestorUsuarios.getInstancia("").cargarUsuarios(); //$NON-NLS-1$
+					if (GestorUsuarios.getInstancia("").login(emailField.getText(), //$NON-NLS-1$
 							new String(passwordField.getPassword()))) {
 
 						CardLayout cl = (CardLayout) (cards.getLayout());
-						cl.show(cards, "principal");
+						cl.show(cards, "principal"); //$NON-NLS-1$
 						JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(loginPane);
 						Point posicion = topFrame.getLocationOnScreen();
 
@@ -112,7 +115,7 @@ public class JPanelLogin extends JPanel {
 		loginPane.add(btnEntrar);
 
 		passwordField = new JPasswordField();
-		passwordField.setText("12345678");
+		passwordField.setText("12345678"); //$NON-NLS-1$
 	
 		passwordField.addMouseListener(new MouseAdapter() {
 			@Override
@@ -125,7 +128,7 @@ public class JPanelLogin extends JPanel {
 		loginPane.add(passwordField);
 
 		emailField = new JTextField();
-		emailField.setText("pacogrc5@gmail.com");
+		emailField.setText("pacogrc5@gmail.com"); //$NON-NLS-1$
 		emailField.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -136,41 +139,35 @@ public class JPanelLogin extends JPanel {
 		loginPane.add(emailField);
 		emailField.setColumns(10);
 
-		lblEmail = new JLabel("Email");
-		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblEmail = new JLabel(Messages.getString("JPanelLogin.email")); //$NON-NLS-1$
+		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
 		// lblEmail.setForeground(Color.DARK_GRAY);
 		lblEmail.setBounds(23, 195, 258, 14);
 		loginPane.add(lblEmail);
 
-		lblContrasea = new JLabel("Contraseña");
-		lblContrasea.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblContrasea = new JLabel(Messages.getString("JPanelLogin.9")); //$NON-NLS-1$
+		lblContrasea.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblContrasea.setHorizontalAlignment(SwingConstants.CENTER);
 
 		lblContrasea.setBounds(23, 261, 258, 14);
 		loginPane.add(lblContrasea);
-		lblNewLabel = new JLabel("New label");
+		lblNewLabel = new JLabel("New label"); //$NON-NLS-1$
 		lblNewLabel.setBounds(90, 64, 120, 120);
 		lblNewLabel.setIcon(new ImageIcon(
-				new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/logo.png")).getImage()
+				new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/logo.png")).getImage() //$NON-NLS-1$
 						.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(), Image.SCALE_SMOOTH)));
 
 		loginPane.add(lblNewLabel);
 
-		JComboBox comboBox = new JComboBox();
-
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Castellano", "Inglés" }));
-		comboBox.setBounds(142, 11, 139, 24);
-		loginPane.add(comboBox);
-
-		JLabel lblRegistro = new JLabel("¿Aún no tienes cuenta? Registrate");
-		lblRegistro.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		JLabel lblRegistro = new JLabel(Messages.getString("JPanelLogin.registrate")); //$NON-NLS-1$
+		lblRegistro.setFont(new Font("Tahoma", Font.PLAIN, 11)); //$NON-NLS-1$
 		lblRegistro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 
 				CardLayout cl = (CardLayout) (cards.getLayout());
-				cl.show(cards, "registro");
+				cl.show(cards, "registro"); //$NON-NLS-1$
 				JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(loginPane);
 				Point posicion = topFrame.getLocationOnScreen();
 
@@ -193,19 +190,20 @@ public class JPanelLogin extends JPanel {
 		lblRegistro.setBounds(23, 385, 258, 14);
 		loginPane.add(lblRegistro);
 
-		lblAviso = new JLabel("Email o contraseña incorrectos");
+		lblAviso = new JLabel(Messages.getString("JPanelLogin.aviso")); //$NON-NLS-1$
 		lblAviso.setForeground(Color.RED);
 		lblAviso.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAviso.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblAviso.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		lblAviso.setBounds(23, 314, 258, 14);
 		lblAviso.setVisible(false);
 		loginPane.add(lblAviso);
 
 	}
+	
 
 	public void initComponents() {
-		emailField.setText("");
-		passwordField.setText("");
+		emailField.setText(""); //$NON-NLS-1$
+		passwordField.setText(""); //$NON-NLS-1$
 		lblAviso.setVisible(false);
 	}
 
