@@ -30,8 +30,7 @@ public class Main {
 
 	public static void main(String[] args) {
 	
-		JFrameIdioma j=new JFrameIdioma();
-		j.setVisible(true);
+		JFrameIdioma.launch();
 		
 	}
 
