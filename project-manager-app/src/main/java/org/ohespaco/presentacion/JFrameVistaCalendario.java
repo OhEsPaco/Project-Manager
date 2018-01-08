@@ -218,7 +218,7 @@ public class JFrameVistaCalendario extends JDialog {
 				Dia.setBackground(bg);
 				salida = Integer.toString(j + 1) + "\n"; //$NON-NLS-1$
 
-				if (!ht_tareas.isEmpty()) {
+				
 
 					for (String key : ht_tareas.keySet()) {
 						task = ht_tareas.get(key);
@@ -258,7 +258,7 @@ public class JFrameVistaCalendario extends JDialog {
 					color_fin = false;
 					color = false;
 
-				}
+				
 
 			}
 
