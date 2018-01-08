@@ -39,6 +39,8 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.Calendar;
 
@@ -73,6 +75,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
@@ -117,8 +120,21 @@ public class JPanelPrincipal extends JPanel {
 	private JLabel lblFotoequipo;
 	private JList listEquipo;
 
-	public JPanelPrincipal() {
+	public JPanelPrincipal(JFrame main_f) {
+		main_f.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		main_f.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent ev) {
+            	String mensage = Messages.getString("JPanelPrincipal.4"); //$NON-NLS-1$
+				Object[] options = {Messages.getString("JPanelPrincipal.13"), Messages.getString("JPanelPrincipal.14")  };  //$NON-NLS-1$ //$NON-NLS-2$
 
+				int n = JOptionPane.showOptionDialog(null, mensage, Messages.getString("JPanelPrincipal.12"), JOptionPane.YES_NO_OPTION, //$NON-NLS-1$
+						JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+
+				if (n == JOptionPane.YES_OPTION) {
+					main_f.dispose();
+				}
+            }
+        });
 		setLayout(new BorderLayout(0, 0));
 
 		JPanel panelnor = new JPanel();

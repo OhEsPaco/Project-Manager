@@ -77,7 +77,7 @@ public class JFrameMain extends JFrame {
 
 		log = new JPanelLogin(cards);
 		reg = new JPanelRegistro(cards);
-		princ = new JPanelPrincipal();
+		princ = new JPanelPrincipal(this);
 
 		
 
