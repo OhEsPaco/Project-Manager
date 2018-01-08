@@ -712,7 +712,16 @@ public class JPanelPrincipal extends JPanel {
 		btnNewButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				Proyecto project = (Proyecto) listaproyectos.getSelectedValue(); 
+				if (project != null) {
+					JFrameVistaCalendario cal=new JFrameVistaCalendario(project.getUuid());
+					cal.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(null, "Primero tienes que seleccionar un proyecto.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				
+			       
 			}
 		});
 		panel_1.add(btnNewButton);

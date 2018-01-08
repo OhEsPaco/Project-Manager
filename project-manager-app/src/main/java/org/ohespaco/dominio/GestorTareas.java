@@ -26,7 +26,11 @@ package org.ohespaco.dominio;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -103,6 +107,40 @@ public class GestorTareas {
 			}
 		}
 
+	}
+
+	public DefaultListModel<Tarea> tareasCalendario(int month, int year) {
+		Tarea t;
+		Calendar c;
+		DefaultListModel<Tarea> lista_aux = new DefaultListModel<Tarea>();
+
+		for (int i = 0; i < tareas.size(); i++) {
+			t = listaTareas.get(i);
+			c = dateToCalendar(t.getFecha_creacion());
+
+			if (year == c.YEAR) {
+				if (month == c.MONTH) {
+					lista_aux.addElement(t);
+				}
+			}
+		}
+		return lista_aux;
+	}
+
+	private static Calendar dateToCalendar(Date t) {
+		Calendar cal = null;
+		
+			DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+			try {
+				t = (Date) formatter.parse(t.toString());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			cal = Calendar.getInstance();
+			cal.setTime(t);
+	
+		return cal;
 	}
 
 	public DefaultListModel<Tarea> getDefaultList() {

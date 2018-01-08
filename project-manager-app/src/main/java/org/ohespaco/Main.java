@@ -31,6 +31,7 @@ import org.ohespaco.dominio.GestorProyectos;
 import org.ohespaco.dominio.GestorTareas;
 import org.ohespaco.dominio.GestorUsuarios;
 import org.ohespaco.persistencia.CurrentSession;
+import org.ohespaco.presentacion.JFrameVistaCalendario;
 import org.ohespaco.presentacion.JFrameMain;
 
 public class Main {
@@ -47,7 +48,8 @@ public class Main {
 		GestorMensajes.getInstancia("mensajes.csv");
 		// Crea y lanza un JFrameMain
 		JFrameMain.launch();
-
+		
+		
 	}
 
 }
