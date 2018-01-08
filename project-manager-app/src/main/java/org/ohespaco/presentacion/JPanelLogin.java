@@ -110,7 +110,7 @@ public class JPanelLogin extends JPanel {
 		loginPane.add(btnEntrar);
 
 		passwordField = new JPasswordField();
-		passwordField.setText("12345678"); //$NON-NLS-1$
+		
 	
 		passwordField.addMouseListener(new MouseAdapter() {
 			@Override
@@ -123,7 +123,7 @@ public class JPanelLogin extends JPanel {
 		loginPane.add(passwordField);
 
 		emailField = new JTextField();
-		emailField.setText("pacogrc5@gmail.com"); //$NON-NLS-1$
+		
 		emailField.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
