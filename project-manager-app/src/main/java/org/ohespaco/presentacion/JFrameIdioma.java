@@ -2,12 +2,18 @@ package org.ohespaco.presentacion;
 
 import static javax.swing.UIManager.setLookAndFeel;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import org.ohespaco.dominio.GestorEquipo;
@@ -18,16 +24,6 @@ import org.ohespaco.dominio.GestorTareas;
 import org.ohespaco.dominio.GestorUsuarios;
 import org.ohespaco.persistencia.CurrentSession;
 import org.pushingpixels.substance.api.skin.SubstanceGraphiteLookAndFeel;
-
-import java.awt.Window.Type;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 public class JFrameIdioma extends JFrame {
 
@@ -59,7 +55,6 @@ public class JFrameIdioma extends JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		setType(Type.UTILITY);
 		setResizable(false);
 		setAlwaysOnTop(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,6 +65,7 @@ public class JFrameIdioma extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton btnNewButton = new JButton("Inglés");
+		btnNewButton.setToolTipText("English");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Messages.setIdioma("en");
@@ -103,6 +99,7 @@ public class JFrameIdioma extends JFrame {
 		contentPane.add(lblUk);
 		
 		txtSeleccinDeIdioma = new JTextField();
+		txtSeleccinDeIdioma.setToolTipText("Languaje selection");
 		txtSeleccinDeIdioma.setText("Selección de idioma");
 		txtSeleccinDeIdioma.setEditable(false);
 		txtSeleccinDeIdioma.setHorizontalAlignment(SwingConstants.CENTER);
@@ -111,6 +108,7 @@ public class JFrameIdioma extends JFrame {
 		txtSeleccinDeIdioma.setColumns(10);
 		
 		JButton btnEspaol = new JButton("Español");
+		btnEspaol.setToolTipText("Spanish");
 		btnEspaol.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Inicializa la sesion actual y los gestores

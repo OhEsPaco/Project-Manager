@@ -34,13 +34,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -51,8 +47,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import org.ohespaco.dominio.GestorUsuarios;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 
 public class JPanelLogin extends JPanel {
 	private JPanel loginPane;
@@ -81,6 +75,7 @@ public class JPanelLogin extends JPanel {
 		loginPane.setLayout(null);
 
 		btnEntrar = new JButton(Messages.getString("JPanelLogin.entrar")); //$NON-NLS-1$
+		btnEntrar.setToolTipText(Messages.getString("JPanelLogin.btnEntrar.toolTipText")); //$NON-NLS-1$
 		btnEntrar.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 
 		btnEntrar.addActionListener(new ActionListener() {

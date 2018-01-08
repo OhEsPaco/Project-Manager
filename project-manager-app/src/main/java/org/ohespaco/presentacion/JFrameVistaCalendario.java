@@ -4,17 +4,10 @@ import static javax.swing.UIManager.setLookAndFeel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import org.ohespaco.dominio.GestorTareas;
-import org.ohespaco.dominio.Tarea;
-import org.pushingpixels.substance.api.skin.SubstanceGraphiteLookAndFeel;
-
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -22,23 +15,22 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.JScrollPane;
-import java.awt.Component;
-import java.awt.Dimension;
+import javax.swing.border.EmptyBorder;
 
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JTextArea;
-import javax.swing.JScrollBar;
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Window.Type;
+import org.ohespaco.dominio.GestorTareas;
+import org.ohespaco.dominio.Tarea;
+import org.pushingpixels.substance.api.skin.SubstanceGraphiteLookAndFeel;
 
-public class JFrameVistaCalendario extends JFrame {
+public class JFrameVistaCalendario extends JDialog {
 
 	private JPanel contentPane;
 	private ArrayList<JTextArea> dias;
@@ -51,31 +43,30 @@ public class JFrameVistaCalendario extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void launch() {
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					JFrameVistaCalendario frame = new JFrameVistaCalendario(""); //$NON-NLS-1$
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	/*
+	 * public static void launch() { EventQueue.invokeLater(new Runnable() {
+	 * 
+	 * @Override public void run() { try { JFrameVistaCalendario frame = new
+	 * JFrameVistaCalendario(""); //$NON-NLS-1$ frame.setVisible(true); } catch
+	 * (Exception e) { e.printStackTrace(); } } }); }
+	 */
 
 	/**
 	 * Create the frame.
+	 * 
+	 * 
 	 */
-	public JFrameVistaCalendario(String project) {
+
+	public JFrameVistaCalendario(javax.swing.JFrame parent, boolean modal, String project) {
+		super(parent, modal);
+
 		this.project = project;
 		try {
 			setLookAndFeel(new SubstanceGraphiteLookAndFeel());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
+
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 695, 547);
 		contentPane = new JPanel();
@@ -131,24 +122,24 @@ public class JFrameVistaCalendario extends JFrame {
 					mes_selected = 12;
 					year_selected--;
 				}
-				if(mes_selected<10) {
-					lblLblmes.setText("0"+mes_selected + "-" + year_selected); //$NON-NLS-1$
-				}else {
+				if (mes_selected < 10) {
+					lblLblmes.setText("0" + mes_selected + "-" + year_selected); //$NON-NLS-1$
+				} else {
 					lblLblmes.setText(mes_selected + "-" + year_selected); //$NON-NLS-1$
 				}
 				cargarCalendario(year_selected, mes_selected);
-				
+
 			}
 		});
 		panel_2.add(btnAnterior);
 
 		lblLblmes = new JLabel(""); //$NON-NLS-1$
-		
+
 		lblLblmes.setFont(new Font("Tahoma", Font.BOLD, 17)); //$NON-NLS-1$
 		panel_2.add(lblLblmes);
-		if(mes_selected<10) {
-			lblLblmes.setText("0"+mes_selected + "-" + year_selected); //$NON-NLS-1$
-		}else {
+		if (mes_selected < 10) {
+			lblLblmes.setText("0" + mes_selected + "-" + year_selected); //$NON-NLS-1$
+		} else {
 			lblLblmes.setText(mes_selected + "-" + year_selected); //$NON-NLS-1$
 		}
 
@@ -161,13 +152,13 @@ public class JFrameVistaCalendario extends JFrame {
 					mes_selected = 1;
 					year_selected++;
 				}
-				if(mes_selected<10) {
-					lblLblmes.setText("0"+mes_selected + "-" + year_selected); //$NON-NLS-1$
-				}else {
+				if (mes_selected < 10) {
+					lblLblmes.setText("0" + mes_selected + "-" + year_selected); //$NON-NLS-1$
+				} else {
 					lblLblmes.setText(mes_selected + "-" + year_selected); //$NON-NLS-1$
 				}
 				cargarCalendario(year_selected, mes_selected);
-				
+
 			}
 		});
 		panel_2.add(btnSiguiente);
@@ -182,6 +173,7 @@ public class JFrameVistaCalendario extends JFrame {
 			Dia = new JTextArea();
 
 			Dia.setEditable(false);
+			Dia.setBackground(Color.LIGHT_GRAY);
 			dias.add(Dia);
 			scrollPane_1.add(Dia);
 			scrollPane_1.setViewportView(Dia);
@@ -193,11 +185,11 @@ public class JFrameVistaCalendario extends JFrame {
 
 	private void limpiar() {
 		for (int i = 0; i < 35; i++) {
-			Color color = UIManager.getColor ( "Panel.background" );
-			
+
 			JTextArea aux = dias.get(i);
+			aux.setBackground(Color.LIGHT_GRAY);
 			aux.setText(""); //$NON-NLS-1$
-			aux.setBackground(color);
+
 		}
 		lblLblmes.setText(""); //$NON-NLS-1$
 	}
@@ -218,10 +210,12 @@ public class JFrameVistaCalendario extends JFrame {
 		int j = 0;
 		for (int i = inicio; i < 35; i++, j++) {
 			JTextArea Dia = dias.get(i);
-			boolean color=false;
+			boolean color = false;
+			boolean color_fin = false;
 			if (j < c.getActualMaximum(Calendar.DAY_OF_MONTH)) {
 				String salida;
-
+				Color bg = UIManager.getColor("Panel.background");
+				Dia.setBackground(bg);
 				salida = Integer.toString(j + 1) + "\n"; //$NON-NLS-1$
 
 				if (!ht_tareas.isEmpty()) {
@@ -238,7 +232,7 @@ public class JFrameVistaCalendario extends JFrame {
 
 						if (day == j + 1 && month == mes && year == t_year && task.getUuid_proyecto().equals(project)) {
 							salida = salida + Messages.getString("JFrameVistaCalendario.19") + task.getNombre() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
-							color=true;
+							color = true;
 						}
 						date = task.getFecha_fin();
 						localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -246,25 +240,36 @@ public class JFrameVistaCalendario extends JFrame {
 						month = localDate.getMonth().getValue();
 						if (day == j + 1 && month == mes && year == t_year && task.getUuid_proyecto().equals(project)) {
 							salida = salida + Messages.getString("JFrameVistaCalendario.21") + task.getNombre() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
-							color=true;
+							color_fin = true;
 						}
 					}
-				}
-				Dia.setText(salida);
-				if(color==true) {
-					color=false;
-					Dia.setBackground(new Color(60,179,113));
-				}
-				
-				diaSemana++;
-				if (diaSemana > 7) {
-					diaSemana = 1;
+					Dia.setText(salida);
+					if (color == true) {
+
+						Dia.setBackground(new Color(60, 179, 113));
+					}
+					if (color_fin == true) {
+						Dia.setBackground(Color.RED);
+					}
+					if (color == true && color_fin == true) {
+						Dia.setBackground(Color.BLUE);
+					}
+
+					color_fin = false;
+					color = false;
+
 				}
 
-			} else {
-				break;
 			}
+
+			diaSemana++;
+			if (diaSemana > 7) {
+				diaSemana = 1;
+			}
+
 		}
+
+		// Dia.setBackground(Color.RED);
 
 	}
 

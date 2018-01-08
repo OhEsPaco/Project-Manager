@@ -34,10 +34,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -90,6 +88,7 @@ public class JPanelRegistro extends JPanel {
 		registroPane.setLayout(null);
 
 		btnRegistrarse = new JButton(Messages.getString("JPanelRegistro.0")); //$NON-NLS-1$
+		btnRegistrarse.setToolTipText(Messages.getString("JPanelRegistro.btnRegistrarse.toolTipText")); //$NON-NLS-1$
 
 		btnRegistrarse.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 
@@ -298,6 +297,7 @@ public class JPanelRegistro extends JPanel {
 		registroPane.add(lblHablanosDeT);
 
 		JLabel lblAtras = new JLabel(Messages.getString("JPanelRegistro.37")); //$NON-NLS-1$
+		lblAtras.setToolTipText(Messages.getString("JPanelRegistro.lblAtras.toolTipText")); //$NON-NLS-1$
 		lblAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -329,6 +329,7 @@ public class JPanelRegistro extends JPanel {
 		registroPane.add(lblAtras);
 
 		JLabel lblCambiarFoto = new JLabel(Messages.getString("JPanelRegistro.40")); //$NON-NLS-1$
+		lblCambiarFoto.setToolTipText(Messages.getString("JPanelRegistro.lblCambiarFoto.toolTipText")); //$NON-NLS-1$
 		lblCambiarFoto.addMouseListener(new MouseAdapter() {
 
 			@Override

@@ -24,16 +24,7 @@ SOFTWARE.
 
 package org.ohespaco;
 
-import org.ohespaco.dominio.GestorEquipo;
-import org.ohespaco.dominio.GestorMensajes;
-import org.ohespaco.dominio.GestorMiembrosTareas;
-import org.ohespaco.dominio.GestorProyectos;
-import org.ohespaco.dominio.GestorTareas;
-import org.ohespaco.dominio.GestorUsuarios;
-import org.ohespaco.persistencia.CurrentSession;
-import org.ohespaco.presentacion.JFrameVistaCalendario;
 import org.ohespaco.presentacion.JFrameIdioma;
-import org.ohespaco.presentacion.JFrameMain;
 
 public class Main {
 

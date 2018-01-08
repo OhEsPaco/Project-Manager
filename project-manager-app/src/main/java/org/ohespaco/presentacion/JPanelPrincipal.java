@@ -147,34 +147,35 @@ public class JPanelPrincipal extends JPanel {
 			}
 		});
 		mnArchivo.add(mntmNuevoProyecto);
+		
+				JMenuItem mntmEliminarProyecto = new JMenuItem(Messages.getString("JPanelPrincipal.7")); //$NON-NLS-1$
+				mntmEliminarProyecto.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mousePressed(MouseEvent e) {
+						Proyecto project = (Proyecto) listaproyectos.getSelectedValue();
 
-		JMenuItem mntmEliminarProyecto = new JMenuItem(Messages.getString("JPanelPrincipal.7")); //$NON-NLS-1$
-		mntmEliminarProyecto.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				Proyecto project = (Proyecto) listaproyectos.getSelectedValue();
+						Component frame = null;
+						if (project != null) {
+							String mensage = Messages.getString("JPanelPrincipal.8") + project.getNombre() + Messages.getString("JPanelPrincipal.9"); //$NON-NLS-1$ //$NON-NLS-2$
+							Object[] options = { Messages.getString("JPanelPrincipal.10"), Messages.getString("JPanelPrincipal.11") }; //$NON-NLS-1$ //$NON-NLS-2$
 
-				Component frame = null;
-				if (project != null) {
-					String mensage = Messages.getString("JPanelPrincipal.8") + project.getNombre() + Messages.getString("JPanelPrincipal.9"); //$NON-NLS-1$ //$NON-NLS-2$
-					Object[] options = { Messages.getString("JPanelPrincipal.10"), Messages.getString("JPanelPrincipal.11") }; //$NON-NLS-1$ //$NON-NLS-2$
+							int n = JOptionPane.showOptionDialog(frame, mensage, Messages.getString("JPanelPrincipal.12"), JOptionPane.YES_NO_OPTION, //$NON-NLS-1$
+									JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 
-					int n = JOptionPane.showOptionDialog(frame, mensage, Messages.getString("JPanelPrincipal.12"), JOptionPane.YES_NO_OPTION, //$NON-NLS-1$
-							JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+							if (n == JOptionPane.YES_OPTION) {
+								GestorProyectos.getInstancia("").borrarProyecto(project); //$NON-NLS-1$
+								listaproyectos.setModel(GestorProyectos.getInstancia("").getDefaultList()); //$NON-NLS-1$
+								limpiarTodo();
+							}
 
-					if (n == JOptionPane.YES_OPTION) {
-						GestorProyectos.getInstancia("").borrarProyecto(project); //$NON-NLS-1$
-						listaproyectos.setModel(GestorProyectos.getInstancia("").getDefaultList()); //$NON-NLS-1$
-						limpiarTodo();
+						} else {
+							JOptionPane.showMessageDialog(frame, Messages.getString("JPanelPrincipal.15"), Messages.getString("JPanelPrincipal.16"), //$NON-NLS-1$ //$NON-NLS-2$
+									JOptionPane.ERROR_MESSAGE);
+						}
+
 					}
-
-				} else {
-					JOptionPane.showMessageDialog(frame, Messages.getString("JPanelPrincipal.15"), Messages.getString("JPanelPrincipal.16"), //$NON-NLS-1$ //$NON-NLS-2$
-							JOptionPane.ERROR_MESSAGE);
-				}
-
-			}
-		});
+				});
+				mnArchivo.add(mntmEliminarProyecto);
 
 		mnArchivo.addSeparator();
 		JMenuItem mntmGuardarProyecto = new JMenuItem(Messages.getString("JPanelPrincipal.17")); //$NON-NLS-1$
@@ -219,8 +220,6 @@ public class JPanelPrincipal extends JPanel {
 
 		});
 		mnArchivo.add(mntmGuardarProyecto);
-		mnArchivo.addSeparator();
-		mnArchivo.add(mntmEliminarProyecto);
 
 		JMenu mnInsertar = new JMenu(Messages.getString("JPanelPrincipal.27")); //$NON-NLS-1$
 		menuBar.add(mnInsertar);
@@ -287,12 +286,12 @@ public class JPanelPrincipal extends JPanel {
 						task = (Tarea) node.getUserObject();
 						String uuid_padre = task.getUuid();
 
-						System.out.println(uuid_padre);
+						
 						GestorTareas.getInstancia("").crearTarea(uuid_padre, project.getUuid(), Messages.getString("JPanelPrincipal.43"), //$NON-NLS-1$ //$NON-NLS-2$
 								Calendar.getInstance().getTime(), Calendar.getInstance().getTime(), Messages.getString("JPanelPrincipal.44"), //$NON-NLS-1$
 								Messages.getString("JPanelPrincipal.45"), 0, 0); //$NON-NLS-1$
 
-						System.out.println("----" + task.getNombre() + "--" + task.getUuid()); //$NON-NLS-1$ //$NON-NLS-2$
+				
 
 						treeTareas.setModel(GestorTareas.getInstancia("").actualizarTree(Messages.getString("JPanelPrincipal.49"), project.getUuid())); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -368,6 +367,16 @@ public class JPanelPrincipal extends JPanel {
 
 		JMenu mnAyuda = new JMenu(Messages.getString("JPanelPrincipal.63")); //$NON-NLS-1$
 		menuBar.add(mnAyuda);
+		
+		JMenuItem mntmAcercaDe = new JMenuItem(Messages.getString("JPanelPrincipal.2")); //$NON-NLS-1$
+		mntmAcercaDe.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				JDialogAcercaDe ac = new JDialogAcercaDe(null, true);
+				ac.setVisible(true);
+			}
+		});
+		mnAyuda.add(mntmAcercaDe);
 
 		panelsur = new JPanel();
 		panelsur.setBackground(new Color(181, 181, 181));
@@ -498,6 +507,7 @@ public class JPanelPrincipal extends JPanel {
 		panel_separador.add(horizontalStrut_10);
 
 		JButton btnExpulsarPersona = new JButton(Messages.getString("JPanelPrincipal.77")); //$NON-NLS-1$
+		btnExpulsarPersona.setToolTipText(Messages.getString("JPanelPrincipal.btnExpulsarPersona.toolTipText")); //$NON-NLS-1$
 		btnExpulsarPersona.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -527,6 +537,7 @@ public class JPanelPrincipal extends JPanel {
 		panel_separador.add(btnExpulsarPersona);
 
 		JButton btnAddEquipo = new JButton(Messages.getString("JPanelPrincipal.86")); //$NON-NLS-1$
+		btnAddEquipo.setToolTipText(Messages.getString("JPanelPrincipal.btnAddEquipo.toolTipText")); //$NON-NLS-1$
 		panel_separador.add(btnAddEquipo);
 		btnAddEquipo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -654,6 +665,7 @@ public class JPanelPrincipal extends JPanel {
 		panel_1.add(pickerInicio);
 
 		comboBoxEstadoTarea = new JComboBox();
+		comboBoxEstadoTarea.setToolTipText(Messages.getString("JPanelPrincipal.comboBoxEstadoTarea.toolTipText")); //$NON-NLS-1$
 
 		comboBoxEstadoTarea.setModel(new DefaultComboBoxModel(new String[] { Messages.getString("JPanelPrincipal.98"), Messages.getString("JPanelPrincipal.99"), Messages.getString("JPanelPrincipal.100") })); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		panel_1.add(comboBoxEstadoTarea);
@@ -663,6 +675,7 @@ public class JPanelPrincipal extends JPanel {
 		panel_1.setLayout(new GridLayout(2, 5));
 		panel_1.setMinimumSize(new Dimension(1, 50));
 		JButton btnNewButton_2 = new JButton(Messages.getString("JPanelPrincipal.101")); //$NON-NLS-1$
+		btnNewButton_2.setToolTipText(Messages.getString("JPanelPrincipal.btnNewButton_2.toolTipText")); //$NON-NLS-1$
 		btnNewButton_2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -709,12 +722,13 @@ public class JPanelPrincipal extends JPanel {
 		panel_1.add(pickerFinal);
 
 		JButton btnNewButton = new JButton(Messages.getString("JPanelPrincipal.106")); //$NON-NLS-1$
+		btnNewButton.setToolTipText(Messages.getString("JPanelPrincipal.btnNewButton.toolTipText")); //$NON-NLS-1$
 		btnNewButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Proyecto project = (Proyecto) listaproyectos.getSelectedValue(); 
 				if (project != null) {
-					JFrameVistaCalendario cal=new JFrameVistaCalendario(project.getUuid());
+					JFrameVistaCalendario cal=new JFrameVistaCalendario(null,true,project.getUuid());
 					cal.setVisible(true);
 				} else {
 					JOptionPane.showMessageDialog(null, Messages.getString("JPanelPrincipal.107"), Messages.getString("JPanelPrincipal.108"), //$NON-NLS-1$ //$NON-NLS-2$
@@ -726,8 +740,9 @@ public class JPanelPrincipal extends JPanel {
 		});
 		panel_1.add(btnNewButton);
 
-		JButton btnNewButton_1 = new JButton(Messages.getString("JPanelPrincipal.109")); //$NON-NLS-1$
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JButton btnElimina = new JButton(Messages.getString("JPanelPrincipal.109")); //$NON-NLS-1$
+		btnElimina.setToolTipText(Messages.getString("JPanelPrincipal.btnNewButton_1.toolTipText")); //$NON-NLS-1$
+		btnElimina.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panelnor);
@@ -760,7 +775,7 @@ public class JPanelPrincipal extends JPanel {
 
 			}
 		});
-		panel_1.add(btnNewButton_1);
+		panel_1.add(btnElimina);
 
 		Component horizontalStrut_5 = Box.createHorizontalStrut(20);
 		panel_1.add(horizontalStrut_5);
@@ -830,6 +845,7 @@ public class JPanelPrincipal extends JPanel {
 		panel_5.add(lblPrioridad);
 
 		spinnerPrioridad = new JSpinner();
+		spinnerPrioridad.setToolTipText(Messages.getString("JPanelPrincipal.spinnerPrioridad.toolTipText")); //$NON-NLS-1$
 		spinnerPrioridad.setModel(new SpinnerNumberModel(0, 0, 99, 1));
 		panel_5.add(spinnerPrioridad);
 
