@@ -301,7 +301,7 @@ public class JPanelPrincipal extends JPanel {
 		mntmAadirTarea.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-		
+
 				Proyecto project = (Proyecto) listaproyectos.getSelectedValue();
 				if (project != null) {
 
@@ -520,13 +520,24 @@ public class JPanelPrincipal extends JPanel {
 					Usuario user = GestorUsuarios.getInstancia("").getUserByUuid(miem.getUuid_usuario()); //$NON-NLS-1$
 					nombreMiembro.setText(user.getNombre());
 					apellidosMiembro.setText(user.getApellidos());
+
 					try {
-						lblFotoequipo.setIcon(new ImageIcon(new javax.swing.ImageIcon(user.getFoto()).getImage()
-								.getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
-					} catch (Exception ex) {
-						lblFotoequipo.setIcon(new ImageIcon(
-								new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/logo.png")) //$NON-NLS-1$
+						lblFotoequipo
+								.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource(user.getFoto())) // $NON-NLS-1$
 										.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+
+					} catch (Exception ex) {
+
+						try {
+							lblFotoequipo.setIcon(new ImageIcon(new javax.swing.ImageIcon(user.getFoto()).getImage()
+									.getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+						} catch (Exception er) {
+							lblFotoequipo.setIcon(new ImageIcon(
+									new javax.swing.ImageIcon(getClass().getResource("/org/ohespaco/recursos/logo.png")) //$NON-NLS-1$
+											.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+						}
+
+					
 					}
 					rolMiembro.setText(miem.getRol());
 				}
