@@ -238,6 +238,7 @@ public class JPanelPrincipal extends JPanel {
 				GestorEquipo.getInstancia("").guardarEquipos(); //$NON-NLS-1$
 				GestorMensajes.getInstancia("").guardarmensajes(); //$NON-NLS-1$
 				GestorMiembrosTareas.getInstancia("").guardarTareas(); //$NON-NLS-1$
+				GestorUsuarios.getInstancia("").guardarUsuarios(); //$NON-NLS-1$
 
 			}
 
