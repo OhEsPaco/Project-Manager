@@ -1,4 +1,4 @@
-# Proyect-Manager
+# Project-Manager
 ## Getting Started
 
 Clone https://github.com/OhEsPaco/Project-Manager.git in your favorite IDE.
